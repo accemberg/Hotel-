@@ -1,0 +1,42 @@
+[
+  {
+    "id": "standard-room-balcony",
+    "name": "Standard Room with Balcony",
+    "description": "A cozy heritage-style room with a private balcony overlooking the courtyard.",
+    "beds": "1 King Bed",
+    "maxOccupancy": 3,
+    "qty": 3,
+    "rate": 1500,
+    "size": "250 sq ft"
+  },
+  {
+    "id": "master-room-balcony",
+    "name": "Master Room with Balcony",
+    "description": "A spacious room ideal for families, with a private balcony and city view.",
+    "beds": "1 King + 1 Single",
+    "maxOccupancy": 4,
+    "qty": 2,
+    "rate": 2200,
+    "size": "300 sq ft"
+  },
+  {
+    "id": "deluxe-room-balcony",
+    "name": "Deluxe Room with Balcony",
+    "description": "Our largest and most premium room, with two king beds and a wide balcony.",
+    "beds": "2 King Beds",
+    "maxOccupancy": 6,
+    "qty": 1,
+    "rate": 3500,
+    "size": "400 sq ft"
+  },
+  {
+    "id": "honeymoon-suite-balcony",
+    "name": "Honeymoon Suite with Balcony",
+    "description": "An intimate suite designed for couples, with a private balcony and heritage charm.",
+    "beds": "1 King Bed",
+    "maxOccupancy": 3,
+    "qty": 4,
+    "rate": 1200,
+    "size": "400 sq ft"
+  }
+]
