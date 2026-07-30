@@ -54,13 +54,12 @@ export default function Home() {
             style={{
               position: 'relative',
               zIndex: 2,
-              maxWidth: '80rem',            /* 1280px */
+              maxWidth: '80rem',
               margin: '0 auto',
               width: '100%',
-              padding: '0 2.5rem 5rem',    /* 0 40px 80px */
+              padding: '0 2.5rem 5rem',
             }}
           >
-            {/* Meta labels */}
             <div style={{ display: 'flex', gap: '2.5rem', marginBottom: '1.5rem' }}>
               {['Varanasi, India', 'Heritage Stay', 'Established'].map(l => (
                 <span
@@ -79,17 +78,16 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Display heading */}
             <h1
               style={{
                 fontFamily: 'var(--font-tt-ramillas-variable)',
                 fontWeight: 300,
-                fontSize: 'clamp(3.75rem, 9vw, 7.1875rem)',  /* 60px → 115px */
+                fontSize: 'clamp(3.75rem, 9vw, 7.1875rem)',
                 lineHeight: 0.85,
                 letterSpacing: '-0.04em',
                 textTransform: 'uppercase',
                 color: '#d8cbb8',
-                maxWidth: '56.25rem',        /* 900px */
+                maxWidth: '56.25rem',
                 marginBottom: '2.5rem',
               }}
             >
@@ -104,14 +102,13 @@ export default function Home() {
                 lineHeight: 1.6,
                 letterSpacing: '-0.01em',
                 color: '#bfb4a3',
-                maxWidth: '26.25rem',        /* 420px */
+                maxWidth: '26.25rem',
                 marginBottom: '2.5rem',
               }}
             >
               A heritage boutique guest house in the spiritual heart of Varanasi — where sacred ghats meet warm hospitality.
             </p>
 
-            {/* CTAs */}
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               {[
                 { label: 'Explore Rooms', href: '/rooms',  fill: false },
@@ -120,7 +117,7 @@ export default function Home() {
                 <a key={href} href={href} style={{ textDecoration: 'none' }}>
                   <button
                     style={{
-                      padding: '1rem 2.25rem',    /* 16px 36px */
+                      padding: '1rem 2.25rem',
                       border: '1px solid #d8cbb8',
                       borderRadius: '0.1875rem',
                       background: fill ? '#d8cbb8' : 'transparent',
@@ -140,17 +137,16 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Star rating widget */}
           <div
             style={{
               position: 'absolute',
-              top: '5.75rem',              /* 92px */
+              top: '5.75rem',
               right: '2.5rem',
               zIndex: 2,
               backgroundColor: 'rgba(41,38,34,0.85)',
               border: '1px solid rgba(216,203,184,0.15)',
               borderRadius: '0.1875rem',
-              padding: '1rem 1.25rem',    /* 16px 20px */
+              padding: '1rem 1.25rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '0.375rem',
@@ -171,11 +167,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── DIVIDER ───────────────────────────────────────────── */}
         <Divider />
 
-        {/* ── FEATURED ROOMS ────────────────────────────────────── */}
-        <section style={{ backgroundColor: '#d8cbb8', padding: '7.5rem 2.5rem' }}>  {/* 120px 40px */}
+        <section style={{ backgroundColor: '#d8cbb8', padding: '7.5rem 2.5rem' }}>
           <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem', flexWrap: 'wrap', gap: '1.5rem' }}>
               <SectionHeader caption="Our Rooms" heading="Stay in Heritage" size="heading" />
@@ -199,7 +193,7 @@ export default function Home() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(17.5rem, 1fr))',  /* 280px */
+                gridTemplateColumns: 'repeat(auto-fill, minmax(17.5rem, 1fr))',
                 gap: '1px',
                 backgroundColor: '#b6ab9c',
               }}
@@ -213,10 +207,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── DIVIDER ───────────────────────────────────────────── */}
         <Divider />
 
-        {/* ── AMENITIES ─────────────────────────────────────────── */}
         <section style={{ backgroundColor: '#d8cbb8', padding: '7.5rem 2.5rem' }}>
           <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
             <SectionHeader
@@ -228,7 +220,7 @@ export default function Home() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))',  /* 200px */
+                gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))',
                 gap: '1px',
                 backgroundColor: '#b6ab9c',
                 marginTop: '4rem',
@@ -243,7 +235,7 @@ export default function Home() {
                     style={{
                       fontFamily: 'var(--font-tt-ramillas-variable)',
                       fontWeight: 300,
-                      fontSize: '1.375rem',   /* 22px */
+                      fontSize: '1.375rem',
                       textTransform: 'uppercase',
                       letterSpacing: '-0.04em',
                       color: '#2c2c2c',
@@ -270,7 +262,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── LOCATION CTA (DARK) ───────────────────────────────── */}
         <section style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}>
           <div
             style={{
@@ -323,7 +314,6 @@ export default function Home() {
 
       <Footer />
 
-      {/* ── WhatsApp float ────────────────────────────────────── */}
       <a
         href="https://wa.me/91XXXXXXXXXX?text=Hi! I'd like to enquire about rooms at Moksh Haveli Inn."
         target="_blank"
