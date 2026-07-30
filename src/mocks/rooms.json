@@ -2,41 +2,65 @@
   {
     "id": "standard-room-balcony",
     "name": "Standard Room with Balcony",
-    "description": "A cozy heritage-style room with a private balcony overlooking the courtyard.",
+    "description": "A cozy heritage-style room with a private balcony overlooking the courtyard. Simple, warm, and full of character — ideal for solo travellers or couples seeking an authentic Varanasi stay.",
     "beds": "1 King Bed",
     "maxOccupancy": 3,
     "qty": 3,
     "rate": 1500,
-    "size": "250 sq ft"
+    "size": "250 sq ft",
+    "images": [
+      "https://placehold.co/900x600/bfb4a3/615b53?text=Standard+Room",
+      "https://placehold.co/900x600/978e81/d8cbb8?text=Balcony+View",
+      "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
+    ],
+    "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]
   },
   {
     "id": "master-room-balcony",
     "name": "Master Room with Balcony",
-    "description": "A spacious room ideal for families, with a private balcony and city view.",
+    "description": "A spacious room ideal for families, with a private balcony and sweeping city views. Fitted with a king bed and a single for comfortable group stays, without sacrificing heritage charm.",
     "beds": "1 King + 1 Single",
     "maxOccupancy": 4,
     "qty": 2,
     "rate": 2200,
-    "size": "300 sq ft"
+    "size": "300 sq ft",
+    "images": [
+      "https://placehold.co/900x600/bfb4a3/615b53?text=Master+Room",
+      "https://placehold.co/900x600/978e81/d8cbb8?text=City+View",
+      "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
+    ],
+    "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]
   },
   {
     "id": "deluxe-room-balcony",
     "name": "Deluxe Room with Balcony",
-    "description": "Our largest and most premium room, with two king beds and a wide balcony.",
+    "description": "Our largest and most premium room, with two king beds and a wide balcony. Crafted for those who want the full haveli experience — generous space, period detailing, and panoramic city views.",
     "beds": "2 King Beds",
     "maxOccupancy": 6,
     "qty": 1,
     "rate": 3500,
-    "size": "400 sq ft"
+    "size": "400 sq ft",
+    "images": [
+      "https://placehold.co/900x600/bfb4a3/615b53?text=Deluxe+Room",
+      "https://placehold.co/900x600/978e81/d8cbb8?text=Wide+Balcony",
+      "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
+    ],
+    "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]
   },
   {
     "id": "honeymoon-suite-balcony",
     "name": "Honeymoon Suite with Balcony",
-    "description": "An intimate suite designed for couples, with a private balcony and heritage charm.",
+    "description": "An intimate suite designed for couples, with a private balcony and heritage charm. Warm light, considered details, and the quiet of a centuries-old haveli — a beginning worth remembering.",
     "beds": "1 King Bed",
     "maxOccupancy": 3,
     "qty": 4,
     "rate": 1200,
-    "size": "400 sq ft"
+    "size": "400 sq ft",
+    "images": [
+      "https://placehold.co/900x600/bfb4a3/615b53?text=Honeymoon+Suite",
+      "https://placehold.co/900x600/978e81/d8cbb8?text=Private+Balcony",
+      "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
+    ],
+    "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]
   }
 ]

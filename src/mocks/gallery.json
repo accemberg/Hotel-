@@ -1,5 +1,14 @@
 [
-  { "id": "g1", "category": "Property", "imageUrl": "https://placehold.co/900x600?text=Property", "order": 0 },
-  { "id": "g2", "category": "Dining", "imageUrl": "https://placehold.co/900x600?text=Dining", "order": 1 },
-  { "id": "g3", "category": "Rooms", "imageUrl": "https://placehold.co/900x600?text=Rooms", "order": 2 }
+  { "id": "gallery-1", "category": "Property",  "caption": "The haveli courtyard at dusk",          "imageUrl": "https://placehold.co/900x600/bfb4a3/615b53?text=Courtyard", "order": 0 },
+  { "id": "gallery-2", "category": "Rooms",     "caption": "Standard room with private balcony",   "imageUrl": "https://placehold.co/900x600/978e81/d8cbb8?text=Room", "order": 1 },
+  { "id": "gallery-3", "category": "Property",  "caption": "Heritage archway, morning light",      "imageUrl": "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Archway", "order": 2 },
+  { "id": "gallery-4", "category": "Rooms",     "caption": "Honeymoon suite — window detail",      "imageUrl": "https://placehold.co/900x600/bfb4a3/615b53?text=Suite", "order": 3 },
+  { "id": "gallery-5", "category": "Ghats",     "caption": "Assi Ghat from the balcony",           "imageUrl": "https://placehold.co/900x600/978e81/d8cbb8?text=Ghat+View", "order": 4 },
+  { "id": "gallery-6", "category": "Dining",    "caption": "Rooftop breakfast — Ganges view",      "imageUrl": "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Breakfast", "order": 5 },
+  { "id": "gallery-7", "category": "Property",  "caption": "Original stone staircase",             "imageUrl": "https://placehold.co/900x600/bfb4a3/615b53?text=Staircase", "order": 6 },
+  { "id": "gallery-8", "category": "Ghats",     "caption": "Evening aarti from the terrace",       "imageUrl": "https://placehold.co/900x600/978e81/d8cbb8?text=Aarti", "order": 7 },
+  { "id": "gallery-9", "category": "Rooms",     "caption": "Deluxe room — balcony seating",        "imageUrl": "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Balcony", "order": 8 },
+  { "id": "gallery-10","category": "Dining",    "caption": "Chai and chai only — the right way",   "imageUrl": "https://placehold.co/900x600/bfb4a3/615b53?text=Chai", "order": 9 },
+  { "id": "gallery-11","category": "Property",  "caption": "Lantern corridor, late evening",       "imageUrl": "https://placehold.co/900x600/978e81/d8cbb8?text=Corridor", "order": 10 },
+  { "id": "gallery-12","category": "Ghats",     "caption": "Dawn mist on the river",               "imageUrl": "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Dawn", "order": 11 }
 ]
