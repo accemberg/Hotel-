@@ -1,5 +1,4 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# Active Design System Skill
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+When building or modifying UI, typography, components, or styling, strictly follow the rules in:
+- [classyhot/SKILL.md](file:///c:/Users/lenovo/Desktop/moksh-haveli-inn/classyhot/SKILL.md)
