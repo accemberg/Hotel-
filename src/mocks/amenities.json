@@ -1,0 +1,12 @@
+[
+  { "id": "peep-hole", "category": "Security", "name": "Peep Hole", "notes": "Door security" },
+  { "id": "led-tv", "category": "In-room", "name": "LED TV", "notes": "" },
+  { "id": "private-balcony", "category": "In-room", "name": "Private Balcony", "notes": "All room types" },
+  { "id": "bath-towels", "category": "Bathroom", "name": "Bath Towels", "notes": "" },
+  { "id": "air-conditioning", "category": "In-room", "name": "Air Conditioning", "notes": "Split AC" },
+  { "id": "private-bathroom", "category": "Bathroom", "name": "Private Bathroom", "notes": "Shared facilities also available" },
+  { "id": "mineral-water", "category": "Food & Drink", "name": "Mineral Water", "notes": "Paid" },
+  { "id": "toiletries", "category": "Bathroom", "name": "Toiletries", "notes": "Shampoo, conditioner, soap, comb" },
+  { "id": "hot-cold-water", "category": "Bathroom", "name": "Hot & Cold Water", "notes": "" },
+  { "id": "free-wifi", "category": "In-room", "name": "Free Wi-Fi", "notes": "Free; speed suitable for working" }
+]

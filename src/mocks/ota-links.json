@@ -1,0 +1,16 @@
+[
+  {
+    "id": "makemytrip",
+    "platform": "MakeMyTrip",
+    "listingUrl": "https://www.makemytrip.com/hotels/moksh_haveli_inn-details-varanasi.html",
+    "logoUrl": "https://placehold.co/120x40?text=MMT",
+    "active": true
+  },
+  {
+    "id": "booking",
+    "platform": "Booking.com",
+    "listingUrl": "#",
+    "logoUrl": "https://placehold.co/120x40?text=Booking",
+    "active": false
+  }
+]

@@ -1,0 +1,5 @@
+[
+  { "id": "g1", "category": "Property", "imageUrl": "https://placehold.co/900x600?text=Property", "order": 0 },
+  { "id": "g2", "category": "Dining", "imageUrl": "https://placehold.co/900x600?text=Dining", "order": 1 },
+  { "id": "g3", "category": "Rooms", "imageUrl": "https://placehold.co/900x600?text=Rooms", "order": 2 }
+]
