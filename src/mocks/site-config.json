@@ -1,7 +1,9 @@
 {
-  "aboutText": "A heritage haveli guest house offering a peaceful boutique stay.",
-  "address": "Moksh Haveli Inn, Varanasi, Uttar Pradesh, India",
+  "aboutText": "Moksh Haveli Inn is a heritage boutique guest house nestled in the winding lanes of Varanasi — one of the world's oldest living cities. Built within a restored haveli, each room carries the weight of history alongside modern comforts: private balconies, warm hospitality, and a location steps from the sacred ghats of the Ganges.\n\nWe built this place for those who travel to feel something — the pre-dawn aarti on the river, the smell of marigolds and incense, the unhurried pace of a city that has been greeting pilgrims for three millennia. Whether you're here for a week or a single night, we want your stay to be a memory you keep.\n\nMoksh Haveli Inn is independently operated, deeply rooted in Varanasi, and genuinely invested in every guest's experience.",
+  "address": "Moksh Haveli Inn, Near Assi Ghat, Varanasi, Uttar Pradesh, India — 221 005",
   "email": "info@mokshhaveliinn.com",
-  "phone": "+91 9000000000",
-  "whatsappNumber": "+91 9000000000"
+  "phone": "+91 90000 00000",
+  "whatsappNumber": "919000000000",
+  "whatsappDefaultMessage": "Hi! I'd like to enquire about rooms at Moksh Haveli Inn.",
+  "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3605.7!2d83.0097!3d25.2978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDE3JzUyLjEiTiA4M8KwMDAnMzQuOSJF!5e0!3m2!1sen!2sin!4v1234567890"
 }

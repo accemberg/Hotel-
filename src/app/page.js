@@ -1,36 +1,70 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import RoomCard from '@/components/RoomCard';
 import SectionHeader from '@/components/SectionHeader';
-
-// Mock room data — Section 04 of dev brief
-const ROOMS = [
-  { id: 'standard-room-with-balcony',   name: 'Standard Room with Balcony',   rate: 1500, qty: 3, size: '250 sq ft', beds: '1 King Bed',          max: 3, image: null },
-  { id: 'master-room-with-balcony',     name: 'Master Room with Balcony',     rate: 2200, qty: 2, size: '300 sq ft', beds: '1 King + 1 Single',    max: 4, image: null },
-  { id: 'deluxe-room-with-balcony',     name: 'Deluxe Room with Balcony',     rate: 3500, qty: 1, size: '400 sq ft', beds: '2 King Beds',          max: 6, image: null },
-  { id: 'honeymoon-suite-with-balcony', name: 'Honeymoon Suite with Balcony', rate: 1200, qty: 4, size: '400 sq ft', beds: '1 King Bed',           max: 3, image: null },
-];
-
-const AMENITIES = [
-  ['Air Conditioning', 'In-room'],   ['Free Wi-Fi',     'In-room'],
-  ['LED TV',           'In-room'],   ['Electric Kettle','In-room'],
-  ['Private Balcony',  'In-room'],   ['Private Bathroom','Bathroom'],
-  ['Hot & Cold Water', 'Bathroom'],  ['Toiletries',     'Bathroom'],
-  ['Bath Towels',      'Bathroom'],  ['Mineral Water',  'Food & Drink'],
-  ['Peep Hole',        'Security'],  ['City View',      'Views'],
-];
+import WhatsAppFloat from '@/components/WhatsAppFloat';
+import { getRooms, getGallery, getOtaLinks, getSiteConfig, getAmenities } from '@/lib/api';
 
 export default function Home() {
+  const [rooms,      setRooms]      = useState([]);
+  const [gallery,    setGallery]    = useState([]);
+  const [otaLinks,   setOtaLinks]   = useState([]);
+  const [siteConfig, setSiteConfig] = useState(null);
+  const [amenities,  setAmenities]  = useState([]);
+
+  const heroHeadlineRef = useRef(null);
+  const roomGridRef     = useRef(null);
+  const amenitiesRef    = useRef(null);
+  const locationRef     = useRef(null);
+  const galleryRef      = useRef(null);
+
+  useEffect(() => {
+    Promise.all([getRooms(), getGallery(), getOtaLinks(), getSiteConfig(), getAmenities()]).then(
+      ([r, g, o, s, a]) => { setRooms(r); setGallery(g.slice(0, 6)); setOtaLinks(o); setSiteConfig(s); setAmenities(a); }
+    );
+  }, []);
+
+  // Animate once data is loaded
+  useEffect(() => {
+    if (!rooms.length) return;
+
+    let isMounted = true;
+    async function animate() {
+      const { revealHeadline, revealRoomGrid, revealSection } = await import('@/lib/animations/scroll');
+      if (!isMounted) return;
+
+      // Headline word-split reveal
+      if (heroHeadlineRef.current) revealHeadline(heroHeadlineRef.current);
+
+      // Room grid staggered entrance — the signature interaction
+      if (roomGridRef.current) {
+        const cards = roomGridRef.current.querySelectorAll('[data-room-card]');
+        revealRoomGrid(roomGridRef.current, cards);
+      }
+
+      // Section reveals
+      if (amenitiesRef.current) revealSection(amenitiesRef.current);
+      if (locationRef.current)  revealSection(locationRef.current);
+      if (galleryRef.current)   revealSection(galleryRef.current);
+    }
+
+    animate();
+    return () => { isMounted = false; };
+  }, [rooms.length]);
+
   return (
     <>
       <Navbar variant="transparent" />
+      <PageStyles />
 
       <main style={{ flex: 1 }}>
 
         {/* ── HERO ──────────────────────────────────────────────── */}
         <section
+          data-section="hero"
           style={{
             position: 'relative',
             width: '100%',
@@ -41,12 +75,25 @@ export default function Home() {
             overflow: 'hidden',
           }}
         >
+          {/* Dark gradient — no parallax, per constraints */}
           <div
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to bottom, rgba(41,38,34,0.3) 0%, rgba(41,38,34,0.75) 100%)',
+              background: 'linear-gradient(to bottom, rgba(41,38,34,0.25) 0%, rgba(41,38,34,0.85) 100%)',
               zIndex: 1,
+            }}
+          />
+
+          {/* Textured parchment grain layer */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.04\'/%3E%3C/svg%3E")',
+              zIndex: 1,
+              opacity: 0.5,
+              pointerEvents: 'none',
             }}
           />
 
@@ -59,6 +106,7 @@ export default function Home() {
               width: '100%',
               padding: '0 2.5rem 5rem',
             }}
+            className="hero-inner"
           >
             <div style={{ display: 'flex', gap: '2.5rem', marginBottom: '1.5rem' }}>
               {['Varanasi, India', 'Heritage Stay', 'Established'].map(l => (
@@ -79,6 +127,8 @@ export default function Home() {
             </div>
 
             <h1
+              ref={heroHeadlineRef}
+              data-headline
               style={{
                 fontFamily: 'var(--font-tt-ramillas-variable)',
                 fontWeight: 300,
@@ -110,27 +160,49 @@ export default function Home() {
             </p>
 
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              {[
-                { label: 'Explore Rooms', href: '/rooms',  fill: false },
-                { label: 'Book Now',      href: '/book',   fill: true  },
-              ].map(({ label, href, fill }) => (
-                <a key={href} href={href} style={{ textDecoration: 'none' }}>
+              <a href="/rooms" style={{ textDecoration: 'none' }}>
+                <button
+                  style={{
+                    padding: '1rem 2.25rem',
+                    border: '1px solid #d8cbb8',
+                    borderRadius: '0.1875rem',
+                    background: 'transparent',
+                    color: '#d8cbb8',
+                    fontFamily: 'var(--font-satoshi)',
+                    fontWeight: 500,
+                    fontSize: '0.8125rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '-0.01em',
+                    cursor: 'pointer',
+                    transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  }}
+                  onMouseEnter={e => { e.target.style.background = '#d8cbb8'; e.target.style.color = '#2c2c2c'; }}
+                  onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = '#d8cbb8'; }}
+                >
+                  Explore Rooms
+                </button>
+              </a>
+              {otaLinks.filter(o => o.active).map(ota => (
+                <a key={ota.id} href={ota.listingUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                   <button
                     style={{
                       padding: '1rem 2.25rem',
                       border: '1px solid #d8cbb8',
                       borderRadius: '0.1875rem',
-                      background: fill ? '#d8cbb8' : 'transparent',
-                      color: fill ? '#2c2c2c' : '#d8cbb8',
+                      background: 'transparent',
+                      color: '#978e81',
                       fontFamily: 'var(--font-satoshi)',
                       fontWeight: 500,
                       fontSize: '0.8125rem',
                       textTransform: 'uppercase',
                       letterSpacing: '-0.01em',
                       cursor: 'pointer',
+                      transition: 'border-color 0.4s ease, color 0.4s ease',
                     }}
+                    onMouseEnter={e => { e.target.style.borderColor = 'rgba(216,203,184,0.7)'; e.target.style.color = '#d8cbb8'; }}
+                    onMouseLeave={e => { e.target.style.borderColor = 'rgba(216,203,184,0.35)'; e.target.style.color = '#978e81'; }}
                   >
-                    {label}
+                    {ota.platform}
                   </button>
                 </a>
               ))}
@@ -138,6 +210,7 @@ export default function Home() {
           </div>
 
           <div
+            className="star-widget"
             style={{
               position: 'absolute',
               top: '5.75rem',
@@ -181,16 +254,21 @@ export default function Home() {
                   fontSize: '0.8125rem',
                   textTransform: 'uppercase',
                   letterSpacing: '-0.01em',
-                  color: '#2c2c2c',
+                  color: '#d8cbb8',
                   textDecoration: 'underline',
                   textUnderlineOffset: '0.25rem',
-                  opacity: 0.7,
+                  opacity: 0.6,
                 }}
               >
                 View All Rooms →
               </a>
             </div>
+
+            {/* Asymmetric room grid — GSAP staggered entrance triggered here */}
             <div
+              ref={roomGridRef}
+              data-section="room-grid"
+              className="rooms-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(17.5rem, 1fr))',
@@ -198,11 +276,17 @@ export default function Home() {
                 backgroundColor: '#b6ab9c',
               }}
             >
-              {ROOMS.map(room => (
-                <div key={room.id} style={{ backgroundColor: '#d8cbb8' }}>
-                  <RoomCard room={room} />
-                </div>
-              ))}
+              {rooms.map((room, i) => {
+                const isFeatured = room.rate === Math.max(...rooms.map(r => r.rate));
+                return (
+                  <PhotoRoomCard
+                    key={room.id}
+                    room={room}
+                    featured={isFeatured}
+                    whatsappNumber={siteConfig?.whatsappNumber}
+                  />
+                );
+              })}
             </div>
           </div>
         </section>
@@ -218,20 +302,22 @@ export default function Home() {
               size="heading-sm"
             />
             <div
+              className="gallery-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(12.5rem, 1fr))',
                 gap: '1px',
                 backgroundColor: '#b6ab9c',
-                marginTop: '4rem',
               }}
             >
-              {AMENITIES.map(([name, cat]) => (
+              {gallery.map(item => (
                 <div
-                  key={name}
-                  style={{ backgroundColor: '#d8cbb8', padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}
+                  key={item.id}
+                  style={{ aspectRatio: '4/3', overflow: 'hidden', position: 'relative' }}
                 >
-                  <span
+                  <img
+                    src={item.imageUrl}
+                    alt={item.caption || item.category}
                     style={{
                       fontFamily: 'var(--font-tt-ramillas-variable)',
                       fontWeight: 300,
@@ -241,21 +327,30 @@ export default function Home() {
                       color: '#2c2c2c',
                       lineHeight: 1,
                     }}
-                  >
-                    {name}
-                  </span>
-                  <span
+                    onMouseEnter={e => e.target.style.transform = 'scale(1.04)'}
+                    onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+                  />
+                  <div
                     style={{
-                      fontFamily: 'var(--font-satoshi)',
-                      fontWeight: 500,
-                      fontSize: '0.6875rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '-0.01em',
-                      color: '#978e81',
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '1rem',
+                      background: 'linear-gradient(transparent, rgba(41,38,34,0.7))',
                     }}
                   >
-                    {cat}
-                  </span>
+                    <span style={{
+                      fontFamily: 'var(--font-satoshi)',
+                      fontWeight: 500,
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '-0.01em',
+                      color: '#d8cbb8',
+                    }}>
+                      {item.caption}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -265,7 +360,7 @@ export default function Home() {
         <section style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}>
           <div
             style={{
-              maxWidth: '80rem',
+              maxWidth: '90rem',
               margin: '0 auto',
               display: 'flex',
               justifyContent: 'space-between',
@@ -300,6 +395,7 @@ export default function Home() {
                       textTransform: 'uppercase',
                       letterSpacing: '-0.01em',
                       cursor: 'pointer',
+                      transition: 'border-color 0.4s ease, color 0.4s ease',
                     }}
                   >
                     {label}
@@ -346,10 +442,93 @@ export default function Home() {
   );
 }
 
+/**
+ * PageStyles — single <style> block rendered once in the page.
+ * Covers all hover interactions + responsive breakpoints.
+ * Using !important to override inline styles where needed.
+ */
+function PageStyles() {
+  return (
+    <style>{`
+      /* ── Hero ── */
+      @media (min-width: 48rem) {
+        .hero-inner { padding: 0 2.5rem 6rem !important; }
+      }
+      @media (max-width: 47.9375rem) {
+        .star-widget { display: none !important; }
+      }
+
+      /* ── Rooms section padding ── */
+      @media (min-width: 48rem) {
+        .rooms-section { padding: 7.5rem 2.5rem !important; }
+      }
+
+      /* ── Photo card hover (desktop) ── */
+      [data-room-card]:hover .photo-card-img {
+        transform: scale(1.04);
+      }
+      [data-room-card]:hover .photo-card-reveal {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      /* ── Touch / mobile: always show reveal panel ── */
+      /* hover:none catches touchscreens; the width breakpoint is a belt-and-suspenders fallback */
+      @media (hover: none) {
+        [data-room-card] .photo-card-reveal {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+      }
+
+      /* ── Tablet: 600–900px ── */
+      @media (max-width: 56.25rem) {
+        /* Room grid collapses to single column */
+        .rooms-grid {
+          grid-template-columns: 1fr !important;
+        }
+        [data-room-card] {
+          grid-column: 1 / -1 !important;
+          grid-row: auto !important;
+          min-height: 20rem !important;
+        }
+        /* Always show reveal on mobile since there's no hover */
+        [data-room-card] .photo-card-reveal {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+        }
+
+        /* Amenities: stack photo below text */
+        .amenities-layout {
+          grid-template-columns: 1fr !important;
+          gap: 2.5rem !important;
+        }
+
+        /* Gallery: 2 cols on tablet */
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr !important;
+        }
+      }
+
+      /* ── Mobile: < 480px ── */
+      @media (max-width: 30rem) {
+        /* Gallery: 1 col on phone */
+        .gallery-grid {
+          grid-template-columns: 1fr !important;
+        }
+        /* Amenities inner: 1 col on small phones */
+        .amenities-inner-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
+    `}</style>
+  );
+}
+
 function Divider() {
   return (
     <div style={{ backgroundColor: '#d8cbb8' }}>
-      <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2.5rem' }}>
+      <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
         <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
       </div>
     </div>
