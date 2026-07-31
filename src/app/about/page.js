@@ -35,6 +35,7 @@ export default function AboutPage() {
   return (
     <>
       <Navbar variant="solid" />
+      <AboutStyles />
 
       <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
 
@@ -72,12 +73,15 @@ export default function AboutPage() {
           data-section="about"
           style={{ padding: '7.5rem 2.5rem', maxWidth: '90rem', margin: '0 auto' }}
         >
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '5rem',
-            alignItems: 'start',
-          }}>
+          <div
+            className="about-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '5rem',
+              alignItems: 'start',
+            }}
+          >
             {/* Left — section heading */}
             <div>
               <SectionHeader
@@ -135,5 +139,37 @@ export default function AboutPage() {
       <Footer />
       {siteConfig && <WhatsAppFloat siteConfig={siteConfig} />}
     </>
+  );
+}
+
+function AboutStyles() {
+  return (
+    <style>{`
+      /* Tablet: stack 2-col about grid */
+      @media (max-width: 56.25rem) {
+        .about-grid {
+          grid-template-columns: 1fr !important;
+          gap: 2.5rem !important;
+        }
+        section[data-section="about"] {
+          padding: 4rem 1.5rem !important;
+        }
+        section[data-section="map"] {
+          padding: 4rem 1.5rem !important;
+        }
+      }
+      /* Mobile */
+      @media (max-width: 30rem) {
+        section[data-section="about"] {
+          padding: 3rem 1.25rem !important;
+        }
+        section[data-section="map"] {
+          padding: 3rem 1.25rem !important;
+        }
+        section[style*="padding: 6rem"] {
+          padding: 4rem 1.25rem 3rem !important;
+        }
+      }
+    `}</style>
   );
 }

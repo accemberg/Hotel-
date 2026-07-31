@@ -9,8 +9,8 @@
     "rate": 1500,
     "size": "250 sq ft",
     "images": [
-      "https://placehold.co/900x600/bfb4a3/615b53?text=Standard+Room",
-      "https://placehold.co/900x600/978e81/d8cbb8?text=Balcony+View",
+      "/hotelpics/room.jpeg",
+      "/hotelpics/lobby_area.jpeg",
       "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
     ],
     "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]
@@ -25,8 +25,8 @@
     "rate": 2200,
     "size": "300 sq ft",
     "images": [
-      "https://placehold.co/900x600/bfb4a3/615b53?text=Master+Room",
-      "https://placehold.co/900x600/978e81/d8cbb8?text=City+View",
+      "/hotelpics/room1.jpeg",
+      "/hotelpics/lobby_with_room_door.jpeg",
       "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
     ],
     "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]
@@ -41,8 +41,8 @@
     "rate": 3500,
     "size": "400 sq ft",
     "images": [
-      "https://placehold.co/900x600/bfb4a3/615b53?text=Deluxe+Room",
-      "https://placehold.co/900x600/978e81/d8cbb8?text=Wide+Balcony",
+      "/hotelpics/room2.jpeg",
+      "/hotelpics/lobby_area_2.jpeg",
       "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
     ],
     "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]
@@ -57,8 +57,8 @@
     "rate": 1200,
     "size": "400 sq ft",
     "images": [
-      "https://placehold.co/900x600/bfb4a3/615b53?text=Honeymoon+Suite",
-      "https://placehold.co/900x600/978e81/d8cbb8?text=Private+Balcony",
+      "/hotelpics/room3.jpeg",
+      "/hotelpics/room4.jpeg",
       "https://placehold.co/900x600/b6ab9c/2c2c2c?text=Bathroom"
     ],
     "amenities": ["Air Conditioning", "Free Wi-Fi", "LED TV", "Private Balcony", "Private Bathroom", "Hot & Cold Water", "Toiletries", "Bath Towels", "Electric Kettle", "Mineral Water", "Peep Hole", "City View"]

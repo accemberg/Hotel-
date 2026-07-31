@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
+import Lightbox from '@/components/Lightbox';
 import { getGallery, getSiteConfig } from '@/lib/api';
 
 const CATEGORIES = ['All', 'Property', 'Rooms', 'Ghats', 'Dining'];
@@ -13,6 +14,7 @@ export default function GalleryPage() {
   const [filtered,   setFiltered]   = useState([]);
   const [activeTab,  setActiveTab]  = useState('All');
   const [siteConfig, setSiteConfig] = useState(null);
+  const [lightbox,   setLightbox]   = useState({ open: false, index: 0 });
   const gridRef = useRef(null);
 
   useEffect(() => {
@@ -39,9 +41,15 @@ export default function GalleryPage() {
     return () => { isMounted = false; };
   }, [filtered.length]);
 
+  const openLightbox  = (index) => setLightbox({ open: true, index });
+  const closeLightbox = ()      => setLightbox({ open: false, index: 0 });
+  const prevImage = () => setLightbox(l => ({ ...l, index: (l.index - 1 + filtered.length) % filtered.length }));
+  const nextImage = () => setLightbox(l => ({ ...l, index: (l.index + 1) % filtered.length }));
+
   return (
     <>
       <Navbar variant="solid" />
+      <GalleryStyles />
 
       <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
 
@@ -78,6 +86,7 @@ export default function GalleryPage() {
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
+                id={`gallery-filter-${cat.toLowerCase()}`}
                 onClick={() => setActiveTab(cat)}
                 style={{
                   padding: '0.375rem 0.875rem',
@@ -100,75 +109,54 @@ export default function GalleryPage() {
           </div>
         </div>
 
-        {/* Gallery grid */}
+        {/* Masonry grid — CSS columns */}
         <section style={{ padding: '3rem 2.5rem 7.5rem' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
-            <div
-              ref={gridRef}
-              data-section="gallery"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '1px',
-                backgroundColor: '#b6ab9c',
-              }}
-            >
-              {filtered.map((item, i) => (
-                <div
-                  key={item.id}
-                  style={{
-                    aspectRatio: i % 7 === 0 ? '2/1' : '4/3',
-                    gridColumn: i % 7 === 0 ? 'span 2' : 'span 1',
-                    overflow: 'hidden',
-                    position: 'relative',
-                  }}
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.caption || item.category}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      display: 'block',
-                      transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                    }}
-                    onMouseEnter={e => e.target.style.transform = 'scale(1.04)'}
-                    onMouseLeave={e => e.target.style.transform = 'scale(1)'}
-                  />
+            {filtered.length > 0 ? (
+              <div
+                ref={gridRef}
+                data-section="gallery"
+                className="gallery-masonry"
+              >
+                {filtered.map((item, i) => (
                   <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'linear-gradient(transparent 50%, rgba(41,38,34,0.7))',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end',
-                      padding: '1.25rem',
-                      opacity: 0,
-                      transition: 'opacity 0.4s ease',
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-                    onMouseLeave={e => e.currentTarget.style.opacity = '0'}
+                    key={item.id}
+                    className="gallery-item"
+                    onClick={() => openLightbox(i)}
+                    style={{ cursor: 'zoom-in', breakInside: 'avoid', marginBottom: '1px', position: 'relative', overflow: 'hidden' }}
                   >
-                    <span style={{
-                      fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem',
-                      textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#d8cbb8',
-                      display: 'block', marginBottom: '0.25rem',
-                    }}>
-                      {item.caption}
-                    </span>
-                    <span style={{
-                      fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.6875rem',
-                      textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81',
-                    }}>
-                      {item.category}
-                    </span>
+                    <img
+                      src={item.imageUrl}
+                      alt={item.caption || item.category}
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        borderRadius: 0,
+                        transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                      }}
+                      className="gallery-img"
+                    />
+                    {/* Hover overlay */}
+                    <div className="gallery-hover-overlay">
+                      <span style={{
+                        fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem',
+                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#d8cbb8',
+                        display: 'block', marginBottom: '0.25rem',
+                      }}>
+                        {item.caption}
+                      </span>
+                      <span style={{
+                        fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.6875rem',
+                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81',
+                      }}>
+                        {item.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-            {filtered.length === 0 && (
+                ))}
+              </div>
+            ) : (
               <p style={{
                 fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.9375rem',
                 color: '#978e81', textAlign: 'center', padding: '4rem 0',
@@ -181,8 +169,78 @@ export default function GalleryPage() {
 
       </main>
 
+      {/* Lightbox */}
+      {lightbox.open && (
+        <Lightbox
+          images={filtered}
+          currentIndex={lightbox.index}
+          onClose={closeLightbox}
+          onPrev={prevImage}
+          onNext={nextImage}
+        />
+      )}
+
       <Footer />
       {siteConfig && <WhatsAppFloat siteConfig={siteConfig} />}
     </>
+  );
+}
+
+function GalleryStyles() {
+  return (
+    <style>{`
+      /* Masonry via CSS columns */
+      .gallery-masonry {
+        columns: 3;
+        column-gap: 1px;
+        background-color: #b6ab9c;
+      }
+
+      .gallery-item {
+        display: block;
+        break-inside: avoid;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Hover overlay */
+      .gallery-hover-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(transparent 45%, rgba(41,38,34,0.75));
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.25rem;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .gallery-item:hover .gallery-hover-overlay {
+        opacity: 1;
+      }
+      .gallery-item:hover .gallery-img {
+        transform: scale(1.04);
+      }
+
+      /* Tablet: 2 columns */
+      @media (max-width: 56.25rem) {
+        .gallery-masonry { columns: 2; }
+      }
+
+      /* Mobile: 1 column */
+      @media (max-width: 30rem) {
+        .gallery-masonry { columns: 1; }
+        section[style*="padding: 3rem 2.5rem"] {
+          padding: 2rem 1.25rem 5rem !important;
+        }
+      }
+
+      /* Filter tab row: tighter on mobile */
+      @media (max-width: 30rem) {
+        div[style*="padding: 2rem 2.5rem 0"] {
+          padding: 1.5rem 1.25rem 0 !important;
+        }
+      }
+    `}</style>
   );
 }

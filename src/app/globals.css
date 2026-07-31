@@ -11,6 +11,8 @@
   --color-onyx-warm:      #2c2c2c;
   --color-midnight-roast: #292622;
   --color-saffron-glow:   #d49653;
+  --color-logo-gold:      #C9A84C;   /* logo MH monogram gold */
+  --color-chocolate:      #3D2B1F;   /* logo wordmark brown — deepest dark surface */
 
   /* ── Typography families ─────────────────── */
   --font-tt-ramillas-variable: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;

@@ -36,6 +36,7 @@ export default function ContactPage() {
   return (
     <>
       <Navbar variant="solid" />
+      <ContactStyles />
 
       <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
 
@@ -72,12 +73,15 @@ export default function ContactPage() {
           data-section="contact"
           style={{ maxWidth: '90rem', margin: '0 auto', padding: '7.5rem 2.5rem' }}
         >
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1.5fr',
-            gap: '5rem',
-            alignItems: 'start',
-          }}>
+          <div
+            className="contact-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1.5fr',
+              gap: '5rem',
+              alignItems: 'start',
+            }}
+          >
             {/* Left — contact info */}
             <div>
               <span style={{
@@ -180,6 +184,32 @@ export default function ContactPage() {
       <Footer />
       {siteConfig && <WhatsAppFloat siteConfig={siteConfig} />}
     </>
+  );
+}
+
+function ContactStyles() {
+  return (
+    <style>{`
+      /* Tablet: stack 2-col contact grid */
+      @media (max-width: 56.25rem) {
+        .contact-grid {
+          grid-template-columns: 1fr !important;
+          gap: 3rem !important;
+        }
+        section[data-section="contact"] {
+          padding: 4rem 1.5rem !important;
+        }
+      }
+      /* Mobile */
+      @media (max-width: 30rem) {
+        section[data-section="contact"] {
+          padding: 3rem 1.25rem !important;
+        }
+        section[style*="padding: 6rem"] {
+          padding: 4rem 1.25rem 3rem !important;
+        }
+      }
+    `}</style>
   );
 }
 
