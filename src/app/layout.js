@@ -1,15 +1,16 @@
 import { Cormorant_Garamond, Inter } from 'next/font/google';
 import './globals.css';
+import ClientProviders from '@/components/ClientProviders';
 
 const cormorant = Cormorant_Garamond({
-  variable: '--font-display',
+  variable: '--font-tt-ramillas-variable', // mapped to design system token name
   subsets: ['latin'],
   weight: ['300', '400', '500'],
   display: 'swap',
 });
 
 const inter = Inter({
-  variable: '--font-sans',
+  variable: '--font-satoshi',              // mapped to design system token name
   subsets: ['latin'],
   weight: ['400', '500', '700'],
   display: 'swap',
@@ -26,7 +27,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
-        {children}
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );

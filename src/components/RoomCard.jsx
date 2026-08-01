@@ -1,17 +1,32 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Users, Maximize2, Star } from 'lucide-react';
 
 /**
  * RoomCard — Amrit Palace design system
  * All lengths in rem. em for letter-spacing. 1px borders stay.
+ *
+ * GSAP signature interaction: Staggered grid entrance
+ *   - data-room-card attr lets the grid's animation utility target these
+ *   - Initial clip-path / opacity set by GSAP in scroll.js revealRoomGrid()
+ *   - On hover: border-color shift only — no scale, no shadow
  */
-export default function RoomCard({ room }) {
-  const { id, name, rate, size, beds, max, image } = room;
+export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage }) {
+  const { id, name, rate, size, beds, maxOccupancy, images, image } = room;
+  const heroImage = (images && images[0]) || image || null;
+  const max = maxOccupancy || room.max;
+
+  const buildEnquireUrl = () => {
+    const num = whatsappNumber || '919000000000';
+    const msg = `Hi! I'm interested in the ${name} at Moksh Haveli Inn. Please share availability.`;
+    return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+  };
 
   return (
     <div
+      data-room-card
       style={{
         borderRadius: 0,
         backgroundColor: '#d8cbb8',
@@ -19,16 +34,28 @@ export default function RoomCard({ room }) {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        transition: 'border-color 0.3s ease',
+        transition: 'border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        cursor: 'default',
       }}
+      onMouseEnter={e => e.currentTarget.style.borderColor = '#615b53'}
+      onMouseLeave={e => e.currentTarget.style.borderColor = '#b6ab9c'}
     >
       {/* Image */}
       <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
-        {image ? (
+        {heroImage ? (
           <img
-            src={image}
+            src={heroImage}
             alt={name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 0, display: 'block' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: 0,
+              display: 'block',
+              transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            }}
+            onMouseEnter={e => e.target.style.transform = 'scale(1.025)'}
+            onMouseLeave={e => e.target.style.transform = 'scale(1)'}
           />
         ) : (
           <div
@@ -78,7 +105,7 @@ export default function RoomCard({ room }) {
       </div>
 
       {/* Content */}
-      <div style={{ padding: '1.5rem 1.5rem 1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+      <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
         {/* Room name */}
         <h3
           style={{
@@ -121,7 +148,7 @@ export default function RoomCard({ room }) {
                 textTransform: 'uppercase',
                 letterSpacing: '-0.01em',
                 cursor: 'pointer',
-                transition: 'background 0.3s ease, color 0.3s ease',
+                transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
               }}
               onMouseEnter={e => { e.target.style.background = '#2c2c2c'; e.target.style.color = '#d8cbb8'; }}
               onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = '#2c2c2c'; }}
@@ -130,7 +157,7 @@ export default function RoomCard({ room }) {
             </button>
           </Link>
           <a
-            href={`https://wa.me/91XXXXXXXXXX?text=I'm interested in the ${encodeURIComponent(name)}`}
+            href={buildEnquireUrl()}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -150,10 +177,9 @@ export default function RoomCard({ room }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '0.375rem',
-              transition: 'opacity 0.3s ease',
+              transition: 'opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             }}
-            onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+            onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
             onMouseLeave={e => e.currentTarget.style.opacity = '1'}
           >
             Enquire
