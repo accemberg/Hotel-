@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 const LINKS = {
   Explore: [
@@ -41,9 +42,11 @@ export default function Footer() {
           {/* Brand */}
           <div style={{ gridColumn: 'span 2' }}>
             {/* Logo — mix-blend-mode:screen dissolves cream bg on dark surface */}
-            <img
+            <Image
               src="/logo.jpeg"
               alt="Moksh Haveli Inn"
+              width={200}
+              height={200}
               style={{
                 height: '5rem',          /* 80px — larger in footer */
                 width: 'auto',

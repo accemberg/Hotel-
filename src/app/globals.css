@@ -10,7 +10,7 @@
   --color-espresso:       #615b53;
   --color-onyx-warm:      #2c2c2c;
   --color-midnight-roast: #292622;
-  --color-saffron-glow:   #d49653;
+  --color-saffron-glow:   #DEB76A;
   --color-logo-gold:      #C9A84C;   /* logo MH monogram gold */
   --color-chocolate:      #3D2B1F;   /* logo wordmark brown — deepest dark surface */
 
@@ -56,6 +56,8 @@ html {
   /* Lenis takes over smooth scroll — do NOT set scroll-behavior: smooth here */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* iOS Safari momentum scroll fix */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Lenis requires html/body height to be auto, not 100% */
@@ -73,8 +75,8 @@ html.lenis body {
 }
 
 body {
-  background-color: var(--color-parchment);
-  color: var(--color-onyx-warm);
+  background-color: var(--color-midnight-roast);
+  color: var(--color-parchment);
   font-family: var(--font-satoshi);
   font-size: var(--text-body);        /* 0.9375rem */
   line-height: 1.4;
@@ -168,6 +170,40 @@ body {
 ::-webkit-scrollbar { width: 0.375rem; }
 ::-webkit-scrollbar-track { background: var(--color-parchment); }
 ::-webkit-scrollbar-thumb { background: var(--color-warm-stone); border-radius: var(--radius-interactive); }
+
+/* ── Cross-browser backdrop-filter ────────── */
+/* Safari requires the -webkit- prefix through Safari 15 */
+[style*="backdrop-filter"],
+.scroll-to-top-btn {
+  -webkit-backdrop-filter: blur(0.5rem);
+}
+
+/* ── Touch / tap targets ───────────────────── */
+/* Ensure minimum 44×44px tap targets on mobile (WCAG 2.5.5) */
+button,
+a {
+  touch-action: manipulation; /* prevents 300ms tap delay on mobile */
+}
+
+/* ── Samsung Internet / older Chrome gap fallback ── */
+/* grid gap is widely supported now; this is belt-and-suspenders */
+.gallery-masonry {
+  /* CSS columns — gap via column-gap only, supported everywhere */
+  -moz-column-gap: 1px;
+       column-gap: 1px;
+}
+
+/* ── Very small screens (< 375px) — global safety ── */
+@media (max-width: 23.4375rem) {
+  body {
+    font-size: 0.875rem; /* slight size reduction on tiny phones */
+  }
+  /* Prevent any section from overflowing horizontally */
+  main > section,
+  main > div {
+    overflow-x: hidden;
+  }
+}
 
 /* ── Reduced motion — disable all animations ─ */
 @media (prefers-reduced-motion: reduce) {

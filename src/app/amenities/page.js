@@ -85,7 +85,7 @@ export default function AmenitiesPage() {
       <Navbar variant="solid" />
       <AmenitiesStyles />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
+      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
 
         {/* Dark header */}
         <section style={{ backgroundColor: '#292622', padding: '6rem 2.5rem 5rem' }}>
@@ -100,7 +100,7 @@ export default function AmenitiesPage() {
             <h1 style={{
               fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
               fontSize: 'clamp(3.125rem, 6vw, 4.3125rem)', lineHeight: 0.9,
-              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#d8cbb8',
+              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#DEB76A',
               maxWidth: '30rem',
             }}>
               Amenities
@@ -109,9 +109,9 @@ export default function AmenitiesPage() {
         </section>
 
         {/* Hairline */}
-        <div style={{ backgroundColor: '#d8cbb8' }}>
+        <div style={{ backgroundColor: '#292622' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-            <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
+            <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
           </div>
         </div>
 
@@ -143,7 +143,7 @@ export default function AmenitiesPage() {
                   gap: '0.75rem',
                   marginBottom: '1.25rem',
                   paddingBottom: '0.75rem',
-                  borderBottom: '1px solid #b6ab9c',
+                  borderBottom: '1px solid rgba(216,203,184,0.1)',
                 }}>
                   <span style={{
                     fontFamily: 'var(--font-satoshi)',
@@ -171,8 +171,8 @@ export default function AmenitiesPage() {
                     <div
                       key={id}
                       style={{
-                        backgroundColor: '#d8cbb8',
-                        border: '1px solid #b6ab9c',
+                        backgroundColor: '#292622',
+                        border: '1px solid rgba(216,203,184,0.1)',
                         padding: '1.25rem 1.25rem 1.25rem 1rem',
                         display: 'flex',
                         alignItems: 'flex-start',
@@ -189,7 +189,7 @@ export default function AmenitiesPage() {
                           fontSize: '0.8125rem',
                           textTransform: 'uppercase',
                           letterSpacing: '-0.01em',
-                          color: '#2c2c2c',
+                          color: '#d8cbb8',
                           lineHeight: 1.2,
                         }}>
                           {name}

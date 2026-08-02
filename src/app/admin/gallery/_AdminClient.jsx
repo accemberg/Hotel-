@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = 'force-dynamic';
 
 import { useEffect, useState } from "react";
 import { Loader2, Trash2, Plus, X, Save, RefreshCw, Upload } from "lucide-react";
@@ -80,7 +81,7 @@ export default function GalleryManager() {
     <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: "40px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "24px" }}>
         <div>
-          <h2 style={{ fontSize: "48px", fontWeight: "bold", color: "#e3a869", textTransform: "uppercase", letterSpacing: "0.05em", textShadow: "0 0 20px rgba(227, 168, 105, 0.4)", fontFamily: "var(--font-tt-ramillas-variable)" }}>Gallery Manager</h2>
+          <h2 style={{ fontSize: "48px", fontWeight: "bold", color: '#DEB76A', textTransform: "uppercase", letterSpacing: "0.05em", textShadow: "0 0 20px rgba(227, 168, 105, 0.4)", fontFamily: "var(--font-tt-ramillas-variable)" }}>Gallery Manager</h2>
           <p style={{ color: "#a88e6a", marginTop: "12px", fontSize: "20px", fontWeight: "500" }}>Manage your property photos by category.</p>
         </div>
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>

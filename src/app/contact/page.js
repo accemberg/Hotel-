@@ -38,7 +38,7 @@ export default function ContactPage() {
       <Navbar variant="solid" />
       <ContactStyles />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
+      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
 
         {/* Dark header */}
         <section style={{ backgroundColor: '#292622', padding: '6rem 2.5rem 5rem' }}>
@@ -53,7 +53,7 @@ export default function ContactPage() {
             <h1 style={{
               fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
               fontSize: 'clamp(3.125rem, 6vw, 4.3125rem)', lineHeight: 0.9,
-              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#d8cbb8',
+              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#DEB76A',
             }}>
               Contact Us
             </h1>
@@ -61,9 +61,9 @@ export default function ContactPage() {
         </section>
 
         {/* Hairline */}
-        <div style={{ backgroundColor: '#d8cbb8' }}>
+        <div style={{ backgroundColor: '#292622' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-            <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
+            <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
           </div>
         </div>
 
@@ -94,7 +94,7 @@ export default function ContactPage() {
               <h2 style={{
                 fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
                 fontSize: '3.125rem', lineHeight: 0.9, letterSpacing: '-0.04em',
-                textTransform: 'uppercase', color: '#2c2c2c', marginBottom: '3rem',
+                textTransform: 'uppercase', color: '#DEB76A', marginBottom: '3rem',
               }}>
                 We'd Love to<br />Hear from You
               </h2>
@@ -113,7 +113,7 @@ export default function ContactPage() {
                   <ContactRow icon={<Phone size={14} strokeWidth={1.5} />} label="Phone">
                     <a
                       href={`tel:${siteConfig.phone}`}
-                      style={{ color: '#2c2c2c', textDecoration: 'none' }}
+                      style={{ color: '#d8cbb8', textDecoration: 'none' }}
                     >
                       {siteConfig.phone}
                     </a>
@@ -125,7 +125,7 @@ export default function ContactPage() {
                   <ContactRow icon={<Mail size={14} strokeWidth={1.5} />} label="Email">
                     <a
                       href={`mailto:${siteConfig.email}`}
-                      style={{ color: '#2c2c2c', textDecoration: 'none' }}
+                      style={{ color: '#d8cbb8', textDecoration: 'none' }}
                     >
                       {siteConfig.email}
                     </a>
@@ -133,7 +133,7 @@ export default function ContactPage() {
                 )}
 
                 {/* WhatsApp CTA */}
-                <div style={{ paddingTop: '1rem', borderTop: '1px solid #b6ab9c' }}>
+                <div style={{ paddingTop: '1rem', borderTop: '1px solid rgba(216,203,184,0.1)' }}>
                   <a
                     href={buildWhatsAppUrl()}
                     target="_blank"
@@ -143,10 +143,10 @@ export default function ContactPage() {
                       alignItems: 'center',
                       gap: '0.5rem',
                       padding: '0.875rem 1.75rem',
-                      border: '1px solid #2c2c2c',
+                      border: '1px solid #d8cbb8',
                       borderRadius: '0.1875rem',
                       background: 'transparent',
-                      color: '#2c2c2c',
+                      color: '#d8cbb8',
                       fontFamily: 'var(--font-satoshi)',
                       fontWeight: 500,
                       fontSize: '0.8125rem',
@@ -155,7 +155,7 @@ export default function ContactPage() {
                       textDecoration: 'none',
                       transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#2c2c2c'; e.currentTarget.style.color = '#d8cbb8'; }}
+                    onMouseEnter={e => { e.currentTarget.style.background = '#d8cbb8'; e.currentTarget.style.color = '#2c2c2c'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#2c2c2c'; }}
                   >
                     <MessageCircle size={14} strokeWidth={1.5} />
@@ -226,7 +226,7 @@ function ContactRow({ icon, label, children }) {
         </span>
         <span style={{
           fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.9375rem',
-          lineHeight: 1.5, letterSpacing: '-0.01em', color: '#2c2c2c',
+          lineHeight: 1.5, letterSpacing: '-0.01em', color: '#d8cbb8',
         }}>
           {children}
         </span>

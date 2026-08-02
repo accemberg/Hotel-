@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
@@ -45,10 +46,10 @@ export default function RoomDetailPage() {
     return (
       <>
         <Navbar variant="solid" />
-        <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+        <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
           <div style={{ textAlign: 'center' }}>
-            <h1 style={{ fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300, fontSize: '3.125rem', textTransform: 'uppercase', color: '#2c2c2c', marginBottom: '1rem' }}>Room not found</h1>
-            <Link href="/rooms" style={{ color: '#615b53', fontFamily: 'var(--font-satoshi)', fontSize: '0.8125rem', textTransform: 'uppercase' }}>← All Rooms</Link>
+            <h1 style={{ fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300, fontSize: '3.125rem', textTransform: 'uppercase', color: '#DEB76A', marginBottom: '1rem' }}>Room not found</h1>
+            <Link href="/rooms" style={{ color: '#bfb4a3', fontFamily: 'var(--font-satoshi)', fontSize: '0.8125rem', textTransform: 'uppercase' }}>← All Rooms</Link>
           </div>
         </main>
         <Footer />
@@ -60,7 +61,7 @@ export default function RoomDetailPage() {
     return (
       <>
         <Navbar variant="solid" />
-        <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8', minHeight: '60vh' }} />
+        <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622', minHeight: '60vh' }} />
         <Footer />
       </>
     );
@@ -76,7 +77,7 @@ export default function RoomDetailPage() {
     <>
       <Navbar variant="solid" />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
+      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
 
         {/* Back nav */}
         <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '2rem 2.5rem 0' }}>
@@ -102,22 +103,26 @@ export default function RoomDetailPage() {
         {/* Hero image gallery */}
         <section style={{ padding: '2rem 2.5rem 0', maxWidth: '90rem', margin: '0 auto' }}>
           {/* Main image */}
-          <div style={{ width: '100%', aspectRatio: '16/7', overflow: 'hidden', border: '1px solid #b6ab9c', borderRadius: 0 }}>
-            <img
+          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/7', overflow: 'hidden', border: '1px solid rgba(216,203,184,0.1)', borderRadius: 0 }}>
+            <Image
               src={room.images?.[activeImg] || `https://placehold.co/1400x600/bfb4a3/615b53?text=${encodeURIComponent(room.name)}`}
               alt={room.name}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 100vw"
+              style={{ objectFit: 'cover', display: 'block' }}
             />
           </div>
           {/* Thumbnails */}
           {room.images?.length > 1 && (
-            <div style={{ display: 'flex', gap: '1px', marginTop: '1px', backgroundColor: '#b6ab9c' }}>
+            <div style={{ display: 'flex', gap: '1px', marginTop: '1px', backgroundColor: 'rgba(216,203,184,0.1)' }}>
               {room.images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveImg(i)}
                   style={{
                     flex: 1,
+                    position: 'relative',
                     aspectRatio: '4/3',
                     border: 'none',
                     borderBottom: i === activeImg ? '2px solid #d49653' : '2px solid transparent',
@@ -128,7 +133,7 @@ export default function RoomDetailPage() {
                     opacity: i === activeImg ? 1 : 0.6,
                   }}
                 >
-                  <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <Image src={img} alt="" fill sizes="(max-width: 768px) 33vw, 20vw" style={{ objectFit: 'cover', display: 'block' }} />
                 </button>
               ))}
             </div>
@@ -164,7 +169,7 @@ export default function RoomDetailPage() {
                   lineHeight: 0.9,
                   letterSpacing: '-0.04em',
                   textTransform: 'uppercase',
-                  color: '#2c2c2c',
+                  color: '#DEB76A',
                   marginBottom: '2rem',
                 }}
               >
@@ -172,26 +177,26 @@ export default function RoomDetailPage() {
               </h1>
 
               {/* Hairline divider */}
-              <div style={{ width: '100%', height: '1px', backgroundColor: '#b6ab9c', marginBottom: '2rem' }} />
+              <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(216,203,184,0.1)', marginBottom: '2rem' }} />
 
               {/* Meta */}
               <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
                 {room.size && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Maximize2 size={14} strokeWidth={1.5} color="#978e81" />
-                    <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#615b53' }}>{room.size}</span>
+                    <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#bfb4a3' }}>{room.size}</span>
                   </div>
                 )}
                 {room.maxOccupancy && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Users size={14} strokeWidth={1.5} color="#978e81" />
-                    <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#615b53' }}>Max {room.maxOccupancy} guests</span>
+                    <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#bfb4a3' }}>Max {room.maxOccupancy} guests</span>
                   </div>
                 )}
                 {room.beds && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Star size={14} strokeWidth={1.5} color="#d49653" />
-                    <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#615b53' }}>{room.beds}</span>
+                    <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#bfb4a3' }}>{room.beds}</span>
                   </div>
                 )}
               </div>
@@ -199,14 +204,14 @@ export default function RoomDetailPage() {
               {/* Description */}
               <p style={{
                 fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.9375rem',
-                lineHeight: 1.7, letterSpacing: '-0.01em', color: '#615b53',
+                lineHeight: 1.7, letterSpacing: '-0.01em', color: '#bfb4a3',
                 maxWidth: '36rem', marginBottom: '3rem',
               }}>
                 {room.description}
               </p>
 
               {/* Hairline divider */}
-              <div style={{ width: '100%', height: '1px', backgroundColor: '#b6ab9c', marginBottom: '2.5rem' }} />
+              <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(216,203,184,0.1)', marginBottom: '2.5rem' }} />
 
               {/* Amenities */}
               <div ref={detailRef} data-section="amenities">
@@ -217,12 +222,12 @@ export default function RoomDetailPage() {
                 }}>
                   Room Amenities
                 </p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))', gap: '1px', backgroundColor: '#b6ab9c' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))', gap: '1px', backgroundColor: 'rgba(216,203,184,0.1)' }}>
                   {(room.amenities || []).map(amenity => (
-                    <div key={amenity} style={{ backgroundColor: '#d8cbb8', padding: '0.875rem 1rem' }}>
+                    <div key={amenity} style={{ backgroundColor: '#292622', padding: '0.875rem 1rem' }}>
                       <span style={{
                         fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem',
-                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#2c2c2c',
+                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#d8cbb8',
                       }}>
                         {amenity}
                       </span>
@@ -236,7 +241,7 @@ export default function RoomDetailPage() {
             <div style={{
               position: 'sticky',
               top: '5.5rem',
-              border: '1px solid #b6ab9c',
+              border: '1px solid rgba(216,203,184,0.1)',
               borderRadius: 0,
               overflow: 'hidden',
             }}>
@@ -251,14 +256,14 @@ export default function RoomDetailPage() {
                 <p style={{
                   fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
                   fontSize: '2.625rem', lineHeight: 1, letterSpacing: '-0.04em',
-                  color: '#d8cbb8',
+                  color: '#DEB76A',
                 }}>
                   ₹{room.rate?.toLocaleString('en-IN')}
                   <span style={{ fontFamily: 'var(--font-satoshi)', fontSize: '0.8125rem', fontWeight: 500, color: '#978e81', letterSpacing: '-0.01em' }}> /night</span>
                 </p>
               </div>
 
-              <div style={{ backgroundColor: '#d8cbb8', padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ backgroundColor: '#292622', padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <a
                   href={buildEnquireUrl()}
                   target="_blank"
@@ -267,7 +272,7 @@ export default function RoomDetailPage() {
                     display: 'block',
                     width: '100%',
                     padding: '1rem',
-                    border: '1px solid #2c2c2c',
+                    border: '1px solid #d8cbb8',
                     borderRadius: '0.1875rem',
                     background: '#2c2c2c',
                     color: '#d8cbb8',
@@ -292,7 +297,7 @@ export default function RoomDetailPage() {
                   We'll respond within a few hours
                 </p>
 
-                <div style={{ borderTop: '1px solid #b6ab9c', paddingTop: '1rem', marginTop: '0.25rem' }}>
+                <div style={{ borderTop: '1px solid rgba(216,203,184,0.1)', paddingTop: '1rem', marginTop: '0.25rem' }}>
                   <p style={{
                     fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.6875rem',
                     textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81',
@@ -307,7 +312,7 @@ export default function RoomDetailPage() {
                     style={{
                       display: 'block',
                       padding: '0.625rem 1rem',
-                      border: '1px solid #b6ab9c',
+                      border: '1px solid rgba(216,203,184,0.1)',
                       borderRadius: '0.1875rem',
                       textAlign: 'center',
                       fontFamily: 'var(--font-satoshi)',
@@ -315,7 +320,7 @@ export default function RoomDetailPage() {
                       fontSize: '0.75rem',
                       textTransform: 'uppercase',
                       letterSpacing: '-0.01em',
-                      color: '#615b53',
+                      color: '#bfb4a3',
                       textDecoration: 'none',
                       transition: 'border-color 0.3s ease, color 0.3s ease',
                     }}

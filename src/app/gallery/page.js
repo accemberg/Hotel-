@@ -51,7 +51,7 @@ export default function GalleryPage() {
       <Navbar variant="solid" />
       <GalleryStyles />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
+      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
 
         {/* Dark header */}
         <section style={{ backgroundColor: '#292622', padding: '6rem 2.5rem 5rem' }}>
@@ -66,7 +66,7 @@ export default function GalleryPage() {
             <h1 style={{
               fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
               fontSize: 'clamp(3.125rem, 6vw, 4.3125rem)', lineHeight: 0.9,
-              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#d8cbb8',
+              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#DEB76A',
             }}>
               Gallery
             </h1>
@@ -74,14 +74,14 @@ export default function GalleryPage() {
         </section>
 
         {/* Hairline */}
-        <div style={{ backgroundColor: '#d8cbb8' }}>
+        <div style={{ backgroundColor: '#292622' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-            <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
+            <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
           </div>
         </div>
 
         {/* Filter tabs */}
-        <div style={{ backgroundColor: '#d8cbb8', padding: '2rem 2.5rem 0' }}>
+        <div style={{ backgroundColor: '#292622', padding: '2rem 2.5rem 0' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             {CATEGORIES.map(cat => (
               <button
@@ -128,6 +128,8 @@ export default function GalleryPage() {
                     <img
                       src={item.imageUrl}
                       alt={item.caption || item.category}
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         width: '100%',
                         height: 'auto',

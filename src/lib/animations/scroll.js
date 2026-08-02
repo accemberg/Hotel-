@@ -19,6 +19,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 let lenis = null;
 
+// Store the reference to the tick function so we can remove it properly later
+function rafTicker(time) {
+  if (lenis) {
+    lenis.raf(time * 1000);
+  }
+}
+
 /** Initialise Lenis and wire it into gsap.ticker */
 export async function initLenis() {
   if (typeof window === 'undefined') return null;
@@ -39,8 +46,8 @@ export async function initLenis() {
   // Sync: Lenis scroll → ScrollTrigger position update
   lenis.on('scroll', ScrollTrigger.update);
 
-  // Sync: GSAP ticker → Lenis RAF (single rAF loop, no double-tick)
-  gsap.ticker.add(time => lenis.raf(time * 1000));
+  // Sync: GSAP ticker → Lenis RAF
+  gsap.ticker.add(rafTicker);
 
   // Prevent stale frames on tab visibility change
   gsap.ticker.lagSmoothing(0);
@@ -50,7 +57,7 @@ export async function initLenis() {
 
 export function destroyLenis() {
   if (!lenis) return;
-  gsap.ticker.remove(time => lenis.raf(time * 1000));
+  gsap.ticker.remove(rafTicker);
   lenis.destroy();
   lenis = null;
 }
