@@ -1,11 +1,12 @@
 import { db } from "../../lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { sendMail } from "../../lib/email/resend";
+import { resend, FROM_EMAIL } from "../../lib/email/resend";
 import { guestAutoReplyEmail, internalNotificationEmail } from "../../lib/email/templates";
+import { rateLimit } from "../../lib/rateLimit";
 
 const INTERNAL_NOTIFY_EMAIL = process.env.INTERNAL_NOTIFY_EMAIL;
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     return res.status(405).json({ success: false, error: "Method not allowed" });
@@ -13,18 +14,27 @@ export default async function handler(req, res) {
 
   const { guestName, contact, message, roomName } = req.body || {};
 
-  if (!guestName || !contact || !message) {
-    return res.status(400).json({
-      success: false,
-      error: "guestName, contact, and message are required",
-    });
+  if (!guestName || typeof guestName !== "string" || guestName.trim().length < 2) {
+    return res.status(400).json({ success: false, error: "guestName must be at least 2 characters" });
+  }
+  if (!contact || typeof contact !== "string" || contact.trim().length < 5) {
+    return res.status(400).json({ success: false, error: "contact must be a valid email or phone number" });
+  }
+  if (!message || typeof message !== "string" || message.trim().length < 5) {
+    return res.status(400).json({ success: false, error: "message must be at least 5 characters" });
+  }
+  if (message.length > 2000) {
+    return res.status(400).json({ success: false, error: "message is too long (max 2000 characters)" });
+  }
+  if (roomName !== undefined && typeof roomName !== "string") {
+    return res.status(400).json({ success: false, error: "roomName must be a string" });
   }
 
   try {
     const docRef = await addDoc(collection(db, "enquiries"), {
-      guestName,
-      contact,
-      message,
+      guestName: guestName.trim(),
+      contact: contact.trim(),
+      message: message.trim(),
       roomName: roomName || null,
       status: "New",
       createdAt: serverTimestamp(),
@@ -32,12 +42,13 @@ export default async function handler(req, res) {
 
     try {
       const guestEmail = guestAutoReplyEmail({ guestName, roomName });
-      const result = await sendMail({
+      const result = await resend.emails.send({
+        from: FROM_EMAIL,
         to: contact.includes("@") ? contact : undefined,
         subject: guestEmail.subject,
         html: guestEmail.html,
       });
-      if (!result.success) {
+      if (result?.error) {
         console.error("Guest auto-reply failed:", result.error);
       }
     } catch (emailErr) {
@@ -46,12 +57,13 @@ export default async function handler(req, res) {
 
     try {
       const internalEmail = internalNotificationEmail({ guestName, contact, message, roomName });
-      const result = await sendMail({
+      const result = await resend.emails.send({
+        from: FROM_EMAIL,
         to: INTERNAL_NOTIFY_EMAIL,
         subject: internalEmail.subject,
         html: internalEmail.html,
       });
-      if (!result.success) {
+      if (result?.error) {
         console.error("Internal notification failed:", result.error);
       }
     } catch (emailErr) {
@@ -64,3 +76,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, error: "Failed to submit enquiry" });
   }
 }
+
+export default rateLimit({ windowMs: 60_000, max: 5 })(handler);
