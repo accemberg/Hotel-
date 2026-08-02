@@ -138,3 +138,28 @@ anything built so far, since Day 2 scope is read-only + enquiry-create.
 
 ## Error shape (all endpoints)
 { "success": false, "error": "human readable message" }
+
+## GET /api/ota-links
+Response 200: [{ "id": "string", "platform": "MakeMyTrip", "listingUrl": "string", "logoUrl": "string", "active": true }]
+Status: LIVE
+
+## GET /api/gallery?category=
+Optional query param: category ("Property", "Dining", "Rooms")
+Response 200: [{ "id": "string", "category": "string", "imageUrl": "string", "order": 0 }]
+Status: LIVE — verified working, all 3 categories confirmed returning correctly.
+Note: filtered queries require a Firestore composite index on
+(category ASC, order ASC) — already created in the moksh-haveli-inn project.
+
+## GET /api/admin/enquiries
+Response 200: [{ "id": "string", "guestName": "...", "contact": "...", "message": "...",
+                  "roomName": "string|null", "status": "New", "createdAt": "timestamp" }]
+Status: LIVE but UNPROTECTED — Firebase Auth middleware protection is a Day 4
+deliverable per the brief. Uses Firebase Admin SDK (src/lib/firebase-admin.js)
+since client SDK cannot satisfy Firestore's admin-only read rule for enquiries.
+Do not share this URL outside the dev team until Day 4 auth lands.
+
+## CRM status field
+enquiries.status defaults to "New" on creation via POST /api/enquiry.
+Pipeline: New → Contacted → Confirmed → Closed.
+Status UPDATES (PATCH) are scoped to Day 4 alongside admin CRUD + auth
+middleware — not exposing a write endpoint before it's protected.
