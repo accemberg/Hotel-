@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  // Prevent Turbopack from bundling server-only packages that rely on
+  // Node.js built-ins (firebase-admin, resend). Without this, Turbopack
+  // resolves internal paths as `undefined`, causing:
+  //   TypeError: The "to" argument must be of type string. Received undefined
+  serverExternalPackages: ['firebase-admin', 'resend', '@firebase/firestore'],
 };
 
 export default nextConfig;

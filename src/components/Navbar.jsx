@@ -6,11 +6,12 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'Home',    href: '/' },
-  { label: 'Rooms',   href: '/rooms' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'About',   href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Home',      href: '/' },
+  { label: 'Rooms',     href: '/rooms' },
+  { label: 'Gallery',   href: '/gallery' },
+  { label: 'Amenities',href: '/amenities' },
+  { label: 'About',     href: '/about' },
+  { label: 'Contact',   href: '/contact' },
 ];
 
 /**
@@ -125,36 +126,24 @@ export default function Navbar({ variant = 'transparent' }) {
             gap: '1rem',
           }}
         >
-          {/* Wordmark */}
+          {/* Logo mark */}
           <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-tt-ramillas-variable)',
-                  fontWeight: 300,
-                  fontSize: '1.25rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '-0.04em',
-                  color: textColor,
-                  transition: 'color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                }}
-              >
-                Moksh Haveli Inn
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-satoshi)',
-                  fontWeight: 500,
-                  fontSize: '0.5625rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: '#978e81',
-                  marginTop: '0.125rem',
-                }}
-              >
-                Varanasi · Heritage
-              </span>
-            </div>
+            <img
+              src="/logo.jpeg"
+              alt="Moksh Haveli Inn"
+              style={{
+                height: '2.75rem',       /* 44px desktop */
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block',
+                /* mix-blend-mode: screen dissolves the cream logo bg on dark surfaces */
+                mixBlendMode: isSolid ? 'normal' : 'screen',
+                transition: 'mix-blend-mode 0s',
+                filter: isSolid
+                  ? 'none'
+                  : 'brightness(1.08) contrast(1.05)', /* slight pop on dark */
+              }}
+            />
           </Link>
 
           {/* Desktop nav links */}

@@ -22,9 +22,9 @@ export default function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: '#292622',
-        borderTop: '1px solid rgba(216,203,184,0.1)',  /* 1px hairline — intentional */
-        padding: '5rem 2.5rem 2.5rem',                 /* 80px 40px 40px */
+        backgroundColor: '#3D2B1F',
+        borderTop: '1px solid rgba(201,168,76,0.15)',  /* logo-gold hairline */
+        padding: '5rem 2.5rem 2.5rem',
       }}
     >
       <div style={{ maxWidth: '80rem', margin: '0 auto' }}>  {/* 1280px */}
@@ -40,20 +40,19 @@ export default function Footer() {
         >
           {/* Brand */}
           <div style={{ gridColumn: 'span 2' }}>
-            <h2
+            {/* Logo — mix-blend-mode:screen dissolves cream bg on dark surface */}
+            <img
+              src="/logo.jpeg"
+              alt="Moksh Haveli Inn"
               style={{
-                fontFamily: 'var(--font-tt-ramillas-variable)',
-                fontWeight: 300,
-                fontSize: '2.625rem',  /* 42px */
-                lineHeight: 0.9,
-                letterSpacing: '-0.04em',
-                textTransform: 'uppercase',
-                color: '#d8cbb8',
-                marginBottom: '1rem',
+                height: '5rem',          /* 80px — larger in footer */
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block',
+                mixBlendMode: 'screen',
+                marginBottom: '1.25rem',
               }}
-            >
-              Moksh<br />Haveli Inn
-            </h2>
+            />
             <p
               style={{
                 fontFamily: 'var(--font-satoshi)',
@@ -177,7 +176,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(182,171,156,0.2)', marginBottom: '2rem' }} />
+        <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(201,168,76,0.15)', marginBottom: '2rem' }} />
 
         {/* Bottom row */}
         <div

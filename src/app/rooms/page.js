@@ -6,16 +6,18 @@ import Footer from '@/components/Footer';
 import RoomCard from '@/components/RoomCard';
 import SectionHeader from '@/components/SectionHeader';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
-import { getRooms, getSiteConfig } from '@/lib/api';
+import { getRooms, getOtaLinks, getSiteConfig } from '@/lib/api';
 
 export default function RoomsPage() {
   const [rooms,      setRooms]      = useState([]);
+  const [otaLinks,   setOtaLinks]   = useState([]);
   const [siteConfig, setSiteConfig] = useState(null);
   const gridRef = useRef(null);
 
   useEffect(() => {
-    Promise.all([getRooms(), getSiteConfig()]).then(([r, s]) => {
+    Promise.all([getRooms(), getOtaLinks(), getSiteConfig()]).then(([r, o, s]) => {
       setRooms(r);
+      setOtaLinks(o);
       setSiteConfig(s);
     });
   }, []);
@@ -111,6 +113,69 @@ export default function RoomsPage() {
                   />
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Hairline divider */}
+        <div style={{ backgroundColor: '#d8cbb8' }}>
+          <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
+            <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
+          </div>
+        </div>
+
+        {/* OTA Book on... */}
+        <section data-section="ota" style={{ backgroundColor: '#d8cbb8', padding: '7.5rem 2.5rem' }}>
+          <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
+            <SectionHeader
+              caption="Online Travel Agencies"
+              heading="Book on …"
+              subtext="Find us on major booking platforms — or enquire directly for the best rate."
+              size="heading-sm"
+            />
+            <div
+              className="ota-grid-rooms"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))',
+                gap: '1px',
+                backgroundColor: '#b6ab9c',
+                border: '1px solid #b6ab9c',
+                marginTop: '3rem',
+              }}
+            >
+              {otaLinks.filter(o => o.active).map(ota => (
+                <div key={ota.id} style={{ backgroundColor: '#d8cbb8', padding: '2.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300, fontSize: '2rem', lineHeight: 0.9, letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#2c2c2c' }}>
+                    {ota.platform}
+                  </span>
+                  <a
+                    href={ota.listingUrl}
+                    target="_blank" rel="noopener noreferrer"
+                    id={`rooms-ota-book-${ota.id}`}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.625rem 1.375rem', border: '1px solid #2c2c2c', borderRadius: '0.1875rem', background: 'transparent', color: '#2c2c2c', fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', textDecoration: 'none', transition: 'background 0.4s ease, color 0.4s ease' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = '#2c2c2c'; e.currentTarget.style.color = '#d8cbb8'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#2c2c2c'; }}
+                  >
+                    Book on {ota.platform} →
+                  </a>
+                </div>
+              ))}
+              <div style={{ backgroundColor: '#292622', padding: '2.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'flex-start' }}>
+                <span style={{ fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300, fontSize: '2rem', lineHeight: 0.9, letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#d8cbb8' }}>
+                  Direct
+                </span>
+                <a
+                  href={siteConfig ? `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(siteConfig.whatsappDefaultMessage || '')}` : '#'}
+                  target="_blank" rel="noopener noreferrer"
+                  id="rooms-ota-book-direct"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.625rem 1.375rem', border: '1px solid #d8cbb8', borderRadius: '0.1875rem', background: 'transparent', color: '#d8cbb8', fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', textDecoration: 'none', transition: 'background 0.4s ease, color 0.4s ease' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#d8cbb8'; e.currentTarget.style.color = '#2c2c2c'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#d8cbb8'; }}
+                >
+                  Enquire via WhatsApp →
+                </a>
+              </div>
             </div>
           </div>
         </section>
