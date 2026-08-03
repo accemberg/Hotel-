@@ -163,3 +163,129 @@ enquiries.status defaults to "New" on creation via POST /api/enquiry.
 Pipeline: New → Contacted → Confirmed → Closed.
 Status UPDATES (PATCH) are scoped to Day 4 alongside admin CRUD + auth
 middleware — not exposing a write endpoint before it's protected.
+## Admin Endpoints (Day 4)
+All routes below require a valid Firebase Auth ID token in the request header:
+Authorization: Bearer <token>
+
+Missing or invalid token → 401: { "success": false, "error": "Missing or invalid Authorization header" }
+                                  or { "success": false, "error": "Invalid or expired token" }
+
+---
+
+### GET /api/admin/enquiries
+Returns all enquiries, newest first. (Now protected — was unprotected as of Day 3.)
+Response 200: [{ "id": "string", "guestName": "...", "contact": "...", "message": "...",
+                  "roomName": "string|null", "status": "New", "notes": "string|undefined",
+                  "createdAt": "timestamp" }]
+Status: LIVE, PROTECTED
+
+### PATCH /api/admin/enquiries/:id
+Updates status and/or notes on a single enquiry.
+Request body (at least one field required):
+{ "status": "Contacted", "notes": "Called guest, confirming dates" }
+Valid status values: "New" | "Contacted" | "Confirmed" | "Closed"
+Response 200: { "success": true, "id": "string" }
+Response 400: { "success": false, "error": "status must be one of: New, Contacted, Confirmed, Closed" }
+              or { "success": false, "error": "Provide status and/or notes to update" }
+Response 404: { "success": false, "error": "Enquiry not found" }
+Status: LIVE, PROTECTED
+
+### GET /api/admin/enquiries/export
+Downloads all enquiries as a CSV file (Content-Type: text/csv).
+Columns: id, guestName, contact, roomName, message, status, notes, createdAt
+Status: LIVE, PROTECTED
+
+---
+
+### POST /api/admin/rooms
+Creates a new room.
+Request body: { "name": "string", "slug": "string", "description": "string (optional)",
+                 "beds": "string (optional)", "maxOccupancy": number (optional, default 1),
+                 "qty": number (required), "rate": number (required), "size": "string (optional)" }
+Response 201: { "success": true, "id": "string" }
+Response 400: { "success": false, "error": "name, slug, rate, and qty are required" }
+Status: LIVE, PROTECTED
+
+### PATCH /api/admin/rooms/:id
+Updates any subset of room fields (e.g. manual price change, availability toggle).
+Request body: any partial room object, e.g. { "rate": 1800 } or { "available": false }
+Response 200: { "success": true, "id": "string" }
+Response 400: { "success": false, "error": "No fields provided to update" }
+Response 404: { "success": false, "error": "Room not found" }
+Status: LIVE, PROTECTED
+
+### DELETE /api/admin/rooms/:id
+Response 200: { "success": true, "id": "string" }
+Response 404: { "success": false, "error": "Room not found" }
+Status: LIVE, PROTECTED
+
+---
+
+### POST /api/admin/amenities
+Request body: { "name": "string", "category": "string", "notes": "string (optional)" }
+Response 201: { "success": true, "id": "string" }
+Status: LIVE, PROTECTED
+
+### PATCH /api/admin/amenities/:id
+Request body: any partial amenity object
+Response 200: { "success": true, "id": "string" }
+Status: LIVE, PROTECTED
+
+### DELETE /api/admin/amenities/:id
+Response 200: { "success": true, "id": "string" }
+Status: LIVE, PROTECTED
+
+---
+
+### POST /api/admin/gallery
+Request body: { "category": "string", "imageUrl": "string", "order": number (optional, default 0) }
+Response 201: { "success": true, "id": "string" }
+Response 400: { "success": false, "error": "category and imageUrl are required" }
+Status: LIVE, PROTECTED
+Note: "order" is validated as a Number type on write, to prevent the
+String/Number mismatch bug found in Day 3 seed data.
+
+### PATCH /api/admin/gallery/:id
+Request body: any partial gallery object, e.g. { "order": 1 } for reordering
+Response 400: { "success": false, "error": "order must be a number" } (if order is sent as non-number)
+Status: LIVE, PROTECTED
+
+### DELETE /api/admin/gallery/:id
+Status: LIVE, PROTECTED
+
+---
+
+### POST /api/admin/ota-links
+Request body: { "platform": "string", "listingUrl": "string", "logoUrl": "string (optional)",
+                 "active": boolean (optional, default true) }
+Response 201: { "success": true, "id": "string" }
+Status: LIVE, PROTECTED
+
+### PATCH /api/admin/ota-links/:id
+Request body: any partial OTA link object, e.g. { "active": false } to toggle
+Status: LIVE, PROTECTED
+
+### DELETE /api/admin/ota-links/:id
+Status: LIVE, PROTECTED
+
+---
+
+### GET /api/admin/site-config
+Returns the single siteConfig document.
+Response 200: { "id": "string", "aboutText": "...", "address": "...", "email": "...",
+                 "phone": "...", "whatsappNumber": "...", "whatsappDefaultMessage": "...",
+                 "mapEmbedUrl": "..." }
+Status: LIVE, PROTECTED
+
+### PATCH /api/admin/site-config
+Request body: any partial site config object
+Response 200: { "success": true }
+Response 400: { "success": false, "error": "No fields provided to update" }
+Status: LIVE, PROTECTED
+
+---
+
+## CRM status field (updated)
+enquiries.status defaults to "New" on creation via POST /api/enquiry (public).
+Pipeline: New → Contacted → Confirmed → Closed.
+Status/notes updates now LIVE via PATCH /api/admin/enquiries/:id (protected, Day 4).

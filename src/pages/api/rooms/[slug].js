@@ -1,7 +1,8 @@
 import { db } from "../../../lib/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { rateLimit } from "../../../lib/rateLimit";
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", ["GET"]);
     return res.status(405).json({ success: false, error: "Method not allowed" });
@@ -9,7 +10,7 @@ export default async function handler(req, res) {
 
   const { slug } = req.query;
 
-  if (!slug) {
+  if (!slug || typeof slug !== "string") {
     return res.status(400).json({ success: false, error: "Missing slug parameter" });
   }
 
@@ -29,3 +30,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, error: "Failed to fetch room" });
   }
 }
+
+export default rateLimit({ windowMs: 60_000, max: 60 })(handler);
