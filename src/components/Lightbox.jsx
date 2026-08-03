@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 /**
@@ -108,22 +109,21 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
         onClick={e => e.stopPropagation()}
         style={{
           position: 'relative',
-          maxWidth: 'min(90vw, 72rem)',
-          maxHeight: '80vh',
+          width: '90vw',
+          height: '75vh',
+          maxWidth: '72rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <img
+        <Image
           key={currentIndex}
           src={image.imageUrl}
           alt={image.caption || image.category}
+          fill
+          sizes="90vw"
           style={{
-            maxWidth: '100%',
-            maxHeight: '75vh',
-            width: 'auto',
-            height: 'auto',
             objectFit: 'contain',
             display: 'block',
             borderRadius: 0,
@@ -210,7 +210,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
                 fontStyle: 'italic',
                 fontSize: '1.0625rem',
                 letterSpacing: '-0.02em',
-                color: '#bfb4a3',
+                color: '#DEB76A',
                 lineHeight: 1.3,
                 textAlign: 'center',
               }}

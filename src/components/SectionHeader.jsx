@@ -8,12 +8,12 @@ export default function SectionHeader({
   heading,
   subtext,
   size = 'heading',
-  surface = 'light',
+  surface = 'dark',
   className = '',
 }) {
-  const headingColor = surface === 'dark' ? '#d8cbb8' : '#2c2c2c';
+  const headingColor = '#DEB76A';
   const captionColor = '#978e81';
-  const subtextColor = surface === 'dark' ? '#bfb4a3' : '#615b53';
+  const subtextColor = surface === 'dark' ? '#bfb4a3' : '#bfb4a3';
 
   // rem sizes + em tracking (scales with font-size — correct behaviour)
   const sizeMap = {

@@ -15,7 +15,7 @@ export default function MapEmbed({ mapEmbedUrl, height = '26rem', title = 'Moksh
       style={{
         width: '100%',
         height,
-        border: '1px solid #b6ab9c',   /* hairline — intentional */
+        border: '1px solid #4A3B2C',   /* hairline — intentional */
         borderRadius: 0,
         overflow: 'hidden',
         backgroundColor: '#bfb4a3',    /* linen fallback while loading */

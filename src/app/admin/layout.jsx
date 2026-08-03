@@ -1,5 +1,9 @@
 "use client";
 
+// Force all admin pages to be rendered dynamically (never pre-rendered at build time).
+// This prevents Firestore/Auth "service unavailable" errors during `next build`.
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -81,64 +85,93 @@ export default function AdminLayout({ children }) {
   return (
     <div className="flex min-h-screen bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] font-sans">
       {/* Mobile Sidebar Toggle */}
-      <div className="fixed top-0 left-0 z-50 flex h-16 w-full items-center justify-between bg-[var(--color-onyx-warm)] px-4 border-b border-[var(--color-warm-stone)]/30 md:hidden">
-        <span className="text-lg font-bold" style={{ fontFamily: "var(--font-tt-ramillas-variable)" }}>Admin Panel</span>
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 text-[var(--color-parchment)]">
-          <Menu className="h-6 w-6" />
+      <div className="fixed top-0 left-0 z-50 flex h-14 w-full items-center justify-between bg-[var(--color-onyx-warm)] px-4 border-b border-[var(--color-warm-stone)]/30 md:hidden">
+        <span className="text-base font-bold tracking-wide" style={{ fontFamily: "var(--font-tt-ramillas-variable)", textTransform: 'uppercase', letterSpacing: '-0.02em' }}>Admin Panel</span>
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 text-[var(--color-parchment)]" aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}>
+          <Menu className="h-5 w-5" />
         </button>
       </div>
 
       {/* Sidebar */}
       <aside 
-        className={`fixed inset-y-0 left-0 z-40 w-72 transform bg-[var(--color-onyx-warm)] border-r border-[var(--color-warm-stone)]/20 transition-transform duration-200 ease-in-out md:static md:translate-x-0 flex flex-col ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-[var(--color-onyx-warm)] border-r border-[var(--color-warm-stone)]/20 transition-transform duration-200 ease-in-out md:static md:translate-x-0 flex flex-col ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-center border-b border-[var(--color-warm-stone)]/30 p-8 bg-[var(--color-midnight-roast)]">
-          <div className="border-4 border-[var(--color-saffron-glow)] px-8 py-6 rounded-2xl shadow-[0_0_30px_rgba(227,168,105,0.6)] bg-[var(--color-onyx-warm)]">
-            <h1 className="text-4xl font-bold tracking-[0.3em] leading-loose text-[var(--color-saffron-glow)] uppercase drop-shadow-[0_0_15px_rgba(227,168,105,0.9)] text-center" style={{ fontFamily: "var(--font-tt-ramillas-variable)" }}>
+        <div className="flex items-center justify-center border-b border-[var(--color-warm-stone)]/30 p-6 bg-[var(--color-midnight-roast)]">
+          <div className="border-2 border-[var(--color-saffron-glow)] px-6 py-4" style={{ borderRadius: 0 }}>
+            <h1 className="text-2xl font-light tracking-[0.25em] leading-snug text-[var(--color-saffron-glow)] uppercase text-center" style={{ fontFamily: "var(--font-tt-ramillas-variable)", fontWeight: 300 }}>
               Moksh<br/>Haveli<br/>Inn
             </h1>
           </div>
         </div>
         
-        <nav className="flex-1 flex flex-col gap-6 p-8 overflow-y-auto">
-          <Link href="/admin" className={`flex items-center gap-6 rounded-2xl px-6 py-6 text-2xl font-bold transition-all border-2 shadow-lg ${pathname === '/admin' ? 'bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] border-[var(--color-saffron-glow)]' : 'bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] border-[var(--color-warm-stone)]/50 hover:border-[var(--color-saffron-glow)] hover:text-[var(--color-saffron-glow)]'}`}>
-            <LayoutDashboard className="h-8 w-8" /> Dashboard
+        <nav className="flex-1 flex flex-col gap-1 p-4 overflow-y-auto">
+          <Link href="/admin" className={`flex items-center gap-3 rounded px-4 py-3 text-sm font-medium transition-all border ${
+            pathname === '/admin'
+              ? 'bg-[var(--color-saffron-glow)]/10 text-[var(--color-saffron-glow)] border-[var(--color-saffron-glow)]/40'
+              : 'text-[var(--color-parchment)]/70 border-transparent hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)]'
+          }`} style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}>
+            <LayoutDashboard className="h-4 w-4 shrink-0" /> Dashboard
           </Link>
-          <Link href="/admin/rooms" className={`flex items-center gap-6 rounded-2xl px-6 py-6 text-2xl font-bold transition-all border-2 shadow-lg ${pathname === '/admin/rooms' ? 'bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] border-[var(--color-saffron-glow)]' : 'bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] border-[var(--color-warm-stone)]/50 hover:border-[var(--color-saffron-glow)] hover:text-[var(--color-saffron-glow)]'}`}>
-            <BedDouble className="h-8 w-8" /> Rooms
+          <Link href="/admin/rooms" className={`flex items-center gap-3 rounded px-4 py-3 text-sm font-medium transition-all border ${
+            pathname === '/admin/rooms'
+              ? 'bg-[var(--color-saffron-glow)]/10 text-[var(--color-saffron-glow)] border-[var(--color-saffron-glow)]/40'
+              : 'text-[var(--color-parchment)]/70 border-transparent hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)]'
+          }`} style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}>
+            <BedDouble className="h-4 w-4 shrink-0" /> Rooms
           </Link>
-          <Link href="/admin/amenities" className={`flex items-center gap-6 rounded-2xl px-6 py-6 text-2xl font-bold transition-all border-2 shadow-lg ${pathname === '/admin/amenities' ? 'bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] border-[var(--color-saffron-glow)]' : 'bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] border-[var(--color-warm-stone)]/50 hover:border-[var(--color-saffron-glow)] hover:text-[var(--color-saffron-glow)]'}`}>
-            <Coffee className="h-8 w-8" /> Amenities
+          <Link href="/admin/amenities" className={`flex items-center gap-3 rounded px-4 py-3 text-sm font-medium transition-all border ${
+            pathname === '/admin/amenities'
+              ? 'bg-[var(--color-saffron-glow)]/10 text-[var(--color-saffron-glow)] border-[var(--color-saffron-glow)]/40'
+              : 'text-[var(--color-parchment)]/70 border-transparent hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)]'
+          }`} style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}>
+            <Coffee className="h-4 w-4 shrink-0" /> Amenities
           </Link>
-          <Link href="/admin/gallery" className={`flex items-center gap-6 rounded-2xl px-6 py-6 text-2xl font-bold transition-all border-2 shadow-lg ${pathname === '/admin/gallery' ? 'bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] border-[var(--color-saffron-glow)]' : 'bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] border-[var(--color-warm-stone)]/50 hover:border-[var(--color-saffron-glow)] hover:text-[var(--color-saffron-glow)]'}`}>
-            <ImageIcon className="h-8 w-8" /> Gallery
+          <Link href="/admin/gallery" className={`flex items-center gap-3 rounded px-4 py-3 text-sm font-medium transition-all border ${
+            pathname === '/admin/gallery'
+              ? 'bg-[var(--color-saffron-glow)]/10 text-[var(--color-saffron-glow)] border-[var(--color-saffron-glow)]/40'
+              : 'text-[var(--color-parchment)]/70 border-transparent hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)]'
+          }`} style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}>
+            <ImageIcon className="h-4 w-4 shrink-0" /> Gallery
           </Link>
-          <Link href="/admin/enquiries" className={`flex items-center gap-6 rounded-2xl px-6 py-6 text-2xl font-bold transition-all border-2 shadow-lg ${pathname === '/admin/enquiries' ? 'bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] border-[var(--color-saffron-glow)]' : 'bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] border-[var(--color-warm-stone)]/50 hover:border-[var(--color-saffron-glow)] hover:text-[var(--color-saffron-glow)]'}`}>
-            <MessageSquare className="h-8 w-8" /> Enquiries
+          <Link href="/admin/enquiries" className={`flex items-center gap-3 rounded px-4 py-3 text-sm font-medium transition-all border ${
+            pathname === '/admin/enquiries'
+              ? 'bg-[var(--color-saffron-glow)]/10 text-[var(--color-saffron-glow)] border-[var(--color-saffron-glow)]/40'
+              : 'text-[var(--color-parchment)]/70 border-transparent hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)]'
+          }`} style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}>
+            <MessageSquare className="h-4 w-4 shrink-0" /> Enquiries
           </Link>
-          <Link href="/admin/ota" className={`flex items-center gap-6 rounded-2xl px-6 py-6 text-2xl font-bold transition-all border-2 shadow-lg ${pathname === '/admin/ota' ? 'bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] border-[var(--color-saffron-glow)]' : 'bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] border-[var(--color-warm-stone)]/50 hover:border-[var(--color-saffron-glow)] hover:text-[var(--color-saffron-glow)]'}`}>
-            <Link2 className="h-8 w-8" /> OTA Links
+          <Link href="/admin/ota" className={`flex items-center gap-3 rounded px-4 py-3 text-sm font-medium transition-all border ${
+            pathname === '/admin/ota'
+              ? 'bg-[var(--color-saffron-glow)]/10 text-[var(--color-saffron-glow)] border-[var(--color-saffron-glow)]/40'
+              : 'text-[var(--color-parchment)]/70 border-transparent hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)]'
+          }`} style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}>
+            <Link2 className="h-4 w-4 shrink-0" /> OTA Links
           </Link>
-          <Link href="/admin/settings" className={`flex items-center gap-6 rounded-2xl px-6 py-6 text-2xl font-bold transition-all border-2 shadow-lg ${pathname === '/admin/settings' ? 'bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] border-[var(--color-saffron-glow)]' : 'bg-[var(--color-midnight-roast)] text-[var(--color-parchment)] border-[var(--color-warm-stone)]/50 hover:border-[var(--color-saffron-glow)] hover:text-[var(--color-saffron-glow)]'}`}>
-            <Settings className="h-8 w-8" /> Settings
+          <Link href="/admin/settings" className={`flex items-center gap-3 rounded px-4 py-3 text-sm font-medium transition-all border ${
+            pathname === '/admin/settings'
+              ? 'bg-[var(--color-saffron-glow)]/10 text-[var(--color-saffron-glow)] border-[var(--color-saffron-glow)]/40'
+              : 'text-[var(--color-parchment)]/70 border-transparent hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)]'
+          }`} style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}>
+            <Settings className="h-4 w-4 shrink-0" /> Settings
           </Link>
         </nav>
         
-        <div className="border-t border-[var(--color-warm-stone)]/30 p-6 bg-[var(--color-midnight-roast)]">
+        <div className="border-t border-[var(--color-warm-stone)]/30 p-4 bg-[var(--color-midnight-roast)]">
           <button 
-            className="w-full flex items-center justify-center gap-3 py-4 px-6 border-2 border-[var(--color-parchment)]/50 text-[var(--color-parchment)] font-bold text-lg rounded-xl hover:bg-[var(--color-parchment)] hover:text-[var(--color-midnight-roast)] transition-colors shadow-sm"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-[var(--color-parchment)]/30 text-[var(--color-parchment)]/70 font-medium text-sm transition-colors hover:bg-[var(--color-parchment)]/5 hover:text-[var(--color-parchment)] hover:border-[var(--color-parchment)]/50"
+            style={{ fontFamily: 'var(--font-satoshi)', textTransform: 'uppercase', letterSpacing: '-0.01em', borderRadius: '0.1875rem' }}
             onClick={handleLogout}
           >
-            <LogOut className="h-6 w-6" />
+            <LogOut className="h-4 w-4" />
             Sign Out
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto mt-16 md:mt-0 p-6 md:p-12">
+      <main className="flex-1 overflow-y-auto mt-14 md:mt-0 p-4 md:p-8">
         <div className="w-full mx-auto">
           {children}
         </div>
@@ -147,7 +180,7 @@ export default function AdminLayout({ children }) {
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 z-30 bg-black/80 md:hidden"
+          className="fixed inset-0 z-30 bg-black/60 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}

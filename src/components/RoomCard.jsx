@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Users, Maximize2, Star } from 'lucide-react';
 
 /**
@@ -29,26 +30,26 @@ export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage 
       data-room-card
       style={{
         borderRadius: 0,
-        backgroundColor: '#d8cbb8',
-        border: '1px solid #b6ab9c',   /* 1px hairline — intentional */
+        backgroundColor: '#3D2B1F',
+        border: '1px solid rgba(216,203,184,0.15)',   /* 1px hairline — intentional */
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         transition: 'border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         cursor: 'default',
       }}
-      onMouseEnter={e => e.currentTarget.style.borderColor = '#615b53'}
-      onMouseLeave={e => e.currentTarget.style.borderColor = '#b6ab9c'}
+      onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(216,203,184,0.35)'}
+      onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(216,203,184,0.15)'}
     >
       {/* Image */}
       <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
         {heroImage ? (
-          <img
+          <Image
             src={heroImage}
             alt={name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             style={{
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
               borderRadius: 0,
               display: 'block',
@@ -62,7 +63,7 @@ export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage 
             style={{
               width: '100%',
               height: '100%',
-              backgroundColor: '#bfb4a3',
+              backgroundColor: '#292622',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -75,7 +76,7 @@ export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage 
                 fontSize: '0.875rem',    /* 14px */
                 textTransform: 'uppercase',
                 letterSpacing: '-0.01em',
-                color: '#978e81',
+                color: '#DEB76A',
               }}
             >
               Image coming
@@ -115,14 +116,14 @@ export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage 
             lineHeight: 1.1,
             letterSpacing: '-0.03em',
             textTransform: 'uppercase',
-            color: '#2c2c2c',
+            color: '#DEB76A',
           }}
         >
           {name}
         </h3>
 
         {/* Divider */}
-        <div style={{ width: '100%', height: '1px', backgroundColor: '#b6ab9c' }} />
+        <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(216,203,184,0.15)' }} />
 
         {/* Meta row */}
         <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
@@ -138,10 +139,10 @@ export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage 
               style={{
                 width: '100%',
                 padding: '0.75rem 1.25rem',   /* 12px 20px */
-                border: '1px solid #2c2c2c',
+                border: '1px solid #d8cbb8',
                 borderRadius: '0.1875rem',     /* 3px */
                 background: 'transparent',
-                color: '#2c2c2c',
+                color: '#d8cbb8',
                 fontFamily: 'var(--font-satoshi)',
                 fontWeight: 500,
                 fontSize: '0.75rem',
@@ -150,8 +151,8 @@ export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage 
                 cursor: 'pointer',
                 transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
               }}
-              onMouseEnter={e => { e.target.style.background = '#2c2c2c'; e.target.style.color = '#d8cbb8'; }}
-              onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = '#2c2c2c'; }}
+              onMouseEnter={e => { e.target.style.background = '#d8cbb8'; e.target.style.color = '#3D2B1F'; }}
+              onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = '#d8cbb8'; }}
             >
               View Room
             </button>
@@ -163,10 +164,10 @@ export default function RoomCard({ room, whatsappNumber, whatsappDefaultMessage 
             style={{
               flex: 1,
               padding: '0.75rem 1.25rem',
-              border: '1px solid #2c2c2c',
+              border: '1px solid #d8cbb8',
               borderRadius: '0.1875rem',
-              background: '#2c2c2c',
-              color: '#d8cbb8',
+              background: '#d8cbb8',
+              color: '#3D2B1F',
               fontFamily: 'var(--font-satoshi)',
               fontWeight: 500,
               fontSize: '0.75rem',
@@ -201,7 +202,7 @@ function MetaItem({ icon, label }) {
           fontSize: '0.75rem',
           textTransform: 'uppercase',
           letterSpacing: '-0.01em',
-          color: '#615b53',
+          color: '#bfb4a3',
         }}
       >
         {label}

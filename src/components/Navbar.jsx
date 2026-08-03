@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -50,9 +51,9 @@ export default function Navbar({ variant = 'transparent' }) {
   }, [variant]);
 
   const isSolid     = variant === 'solid' || scrolled;
-  const textColor   = isSolid ? '#2c2c2c' : '#d8cbb8';
-  const borderColor = isSolid ? '#b6ab9c' : 'rgba(216,203,184,0.15)';
-  const bgColor     = isSolid ? '#d8cbb8' : 'transparent';
+  const textColor   = '#d8cbb8';
+  const borderColor = 'rgba(216,203,184,0.15)';
+  const bgColor     = isSolid ? '#3D2B1F' : 'transparent';
 
   const isActive = (href) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -61,9 +62,15 @@ export default function Navbar({ variant = 'transparent' }) {
     <>
       {/* ── Responsive CSS — injected once ── */}
       <style>{`
-        /* Nav bar inner: mobile uses tighter padding */
+        /* Nav bar inner: mobile uses tighter padding, flex layout */
         .nav-bar {
           padding: 0 1.25rem;
+          display: flex;
+          justify-content: space-between;
+        }
+        .nav-logo {
+          display: flex;
+          align-items: center;
         }
         /* Desktop links + book button: hidden on mobile */
         .nav-desktop-links,
@@ -81,15 +88,22 @@ export default function Navbar({ variant = 'transparent' }) {
         @media (min-width: 48rem) {
           .nav-bar {
             padding: 0 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+          }
+          .nav-logo {
+            justify-content: flex-start;
           }
           .nav-desktop-links {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 2rem;
           }
           .nav-desktop-cta {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
           }
           .nav-hamburger {
             display: none;
@@ -120,17 +134,19 @@ export default function Navbar({ variant = 'transparent' }) {
             maxWidth: '90rem',
             margin: '0 auto',
             height: '4rem',
-            display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
             gap: '1rem',
           }}
         >
           {/* Logo mark */}
-          <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
-            <img
+          <div className="nav-logo">
+            <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
+            <Image
               src="/logo.jpeg"
               alt="Moksh Haveli Inn"
+              width={200}
+              height={200}
+              priority
               style={{
                 height: '2.75rem',       /* 44px desktop */
                 width: 'auto',
@@ -144,7 +160,8 @@ export default function Navbar({ variant = 'transparent' }) {
                   : 'brightness(1.08) contrast(1.05)', /* slight pop on dark */
               }}
             />
-          </Link>
+            </Link>
+          </div>
 
           {/* Desktop nav links */}
           <nav className="nav-desktop-links" aria-label="Main navigation">
@@ -199,7 +216,7 @@ export default function Navbar({ variant = 'transparent' }) {
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.background = textColor;
-                  e.currentTarget.style.color = isSolid ? '#d8cbb8' : '#2c2c2c';
+                  e.currentTarget.style.color = isSolid ? '#3D2B1F' : '#292622';
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.background = 'transparent';
@@ -245,7 +262,7 @@ export default function Navbar({ variant = 'transparent' }) {
           style={{
             display: open ? 'flex' : 'none',
             flexDirection: 'column',
-            backgroundColor: '#292622',
+            backgroundColor: '#3D2B1F',
             borderTop: '1px solid rgba(216,203,184,0.1)',
             padding: '1.75rem 1.25rem 2rem',
             gap: '0',

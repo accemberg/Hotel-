@@ -11,6 +11,7 @@ import {
   Wifi, Wind, Tv, Sparkles, ShowerHead, Droplets,
   Flame, FlaskConical, Eye, CheckCircle, Shirt,
 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Home() {
   const [rooms,      setRooms]      = useState([]);
@@ -142,7 +143,7 @@ export default function Home() {
                 lineHeight: 0.85,
                 letterSpacing: '-0.04em',
                 textTransform: 'uppercase',
-                color: '#d8cbb8',
+                color: '#DEB76A',
                 maxWidth: '56.25rem',        /* 900px */
                 marginBottom: '2.5rem',
               }}
@@ -309,7 +310,7 @@ export default function Home() {
                 gridTemplateColumns: 'clamp(18rem, 61.5%, 1.6fr) 1fr',
                 gridTemplateRows: 'auto auto',
                 gap: '1px',
-                backgroundColor: '#b6ab9c',
+                backgroundColor: 'rgba(216,203,184,0.1)',
               }}
             >
               {rooms.map((room, i) => {
@@ -333,7 +334,7 @@ export default function Home() {
         <section
           ref={amenitiesRef}
           data-section="amenities"
-          style={{ backgroundColor: '#d8cbb8', padding: '7.5rem 2.5rem' }}
+          style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}
         >
           <div
             className="amenities-layout"
@@ -364,7 +365,7 @@ export default function Home() {
                   fontSize: '0.8125rem',
                   textTransform: 'uppercase',
                   letterSpacing: '-0.01em',
-                  color: '#2c2c2c',
+                  color: '#d8cbb8',
                   textDecoration: 'underline',
                   textUnderlineOffset: '0.25rem',
                   opacity: 0.7,
@@ -378,16 +379,16 @@ export default function Home() {
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
                   gap: '1px',
-                  backgroundColor: '#b6ab9c',
+                  backgroundColor: 'rgba(216,203,184,0.1)',
                   marginTop: '3rem',
-                  border: '1px solid #b6ab9c',
+                  border: '1px solid rgba(216,203,184,0.1)',
                 }}
               >
                 {amenities.map(({ id, name, category }) => (
                   <div
                     key={id}
                     style={{
-                      backgroundColor: '#d8cbb8',
+                      backgroundColor: '#292622',
                       padding: '1.25rem 1.25rem 1.25rem 1rem',
                       display: 'flex',
                       alignItems: 'flex-start',
@@ -403,7 +404,7 @@ export default function Home() {
                           fontSize: '0.8125rem',
                           textTransform: 'uppercase',
                           letterSpacing: '-0.01em',
-                          color: '#2c2c2c',
+                          color: '#d8cbb8',
                           lineHeight: 1.2,
                         }}
                       >
@@ -433,15 +434,15 @@ export default function Home() {
                 position: 'relative',
                 aspectRatio: '4/5',
                 overflow: 'hidden',
-                border: '1px solid #b6ab9c',
+                border: '1px solid rgba(216,203,184,0.1)',
               }}
             >
-              <img
+              <Image
                 src="/hotelpics/lobby_area.jpeg"
                 alt="Haveli lobby — warm heritage detail"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 style={{
-                  width: '100%',
-                  height: '100%',
                   objectFit: 'cover',
                   display: 'block',
                 }}
@@ -464,7 +465,7 @@ export default function Home() {
                     fontStyle: 'italic',
                     fontSize: '1.25rem',
                     letterSpacing: '-0.02em',
-                    color: '#d8cbb8',
+                    color: '#DEB76A',
                     lineHeight: 1.2,
                   }}
                 >
@@ -481,7 +482,7 @@ export default function Home() {
         <section
           ref={galleryRef}
           data-section="gallery-preview"
-          style={{ backgroundColor: '#d8cbb8', padding: '7.5rem 2.5rem' }}
+          style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}
         >
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', flexWrap: 'wrap', gap: '1.5rem' }}>
@@ -494,7 +495,7 @@ export default function Home() {
                   fontSize: '0.8125rem',
                   textTransform: 'uppercase',
                   letterSpacing: '-0.01em',
-                  color: '#2c2c2c',
+                  color: '#d8cbb8',
                   textDecoration: 'underline',
                   textUnderlineOffset: '0.25rem',
                   opacity: 0.7,
@@ -509,7 +510,7 @@ export default function Home() {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: '1px',
-                backgroundColor: '#b6ab9c',
+                backgroundColor: 'rgba(216,203,184,0.1)',
               }}
             >
               {gallery.map(item => (
@@ -517,12 +518,12 @@ export default function Home() {
                   key={item.id}
                   style={{ aspectRatio: '4/3', overflow: 'hidden', position: 'relative' }}
                 >
-                  <img
+                  <Image
                     src={item.imageUrl}
                     alt={item.caption || item.category}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     style={{
-                      width: '100%',
-                      height: '100%',
                       objectFit: 'cover',
                       display: 'block',
                       transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -563,7 +564,7 @@ export default function Home() {
 
         <section
           data-section="ota"
-          style={{ backgroundColor: '#d8cbb8', padding: '7.5rem 2.5rem' }}
+          style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}
         >
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             <SectionHeader
@@ -578,8 +579,8 @@ export default function Home() {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))',
                 gap: '1px',
-                backgroundColor: '#b6ab9c',
-                border: '1px solid #b6ab9c',
+                backgroundColor: 'rgba(216,203,184,0.1)',
+                border: '1px solid rgba(216,203,184,0.1)',
                 marginTop: '3rem',
               }}
             >
@@ -587,7 +588,7 @@ export default function Home() {
                 <div
                   key={ota.id}
                   style={{
-                    backgroundColor: '#d8cbb8',
+                    backgroundColor: '#292622',
                     padding: '2.5rem 2rem',
                     display: 'flex',
                     flexDirection: 'column',
@@ -602,7 +603,7 @@ export default function Home() {
                     lineHeight: 0.9,
                     letterSpacing: '-0.04em',
                     textTransform: 'uppercase',
-                    color: '#2c2c2c',
+                    color: '#DEB76A',
                   }}>
                     {ota.platform}
                   </span>
@@ -616,19 +617,20 @@ export default function Home() {
                       alignItems: 'center',
                       gap: '0.375rem',
                       padding: '0.625rem 1.375rem',
-                      border: '1px solid #2c2c2c',
+                      border: '1px solid #d8cbb8',
                       borderRadius: '0.1875rem',
                       background: 'transparent',
-                      color: '#2c2c2c',
+                      color: '#d8cbb8',
                       fontFamily: 'var(--font-satoshi)',
                       fontWeight: 500,
                       fontSize: '0.75rem',
                       textTransform: 'uppercase',
                       letterSpacing: '-0.01em',
                       textDecoration: 'none',
+                      whiteSpace: 'nowrap',
                       transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#2c2c2c'; e.currentTarget.style.color = '#d8cbb8'; }}
+                    onMouseEnter={e => { e.currentTarget.style.background = '#d8cbb8'; e.currentTarget.style.color = '#2c2c2c'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#2c2c2c'; }}
                   >
                     Book on {ota.platform} →
@@ -653,7 +655,7 @@ export default function Home() {
                   lineHeight: 0.9,
                   letterSpacing: '-0.04em',
                   textTransform: 'uppercase',
-                  color: '#d8cbb8',
+                  color: '#DEB76A',
                 }}>
                   Direct
                 </span>
@@ -677,12 +679,13 @@ export default function Home() {
                     textTransform: 'uppercase',
                     letterSpacing: '-0.01em',
                     textDecoration: 'none',
+                    whiteSpace: 'nowrap',
                     transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.background = '#d8cbb8'; e.currentTarget.style.color = '#2c2c2c'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#d8cbb8'; }}
                 >
-                  Enquire via WhatsApp →
+                  Book Direct →
                 </a>
               </div>
             </div>
@@ -843,9 +846,9 @@ function PageStyles() {
 
 function Divider() {
   return (
-    <div style={{ backgroundColor: '#d8cbb8' }}>
+    <div style={{ backgroundColor: '#292622' }}>
       <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-        <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
       </div>
     </div>
   );
@@ -879,14 +882,12 @@ function PhotoRoomCard({ room, featured, whatsappNumber }) {
       }}
     >
       {/* Background photo */}
-      <img
+      <Image
         src={heroSrc}
         alt={name}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
           objectFit: 'cover',
           objectPosition: 'center',
           display: 'block',
@@ -959,7 +960,7 @@ function PhotoRoomCard({ room, featured, whatsappNumber }) {
             lineHeight: 0.95,
             letterSpacing: '-0.04em',
             textTransform: 'uppercase',
-            color: '#d8cbb8',
+            color: '#DEB76A',
             marginBottom: '1rem',
           }}
         >

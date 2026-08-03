@@ -37,7 +37,7 @@ export default function AboutPage() {
       <Navbar variant="solid" />
       <AboutStyles />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#d8cbb8' }}>
+      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
 
         {/* Dark header */}
         <section style={{ backgroundColor: '#292622', padding: '6rem 2.5rem 5rem' }}>
@@ -52,7 +52,7 @@ export default function AboutPage() {
             <h1 style={{
               fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
               fontSize: 'clamp(3.125rem, 6vw, 4.3125rem)', lineHeight: 0.9,
-              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#d8cbb8',
+              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#DEB76A',
               maxWidth: '36rem',
             }}>
               About Moksh Haveli Inn
@@ -61,9 +61,9 @@ export default function AboutPage() {
         </section>
 
         {/* Hairline */}
-        <div style={{ backgroundColor: '#d8cbb8' }}>
+        <div style={{ backgroundColor: '#292622' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-            <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
+            <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default function AboutPage() {
                     fontSize: '0.9375rem',
                     lineHeight: 1.75,
                     letterSpacing: '-0.01em',
-                    color: '#615b53',
+                    color: '#bfb4a3',
                   }}
                 >
                   {para}
@@ -114,7 +114,7 @@ export default function AboutPage() {
 
         {/* Hairline */}
         <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-          <hr style={{ border: 'none', borderTop: '1px solid #b6ab9c' }} />
+          <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
         </div>
 
         {/* Map */}
