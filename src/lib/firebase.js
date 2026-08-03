@@ -12,8 +12,49 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+let _app;
+let _db;
+let _auth;
 
-export const db = getFirestore(app);
-export const auth = getAuth(app);
-export default app;
+function getAppInstance() {
+  if (!_app) {
+    _app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  }
+  return _app;
+}
+
+// Lazy Firestore Proxy
+export const db = new Proxy({}, {
+  get: (target, prop) => {
+    if (!_db) {
+      _db = getFirestore(getAppInstance());
+    }
+    const val = Reflect.get(_db, prop);
+    return typeof val === "function" ? val.bind(_db) : val;
+  },
+  set: (target, prop, val) => {
+    if (!_db) {
+      _db = getFirestore(getAppInstance());
+    }
+    return Reflect.set(_db, prop, val);
+  }
+});
+
+// Lazy Auth Proxy
+export const auth = new Proxy({}, {
+  get: (target, prop) => {
+    if (!_auth) {
+      _auth = getAuth(getAppInstance());
+    }
+    const val = Reflect.get(_auth, prop);
+    return typeof val === "function" ? val.bind(_auth) : val;
+  },
+  set: (target, prop, val) => {
+    if (!_auth) {
+      _auth = getAuth(getAppInstance());
+    }
+    return Reflect.set(_auth, prop, val);
+  }
+});
+
+export default getAppInstance;
