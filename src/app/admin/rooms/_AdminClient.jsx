@@ -77,7 +77,7 @@ export default function RoomsManager() {
     <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: "40px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "24px" }}>
         <div>
-          <h2 style={{ fontSize: "48px", fontWeight: "bold", color: '#DEB76A', textTransform: "uppercase", letterSpacing: "0.05em", textShadow: "0 0 20px rgba(227, 168, 105, 0.4)", fontFamily: "var(--font-tt-ramillas-variable)" }}>Rooms Manager</h2>
+          <h2 style={{ fontSize: "48px", fontWeight: "bold", color: 'var(--color-saffron)', textTransform: "uppercase", letterSpacing: "0.05em", textShadow: "0 0 20px rgba(227, 168, 105, 0.4)", fontFamily: "var(--font-tt-ramillas-variable)" }}>Rooms Manager</h2>
           <p style={{ color: "#a88e6a", marginTop: "12px", fontSize: "20px", fontWeight: "500" }}>Update room pricing, capacity, images, and availability.</p>
         </div>
         <button onClick={() => { setFormData({ name: "", price: "", guests: 2, imageUrl: "", isAvailable: true }); setEditingId(null); setIsAdding(true); }} style={btnStyle("#e3a869", "#1a1410", "#e3a869")}>
