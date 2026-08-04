@@ -15,8 +15,8 @@ const firebaseConfig = {
 // Initialize app
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// Initialize services ONLY on the client (browser) to avoid Next.js build errors
-export const db = typeof window !== "undefined" ? getFirestore(app) : null;
-export const auth = typeof window !== "undefined" ? getAuth(app) : null;
+// Initialize services for both client and server
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 export default app;
