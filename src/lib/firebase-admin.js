@@ -31,3 +31,14 @@ export const adminDb = hasAdminKeys
         };
       }
     });
+
+export const adminAuth = hasAdminKeys 
+  ? getAuth(app) 
+  : new Proxy({}, {
+      get: (target, prop) => {
+        if (prop === 'then') return undefined;
+        return () => {
+          throw new Error("Firebase Admin keys are missing in this environment. Cannot access adminAuth.");
+        };
+      }
+    });

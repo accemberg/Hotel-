@@ -15,8 +15,21 @@ const firebaseConfig = {
 // Initialize app
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// Initialize services for both client and server
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+// Safe initialization — works in browser + API routes, skips during build/prerender
+let db = null;
+let auth = null;
 
+try {
+  db = getFirestore(app);
+} catch (e) {
+  // Silently skip during build/prerender
+}
+
+try {
+  auth = getAuth(app);
+} catch (e) {
+  // Silently skip during build/prerender
+}
+
+export { db, auth };
 export default app;
