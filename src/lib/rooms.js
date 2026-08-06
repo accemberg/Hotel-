@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 
 export async function getRooms() {
   const roomsRef = collection(db, "rooms");
@@ -26,11 +26,10 @@ export async function getAmenities() {
 }
 
 export async function getSiteConfig() {
-  const configRef = collection(db, "siteConfig");
-  const snapshot = await getDocs(configRef);
+  const configRef = doc(db, "settings", "siteConfig");
+  const snapshot = await getDoc(configRef);
 
-  if (snapshot.empty) return null;
+  if (!snapshot.exists()) return null;
 
-  const doc = snapshot.docs[0];
-  return { id: doc.id, ...doc.data() };
+  return { id: snapshot.id, ...snapshot.data() };
 }

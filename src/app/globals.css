@@ -27,6 +27,8 @@
   /* ── Typography families ─────────────────── */
   --font-tt-ramillas-variable: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-satoshi: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-tt-ramillas-variable);
+  --font-sans: var(--font-satoshi);
 
   /* ── Type scale (rem) ────────────────────── */
   --text-caption:    0.8125rem;   /* 13px */

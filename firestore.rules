@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Public collections (Website visitors can read; Admin can modify)
+    match /rooms/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+    match /floors/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+    match /amenities/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+    match /gallery/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+    match /otaLinks/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+    match /ota-links/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+    match /siteConfig/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+    match /settings/{document=**} { allow read: if true; allow write: if isAuthenticated(); }
+
+    // Enquiries: Website visitors can create enquiries; Admin can read/manage
+    match /enquiries/{document=**} {
+      allow create: if true;
+      allow read, update, delete: if isAuthenticated();
+    }
+
+    // Bookings, Occupants & Housekeeping: Admin-only collections (Requires logged-in admin)
+    match /bookings/{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+    match /occupants/{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+    match /housekeeping/{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Fallback for all other collections
+    match /{document=**} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}

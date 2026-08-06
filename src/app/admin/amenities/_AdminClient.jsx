@@ -2,34 +2,80 @@
 export const dynamic = 'force-dynamic';
 
 import { useEffect, useState } from "react";
-import { Loader2, Trash2, Plus, X, Save, RefreshCw, Edit2 } from "lucide-react";
+import { Trash2, Plus, RefreshCw, Edit2, ShieldCheck, Wifi, Tv, Coffee, Bath, Car, BellRing } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc, writeBatch } from "firebase/firestore";
 
+import { PageHeader } from "@/components/admin/PageHeader";
+import { AdminCard } from "@/components/admin/AdminCard";
+import { AdminButton } from "@/components/admin/AdminButton";
+import { SkeletonLoader } from "@/components/admin/SkeletonLoader";
+import { EmptyState } from "@/components/admin/EmptyState";
+import { AdminModal } from "@/components/admin/AdminModal";
+import { AdminInput, AdminSelect } from "@/components/admin/AdminInputs";
+
 const CATEGORIES = ["In-Room", "Bathroom", "Dining", "Services", "Security", "Connectivity", "Outdoor"];
+
+// Helper to get an icon based on category
+const getCategoryIcon = (category) => {
+  switch (category) {
+    case "In-Room": return Tv;
+    case "Bathroom": return Bath;
+    case "Dining": return Coffee;
+    case "Services": return BellRing;
+    case "Security": return ShieldCheck;
+    case "Connectivity": return Wifi;
+    case "Outdoor": return Car;
+    default: return Plus;
+  }
+};
 
 export default function AmenitiesManager() {
   const [amenities, setAmenities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isAdding, setIsAdding] = useState(false);
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [saving, setSaving] = useState(false);
+  
   const [newName, setNewName] = useState("");
   const [newCategory, setNewCategory] = useState("In-Room");
-  const [saving, setSaving] = useState(false);
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [amenityToDelete, setAmenityToDelete] = useState(null);
+  
+  const [seedModalOpen, setSeedModalOpen] = useState(false);
 
   const fetchAmenities = async () => {
     try {
       const snapshot = await getDocs(collection(db, "amenities"));
       const data = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
       setAmenities(data);
-    } catch (err) { console.error(err); }
-    finally { setLoading(false); }
+    } catch (err) { 
+      console.warn("Amenities load warning:", err?.message || err); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   useEffect(() => { fetchAmenities(); }, []);
 
-  const handleAdd = async (e) => {
-    e.preventDefault();
+  const openAddModal = () => {
+    setNewName(""); 
+    setNewCategory("In-Room");
+    setEditingId(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (amen) => {
+    setNewName(amen.name || ''); 
+    setNewCategory(amen.category || 'In-Room');
+    setEditingId(amen.id);
+    setIsModalOpen(true);
+  };
+
+  const handleSave = async (e) => {
+    if (e) e.preventDefault();
     if (!newName.trim()) return;
     setSaving(true);
     try {
@@ -38,25 +84,36 @@ export default function AmenitiesManager() {
       } else {
         await addDoc(collection(db, "amenities"), { name: newName.trim(), category: newCategory, createdAt: new Date() });
       }
-      setNewName(""); setNewCategory("In-Room"); setIsAdding(false); setEditingId(null);
+      setIsModalOpen(false);
       await fetchAmenities();
-    } catch (err) { alert("Failed to save amenity."); }
-    finally { setSaving(false); }
+    } catch (err) { 
+      alert("Failed to save amenity."); 
+    } finally { 
+      setSaving(false); 
+    }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this amenity?")) return;
-    try { await deleteDoc(doc(db, "amenities", id)); setAmenities(amenities.filter(a => a.id !== id)); }
-    catch (err) { alert("Failed to delete."); }
+  const confirmDelete = (amen) => {
+    setAmenityToDelete(amen);
+    setDeleteModalOpen(true);
   };
 
-  const startEdit = (amen) => {
-    setNewName(amen.name || ''); setNewCategory(amen.category || 'In-Room');
-    setEditingId(amen.id); setIsAdding(true);
+  const executeDelete = async () => {
+    if (!amenityToDelete) return;
+    setSaving(true);
+    try { 
+      await deleteDoc(doc(db, "amenities", amenityToDelete.id)); 
+      setAmenities(amenities.filter(a => a.id !== amenityToDelete.id)); 
+      setDeleteModalOpen(false);
+      setAmenityToDelete(null);
+    } catch (err) { 
+      alert("Failed to delete."); 
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleSeed = async () => {
-    if (!confirm("Clear all amenities and seed the standard list from the brief?")) return;
+  const executeSeed = async () => {
     setSaving(true);
     try {
       for (const a of amenities) await deleteDoc(doc(db, "amenities", a.id));
@@ -83,19 +140,13 @@ export default function AmenitiesManager() {
         batch.set(doc(collection(db, "amenities")), { ...item, createdAt: new Date() });
       }
       await batch.commit();
+      setSeedModalOpen(false);
       await fetchAmenities();
-    } catch (err) { alert("Failed to seed."); }
-    finally { setSaving(false); }
-  };
-
-  const boxStyle = { backgroundColor: "#2a221a", border: "3px solid rgba(168, 142, 106, 0.25)", borderRadius: "24px", padding: "32px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "24px", flexWrap: "wrap" };
-  const inputStyle = { width: "100%", minHeight: "70px", backgroundColor: "#1a1410", border: "3px solid rgba(168, 142, 106, 0.4)", color: "#f5f0e8", padding: "18px 24px", borderRadius: "16px", fontSize: "22px", fontWeight: "500", outline: "none", boxSizing: "border-box" };
-  const labelStyle = { display: "block", color: "#a88e6a", textTransform: "uppercase", letterSpacing: "0.15em", fontSize: "16px", fontWeight: "800", marginBottom: "12px" };
-  const btnStyle = (bg, text, border) => ({ padding: "16px 32px", backgroundColor: bg, color: text, border: `3px solid ${border}`, borderRadius: "16px", fontSize: "15px", fontWeight: "800", textTransform: "uppercase", letterSpacing: "0.12em", cursor: "pointer", display: "flex", alignItems: "center", gap: "10px" });
-
-  const categoryColor = (cat) => {
-    const map = { "In-Room": "#e3a869", "Bathroom": "#60a5fa", "Dining": "#f87171", "Services": "#34d399", "Security": "#fbbf24", "Connectivity": "#a78bfa", "Outdoor": "#6ee7b7" };
-    return map[cat] || "#a88e6a";
+    } catch (err) { 
+      alert("Failed to seed."); 
+    } finally { 
+      setSaving(false); 
+    }
   };
 
   // Group by category
@@ -107,79 +158,141 @@ export default function AmenitiesManager() {
   }, {});
 
   return (
-    <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: "40px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "24px" }}>
-        <div>
-          <h2 style={{ fontSize: "48px", fontWeight: "bold", color: 'var(--color-saffron)', textTransform: "uppercase", letterSpacing: "0.05em", textShadow: "0 0 20px rgba(227, 168, 105, 0.4)", fontFamily: "var(--font-tt-ramillas-variable)" }}>Amenities Manager</h2>
-          <p style={{ color: "#a88e6a", marginTop: "12px", fontSize: "20px", fontWeight: "500" }}>Manage amenities by category for Moksh Haveli Inn.</p>
-        </div>
-        <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-          <button onClick={handleSeed} disabled={saving} style={btnStyle("#1a1410", "#e3a869", "rgba(227, 168, 105, 0.5)")}>
-            <RefreshCw style={{ height: 20, width: 20 }} className={saving ? 'animate-spin' : ''} /> Clean & Seed
-          </button>
-          <button onClick={() => { setNewName(""); setNewCategory("In-Room"); setEditingId(null); setIsAdding(true); }} style={btnStyle("#e3a869", "#1a1410", "#e3a869")}>
-            <Plus style={{ height: 20, width: 20 }} /> Add Amenity
-          </button>
-        </div>
-      </div>
-
-      {isAdding && (
-        <div style={{ backgroundColor: "#2a221a", border: "3px solid rgba(227, 168, 105, 0.5)", borderRadius: "24px", padding: "40px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px", borderBottom: "2px solid rgba(168, 142, 106, 0.2)", paddingBottom: "16px" }}>
-            <h3 style={{ fontSize: "26px", fontWeight: "bold", color: "#e3a869", textTransform: "uppercase", letterSpacing: "0.15em" }}>{editingId ? 'Edit Amenity' : 'Add New Amenity'}</h3>
-            <button onClick={() => { setIsAdding(false); setEditingId(null); }} style={{ color: "#a88e6a", cursor: "pointer", background: "none", border: "none" }}><X style={{ height: 32, width: 32 }} /></button>
+    <div className="flex flex-col gap-8">
+      
+      <PageHeader 
+        title="Amenities Manager" 
+        subtitle="Organize and track property-wide and in-room amenities."
+        action={
+          <div className="flex items-center gap-3">
+            <AdminButton variant="outline" icon={RefreshCw} onClick={() => setSeedModalOpen(true)}>
+              Reset & Seed Default
+            </AdminButton>
+            <AdminButton icon={Plus} onClick={openAddModal}>
+              Add Amenity
+            </AdminButton>
           </div>
-          <form onSubmit={handleAdd} style={{ display: "flex", gap: "24px", alignItems: "flex-end", flexWrap: "wrap" }}>
-            <div style={{ flex: 2, minWidth: "250px" }}>
-              <label style={labelStyle}>Amenity Name</label>
-              <input required type="text" value={newName} onChange={e => setNewName(e.target.value)} style={inputStyle} placeholder="e.g. Free Wi-Fi" autoFocus />
-            </div>
-            <div style={{ flex: 1, minWidth: "200px" }}>
-              <label style={labelStyle}>Category</label>
-              <select value={newCategory} onChange={e => setNewCategory(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
-                {CATEGORIES.map(c => <option key={c} value={c} style={{ backgroundColor: "#1a1410" }}>{c}</option>)}
-              </select>
-            </div>
-            <button disabled={saving} type="submit" style={{ ...btnStyle("#e3a869", "#1a1410", "#e3a869"), minHeight: "70px", opacity: saving ? 0.6 : 1 }}>
-              {saving ? <Loader2 style={{ height: 20, width: 20 }} className="animate-spin" /> : <Save style={{ height: 20, width: 20 }} />}
-              {saving ? "Saving..." : "Save"}
-            </button>
-          </form>
-        </div>
-      )}
+        }
+      />
 
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "80px 0" }}>
-          <Loader2 style={{ height: 48, width: 48, color: "#e3a869" }} className="animate-spin" />
-          <span style={{ marginLeft: 16, fontSize: 24, fontWeight: "bold", color: "#a88e6a" }}>Loading...</span>
+        <div className="flex flex-col gap-6">
+          <SkeletonLoader type="table" />
+          <SkeletonLoader type="table" />
         </div>
       ) : amenities.length === 0 ? (
-        <div style={{ padding: "48px", textAlign: "center", color: "#a88e6a", fontSize: "24px", fontWeight: "bold" }}>No amenities yet. Click &quot;Clean &amp; Seed&quot; to get started.</div>
+        <EmptyState 
+          icon={Coffee}
+          title="No Amenities Configured" 
+          description="You haven't added any amenities yet. You can add them manually or use the seed button to load standard hotel amenities."
+          action={<AdminButton onClick={() => setSeedModalOpen(true)} icon={RefreshCw}>Seed Standard Amenities</AdminButton>}
+        />
       ) : (
-        Object.entries(grouped).map(([category, items]) => (
-          <div key={category}>
-            <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px" }}>
-              <div style={{ height: 14, width: 14, borderRadius: "50%", backgroundColor: categoryColor(category), boxShadow: `0 0 12px ${categoryColor(category)}` }}></div>
-              <h3 style={{ fontSize: "28px", fontWeight: "bold", color: categoryColor(category), textTransform: "uppercase", letterSpacing: "0.15em" }}>{category}</h3>
-              <div style={{ flex: 1, height: "2px", backgroundColor: "rgba(168, 142, 106, 0.15)", marginLeft: "8px" }}></div>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {items.map(amen => (
-                <div key={amen.id} style={boxStyle}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                    <div style={{ height: 12, width: 12, borderRadius: "50%", backgroundColor: categoryColor(category), flexShrink: 0 }}></div>
-                    <span style={{ color: "#f5f0e8", fontWeight: "bold", fontSize: "26px" }}>{amen.name || 'Unnamed'}</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Object.entries(grouped).sort(([catA], [catB]) => catA.localeCompare(catB)).map(([category, items]) => {
+            const CatIcon = getCategoryIcon(category);
+            return (
+              <AdminCard key={category} padding="p-0" className="flex flex-col border border-slate-200 bg-white shadow-sm rounded-xl h-full">
+                {/* Category Header */}
+                <div className="px-6 py-5 flex items-center gap-3 border-b border-slate-100">
+                  <div className="shrink-0">
+                    <CatIcon className="w-5 h-5 text-slate-900" />
                   </div>
-                  <div style={{ display: "flex", gap: "12px" }}>
-                    <button onClick={() => startEdit(amen)} style={btnStyle("#1a1410", "#60a5fa", "rgba(96, 165, 250, 0.4)")}><Edit2 style={{ height: 18, width: 18 }} /> Edit</button>
-                    <button onClick={() => handleDelete(amen.id)} style={btnStyle("#1a1410", "#f87171", "rgba(248, 113, 113, 0.4)")}><Trash2 style={{ height: 18, width: 18 }} /> Delete</button>
-                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 tracking-tight">{category}</h3>
+                  <span className="ml-auto text-[11px] font-bold bg-blue-50 text-blue-600 py-1 px-3 rounded-full">
+                    {items.length} items
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
-        ))
+                
+                {/* Amenities List */}
+                <div className="p-6 flex-1">
+                  <ul className="grid grid-cols-2 gap-y-4 gap-x-4">
+                    {items.sort((a, b) => (a.name || '').localeCompare(b.name || '')).map(amen => (
+                      <li key={amen.id} className="group relative">
+                        <span className="text-[13px] font-medium text-slate-600 block pr-6 leading-relaxed">{amen.name || 'Unnamed'}</span>
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity bg-white pl-2">
+                          <button onClick={() => openEditModal(amen)} className="text-slate-400 hover:text-blue-600 transition-colors">
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                          <button onClick={() => confirmDelete(amen)} className="text-slate-400 hover:text-red-600 transition-colors">
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AdminCard>
+            );
+          })}
+        </div>
       )}
+
+      {/* Add / Edit Modal */}
+      <AdminModal 
+        isOpen={isModalOpen} 
+        onClose={() => !saving && setIsModalOpen(false)}
+        title={editingId ? 'Edit Amenity' : 'Add New Amenity'}
+        footer={
+          <>
+            <AdminButton variant="ghost" onClick={() => setIsModalOpen(false)} disabled={saving}>Cancel</AdminButton>
+            <AdminButton onClick={handleSave} loading={saving}>Save Amenity</AdminButton>
+          </>
+        }
+      >
+        <form onSubmit={handleSave} className="flex flex-col gap-6">
+          <AdminInput 
+            label="Amenity Name" 
+            placeholder="e.g. Free Wi-Fi" 
+            required 
+            value={newName} 
+            onChange={e => setNewName(e.target.value)} 
+            autoFocus
+          />
+          <AdminSelect 
+            label="Category"
+            value={newCategory} 
+            onChange={e => setNewCategory(e.target.value)}
+            options={CATEGORIES.map(c => ({ value: c, label: c }))}
+          />
+        </form>
+      </AdminModal>
+
+      {/* Delete Confirmation Modal */}
+      <AdminModal
+        isOpen={deleteModalOpen}
+        onClose={() => !saving && setDeleteModalOpen(false)}
+        title="Delete Amenity"
+        footer={
+          <>
+            <AdminButton variant="ghost" onClick={() => setDeleteModalOpen(false)} disabled={saving}>Cancel</AdminButton>
+            <AdminButton variant="danger" onClick={executeDelete} loading={saving}>Delete</AdminButton>
+          </>
+        }
+      >
+        <div className="py-4">
+          <p className="text-slate-600">Are you sure you want to delete <strong>{amenityToDelete?.name}</strong>? This will remove it from the master list.</p>
+        </div>
+      </AdminModal>
+      
+      {/* Seed Confirmation Modal */}
+      <AdminModal
+        isOpen={seedModalOpen}
+        onClose={() => !saving && setSeedModalOpen(false)}
+        title="Reset & Seed Amenities"
+        footer={
+          <>
+            <AdminButton variant="ghost" onClick={() => setSeedModalOpen(false)} disabled={saving}>Cancel</AdminButton>
+            <AdminButton variant="danger" onClick={executeSeed} loading={saving}>Reset to Defaults</AdminButton>
+          </>
+        }
+      >
+        <div className="py-4">
+          <p className="text-slate-600 mb-4">Are you sure you want to completely clear your current amenities list and load the standard hotel defaults?</p>
+          <p className="text-red-600 font-medium text-sm">Warning: This action cannot be undone.</p>
+        </div>
+      </AdminModal>
+
     </div>
   );
 }
