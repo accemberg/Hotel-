@@ -83,7 +83,7 @@ export default function AdminDashboard() {
       {/* Header */}
       <div>
         <h2 style={{ 
-          fontSize: "48px", fontWeight: "bold", color: '#DEB76A', 
+          fontSize: "48px", fontWeight: "bold", color: 'var(--color-saffron)', 
           textTransform: "uppercase", letterSpacing: "0.05em",
           textShadow: "0 0 20px rgba(227, 168, 105, 0.4)",
           fontFamily: "var(--font-tt-ramillas-variable)",
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
                 <Icon style={{ height: 36, width: 36, color: stat.color }} />
               </div>
               <div style={{ 
-                fontSize: "56px", fontWeight: "bold", color: '#DEB76A',
+                fontSize: "56px", fontWeight: "bold", color: 'var(--color-saffron)',
                 fontFamily: "var(--font-tt-ramillas-variable)",
                 textShadow: "0 0 15px rgba(227, 168, 105, 0.3)",
               }}>

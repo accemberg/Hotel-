@@ -110,7 +110,7 @@ export default function AmenitiesManager() {
     <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: "40px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "24px" }}>
         <div>
-          <h2 style={{ fontSize: "48px", fontWeight: "bold", color: '#DEB76A', textTransform: "uppercase", letterSpacing: "0.05em", textShadow: "0 0 20px rgba(227, 168, 105, 0.4)", fontFamily: "var(--font-tt-ramillas-variable)" }}>Amenities Manager</h2>
+          <h2 style={{ fontSize: "48px", fontWeight: "bold", color: 'var(--color-saffron)', textTransform: "uppercase", letterSpacing: "0.05em", textShadow: "0 0 20px rgba(227, 168, 105, 0.4)", fontFamily: "var(--font-tt-ramillas-variable)" }}>Amenities Manager</h2>
           <p style={{ color: "#a88e6a", marginTop: "12px", fontSize: "20px", fontWeight: "500" }}>Manage amenities by category for Moksh Haveli Inn.</p>
         </div>
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>

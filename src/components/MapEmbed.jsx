@@ -15,10 +15,10 @@ export default function MapEmbed({ mapEmbedUrl, height = '26rem', title = 'Moksh
       style={{
         width: '100%',
         height,
-        border: '1px solid #4A3B2C',   /* hairline — intentional */
+        border: '1px solid var(--color-card-border)',   /* hairline — intentional */
         borderRadius: 0,
         overflow: 'hidden',
-        backgroundColor: '#bfb4a3',    /* linen fallback while loading */
+        backgroundColor: 'var(--color-gray-dark)',    /* linen fallback while loading */
       }}
     >
       <iframe

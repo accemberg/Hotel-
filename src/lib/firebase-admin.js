@@ -36,7 +36,7 @@ export const adminAuth = hasAdminKeys
   ? getAuth(app) 
   : new Proxy({}, {
       get: (target, prop) => {
-        if (prop === 'then') return undefined;
+        if (prop === 'then') return undefined; // Avoid breaking async/await checks
         return () => {
           throw new Error("Firebase Admin keys are missing in this environment. Cannot access adminAuth.");
         };

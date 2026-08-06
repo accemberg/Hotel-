@@ -13,34 +13,39 @@ import {
   BedDouble, Utensils, Shield, Sparkles, CheckCircle, Shirt,
 } from 'lucide-react';
 
-/**
- * Lucide icon map for amenities — saffron stroke, 20px
- */
+const C = {
+  parchment:    'var(--color-parchment)',
+  linen:        'var(--color-linen)',
+  warmStone:    'var(--color-warm-stone)',
+  walnut:       'var(--color-walnut)',
+  espresso:     'var(--color-chocolate)',
+  onyxWarm:     'var(--color-onyx-warm)',
+  midnightRoast:'var(--color-midnight-roast)',
+  saffron:      'var(--color-saffron)',
+};
+
 function AmenityLucideIcon({ name }) {
   const n = (name || '').toLowerCase();
-  const iconStyle = { flexShrink: 0, color: '#d49653' };
-  const size = 18;
-  const sw   = 1.5;
-
-  if (n.includes('wi-fi') || n.includes('wifi'))   return <Wifi size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('air') || n.includes('ac'))        return <Wind size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('tv') || n.includes('television')) return <Tv size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('balcony'))                        return <Sparkles size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('shower'))                         return <ShowerHead size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('bathroom'))                       return <Droplets size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('towel'))                          return <Shirt size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('water') && n.includes('hot'))     return <Flame size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('water') || n.includes('mineral')) return <Droplets size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('kettle'))                         return <FlaskConical size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('toiletries') || n.includes('soap')) return <FlaskConical size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('peep') || n.includes('security')) return <Eye size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('fridge') || n.includes('refrig')) return <Refrigerator size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('bed'))                            return <BedDouble size={size} strokeWidth={sw} style={iconStyle} />;
-  if (n.includes('dining') || n.includes('food'))  return <Utensils size={size} strokeWidth={sw} style={iconStyle} />;
-  return <CheckCircle size={size} strokeWidth={sw} style={iconStyle} />;
+  const s = { flexShrink: 0, color: 'var(--color-gold)' };
+  const size = 18; const sw = 1.5;
+  if (n.includes('wi-fi') || n.includes('wifi'))     return <Wifi size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('air') || n.includes('ac'))         return <Wind size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('tv') || n.includes('television'))  return <Tv size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('balcony'))                         return <Sparkles size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('shower'))                          return <ShowerHead size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('bathroom'))                        return <Droplets size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('towel'))                           return <Shirt size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('water') && n.includes('hot'))      return <Flame size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('water') || n.includes('mineral'))  return <Droplets size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('kettle'))                          return <FlaskConical size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('toiletries') || n.includes('soap'))return <FlaskConical size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('peep') || n.includes('security'))  return <Eye size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('fridge') || n.includes('refrig'))  return <Refrigerator size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('bed'))                             return <BedDouble size={size} strokeWidth={sw} style={s} />;
+  if (n.includes('dining') || n.includes('food'))    return <Utensils size={size} strokeWidth={sw} style={s} />;
+  return <CheckCircle size={size} strokeWidth={sw} style={s} />;
 }
 
-// Category display order
 const CATEGORY_ORDER = ['In-room', 'Bathroom', 'Food & Drink', 'Security'];
 
 export default function AmenitiesPage() {
@@ -67,13 +72,11 @@ export default function AmenitiesPage() {
     return () => { isMounted = false; };
   }, [amenities.length]);
 
-  // Group amenities by category, respecting display order
   const grouped = CATEGORY_ORDER.reduce((acc, cat) => {
     const items = amenities.filter(a => a.category === cat);
     if (items.length) acc[cat] = items;
     return acc;
   }, {});
-  // Append any unlisted categories
   amenities.forEach(a => {
     if (!CATEGORY_ORDER.includes(a.category) && !grouped[a.category]) {
       grouped[a.category] = amenities.filter(x => x.category === a.category);
@@ -85,14 +88,14 @@ export default function AmenitiesPage() {
       <Navbar variant="solid" />
       <AmenitiesStyles />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
+      <main style={{ flex: 1, paddingTop: '4rem', backgroundColor: 'var(--color-cream)' }}>
 
         {/* Dark header */}
-        <section style={{ backgroundColor: '#292622', padding: '6rem 2.5rem 5rem' }}>
+        <section style={{ backgroundColor: 'var(--color-cream)', padding: '6rem 2.5rem 5rem' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             <span style={{
               fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem',
-              textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81',
+              textTransform: 'uppercase', letterSpacing: '0.06em', color: C.chocolate,
               display: 'block', marginBottom: '1.5rem',
             }}>
               Every Stay Includes
@@ -100,118 +103,109 @@ export default function AmenitiesPage() {
             <h1 style={{
               fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
               fontSize: 'clamp(3.125rem, 6vw, 4.3125rem)', lineHeight: 0.9,
-              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#DEB76A',
-              maxWidth: '30rem',
+              letterSpacing: '-0.04em', textTransform: 'uppercase', color: 'var(--color-chocolate)',
+              marginBottom: '1rem',
             }}>
               Amenities
             </h1>
+            <div style={{ width: '2.5rem', height: '1px', backgroundColor: 'var(--color-gold)' }} />
           </div>
         </section>
 
-        {/* Hairline */}
-        <div style={{ backgroundColor: '#292622' }}>
+        {/* Divider */}
+        <div style={{ backgroundColor: 'var(--color-cream-deep)' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
+            <hr style={{ border: 'none', borderTop: `1px solid ${C.chocolate}` }} />
           </div>
         </div>
 
-        {/* Intro */}
-        <section style={{ padding: '5rem 2.5rem 0', maxWidth: '90rem', margin: '0 auto' }}>
-          <div className="amenities-intro">
-            <SectionHeader
-              caption="Standard Across All Rooms"
-              heading="What's Included"
-              subtext="Every room at Moksh Haveli Inn comes with a thoughtfully curated set of amenities — from split AC to private balconies. Heritage warmth, modern comfort."
-              size="heading-sm"
-            />
+        {/* Intro — parchment */}
+        <section style={{ backgroundColor: 'var(--color-cream)', padding: '5rem 2.5rem 0' }}>
+          <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
+            <div style={{ maxWidth: '42rem' }}>
+              <SectionHeader
+                caption="Standard Across All Rooms"
+                heading="What's Included"
+                subtext="Every room at Moksh Haveli Inn comes with a thoughtfully curated set of amenities — from split AC to private balconies. Heritage warmth, modern comfort."
+                size="heading-sm"
+                surface="light"
+              />
+            </div>
           </div>
         </section>
 
-        {/* Grouped amenity grid */}
+        {/* Grouped amenity grid — parchment */}
         <section
           ref={gridRef}
           data-section="amenities"
-          style={{ padding: '4rem 2.5rem 7.5rem', maxWidth: '90rem', margin: '0 auto' }}
+          style={{ backgroundColor: 'var(--color-cream)', padding: '4rem 2.5rem 7.5rem' }}
         >
-          <div className="amenities-categories">
-            {Object.entries(grouped).map(([category, items]) => (
-              <div key={category} className="amenity-group">
-                {/* Category label */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  marginBottom: '1.25rem',
-                  paddingBottom: '0.75rem',
-                  borderBottom: '1px solid rgba(216,203,184,0.1)',
-                }}>
-                  <span style={{
-                    fontFamily: 'var(--font-satoshi)',
-                    fontWeight: 500,
-                    fontSize: '0.6875rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    color: '#d49653',
+          <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
+            <div className="amenities-categories">
+              {Object.entries(grouped).map(([category, items]) => (
+                <div key={category} className="amenity-group">
+                  {/* Category label */}
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: '0.75rem',
+                    marginBottom: '1.25rem', paddingBottom: '0.75rem',
+                    borderBottom: `1px solid ${C.warmStone}`,
                   }}>
-                    {category}
-                  </span>
-                  <span style={{
-                    fontFamily: 'var(--font-satoshi)',
-                    fontWeight: 500,
-                    fontSize: '0.6875rem',
-                    color: '#b6ab9c',
-                  }}>
-                    — {items.length} {items.length === 1 ? 'item' : 'items'}
-                  </span>
-                </div>
+                    <span style={{
+                      fontFamily: 'var(--font-satoshi)', fontWeight: 500,
+                      fontSize: '0.6875rem', textTransform: 'uppercase',
+                      letterSpacing: '0.06em', color: 'var(--color-gold)',
+                    }}>
+                      {category}
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-satoshi)', fontWeight: 500,
+                      fontSize: '0.6875rem', color: C.chocolate,
+                    }}>
+                      — {items.length} {items.length === 1 ? 'item' : 'items'}
+                    </span>
+                  </div>
 
-                {/* Item grid within category */}
-                <div className="amenity-item-grid">
-                  {items.map(({ id, name, notes }) => (
-                    <div
-                      key={id}
-                      style={{
-                        backgroundColor: '#292622',
-                        border: '1px solid rgba(216,203,184,0.1)',
-                        padding: '1.25rem 1.25rem 1.25rem 1rem',
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '0.75rem',
-                        transition: 'background-color 0.3s ease',
-                      }}
-                      className="amenity-card"
-                    >
-                      <AmenityLucideIcon name={name} />
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                        <span style={{
-                          fontFamily: 'var(--font-satoshi)',
-                          fontWeight: 500,
-                          fontSize: '0.8125rem',
-                          textTransform: 'uppercase',
-                          letterSpacing: '-0.01em',
-                          color: '#d8cbb8',
-                          lineHeight: 1.2,
-                        }}>
-                          {name}
-                        </span>
-                        {notes && (
+                  {/* Item grid within category */}
+                  <div className="amenity-item-grid">
+                    {items.map(({ id, name, notes }) => (
+                      <div
+                        key={id}
+                        className="amenity-card"
+                        style={{
+                          backgroundColor: 'var(--color-cream)',
+                          border: `1px solid ${C.warmStone}`,
+                          padding: '1.25rem 1.25rem 1.25rem 1rem',
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '0.75rem',
+                          transition: 'background-color 0.3s ease',
+                        }}
+                      >
+                        <AmenityLucideIcon name={name} />
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                           <span style={{
-                            fontFamily: 'var(--font-satoshi)',
-                            fontWeight: 500,
-                            fontSize: '0.6875rem',
-                            letterSpacing: '-0.01em',
-                            color: '#978e81',
-                            lineHeight: 1.4,
+                            fontFamily: 'var(--font-satoshi)', fontWeight: 500,
+                            fontSize: '0.8125rem', textTransform: 'uppercase',
+                            letterSpacing: '-0.01em', color: C.onyxWarm, lineHeight: 1.2,
                           }}>
-                            {notes}
+                            {name}
                           </span>
-                        )}
+                          {notes && (
+                            <span style={{
+                              fontFamily: 'var(--font-satoshi)', fontWeight: 500,
+                              fontSize: '0.6875rem', letterSpacing: '-0.01em',
+                              color: C.chocolate, lineHeight: 1.4,
+                            }}>
+                              {notes}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 
@@ -226,57 +220,25 @@ export default function AmenitiesPage() {
 function AmenitiesStyles() {
   return (
     <style>{`
-      /* Category groups: 2-col on large screens */
       .amenities-categories {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 3.5rem 5rem;
       }
-
-      /* Item grid within each category */
       .amenity-item-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1px;
-        background-color: #b6ab9c;
-        border: 1px solid #b6ab9c;
+        background-color: var(--color-warm-stone);
+        border: 1px solid var(--color-warm-stone);
       }
+      .amenity-card:hover { background-color: #cbbfaf !important; }
 
-      /* Hover: slight linen tint */
-      .amenity-card:hover {
-        background-color: #bfb4a3 !important;
-      }
-
-      /* Intro layout */
-      .amenities-intro {
-        max-width: 42rem;
-      }
-
-      /* Tablet: single column for category groups */
       @media (max-width: 56.25rem) {
-        .amenities-categories {
-          grid-template-columns: 1fr;
-          gap: 3rem;
-        }
-        section[style*="padding: 5rem 2.5rem 0"] {
-          padding: 3rem 1.5rem 0 !important;
-        }
-        section[data-section="amenities"] {
-          padding: 3rem 1.5rem 5rem !important;
-        }
+        .amenities-categories { grid-template-columns: 1fr; gap: 3rem; }
       }
-
-      /* Mobile: item grid also goes 1-col */
       @media (max-width: 30rem) {
-        .amenity-item-grid {
-          grid-template-columns: 1fr !important;
-        }
-        section[data-section="amenities"] {
-          padding: 2rem 1.25rem 4rem !important;
-        }
-        section[style*="padding: 5rem 2.5rem 0"] {
-          padding: 2.5rem 1.25rem 0 !important;
-        }
+        .amenity-item-grid { grid-template-columns: 1fr !important; }
       }
     `}</style>
   );

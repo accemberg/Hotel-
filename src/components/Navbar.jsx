@@ -10,34 +10,32 @@ const NAV_LINKS = [
   { label: 'Home',      href: '/' },
   { label: 'Rooms',     href: '/rooms' },
   { label: 'Gallery',   href: '/gallery' },
-  { label: 'Amenities',href: '/amenities' },
+  { label: 'Amenities', href: '/amenities' },
   { label: 'About',     href: '/about' },
   { label: 'Contact',   href: '/contact' },
 ];
 
+/* Design-system tokens */
+const SAFFRON   = 'var(--color-saffron)';
+const PARCHMENT = 'var(--color-parchment)';
+const MIDNIGHT  = 'var(--color-midnight-roast)';
+const LINEN     = 'var(--color-linen)';
+
 /**
  * Navbar — Amrit Palace design system
- * Responsive purely via vanilla CSS (<style> block injected once).
- * No Tailwind classes.
+ * variant: 'transparent' (hero pages) | 'solid' (inner pages)
  *
- * variant: 'transparent' (over hero) | 'solid' (other pages)
- *
- * Scroll behaviour:
- *   - Starts transparent on hero pages (variant='transparent')
- *   - After 60px scroll → solid parchment, 0.4s crossfade
- *
- * Mobile: hamburger menu with full-screen dark drawer.
- * Desktop (≥ 768px): horizontal link row + Book Now button.
+ * Transparent → dark bg none, parchment text
+ * Scrolled / solid → midnight-roast bg, parchment text
+ * Mobile drawer → midnight-roast full-screen
  */
 export default function Navbar({ variant = 'transparent' }) {
   const [open, setOpen]         = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname                = usePathname();
 
-  // Close drawer on route change
   useEffect(() => { setOpen(false); }, [pathname]);
 
-  // Lock body scroll when drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -50,50 +48,38 @@ export default function Navbar({ variant = 'transparent' }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, [variant]);
 
-  const isSolid     = variant === 'solid' || scrolled;
-  const textColor   = '#d8cbb8';
-  const borderColor = 'rgba(216,203,184,0.15)';
-  const bgColor     = isSolid ? '#3D2B1F' : 'transparent';
+  const isSolid = variant === 'solid' || scrolled;
+
+  /* On transparent/dark hero: text always parchment.
+     On scrolled/solid: midnight-roast bg, parchment text */
+  const bgColor     = isSolid ? MIDNIGHT : 'transparent';
+  const textColor   = PARCHMENT;
+  const borderColor = isSolid ? 'rgba(216,203,184,0.10)' : 'rgba(216,203,184,0.08)';
 
   const isActive = (href) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
     <>
-      {/* ── Responsive CSS — injected once ── */}
       <style>{`
-        /* Nav bar inner: mobile uses tighter padding, flex layout */
         .nav-bar {
           padding: 0 1.25rem;
           display: flex;
           justify-content: space-between;
         }
-        .nav-logo {
-          display: flex;
-          align-items: center;
-        }
-        /* Desktop links + book button: hidden on mobile */
+        .nav-logo { display: flex; align-items: center; }
         .nav-desktop-links,
-        .nav-desktop-cta {
-          display: none;
-        }
-        /* Hamburger: shown on mobile */
-        .nav-hamburger {
-          display: flex;
-        }
-        /* Mobile drawer: full-width dark panel */
-        .nav-drawer {
-          display: flex;
-        }
+        .nav-desktop-cta { display: none; }
+        .nav-hamburger { display: flex; }
+        .nav-drawer { display: flex; }
+
         @media (min-width: 48rem) {
           .nav-bar {
             padding: 0 2.5rem;
             display: grid;
             grid-template-columns: 1fr auto 1fr;
           }
-          .nav-logo {
-            justify-content: flex-start;
-          }
+          .nav-logo { justify-content: flex-start; }
           .nav-desktop-links {
             display: flex;
             align-items: center;
@@ -105,12 +91,18 @@ export default function Navbar({ variant = 'transparent' }) {
             align-items: center;
             justify-content: flex-end;
           }
-          .nav-hamburger {
-            display: none;
-          }
-          .nav-drawer {
-            display: none !important;
-          }
+          .nav-hamburger { display: none; }
+          .nav-drawer    { display: none !important; }
+        }
+
+        /* Nav link hover */
+        .nav-link:hover { opacity: 1 !important; }
+
+        /* Book Now button hover */
+        #nav-book-btn:hover {
+          background: ${SAFFRON} !important;
+          border-color: ${SAFFRON} !important;
+          color: ${MIDNIGHT} !important;
         }
       `}</style>
 
@@ -118,48 +110,38 @@ export default function Navbar({ variant = 'transparent' }) {
         id="main-nav"
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
+          top: 0, left: 0, right: 0,
           zIndex: 100,
           backgroundColor: bgColor,
           borderBottom: `1px solid ${borderColor}`,
+          backdropFilter: isSolid ? 'none' : 'blur(0)',
           transition: 'background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         }}
       >
-        {/* ── Top bar ── */}
+        {/* Top bar */}
         <div
           className="nav-bar"
-          style={{
-            maxWidth: '90rem',
-            margin: '0 auto',
-            height: '4rem',
-            alignItems: 'center',
-            gap: '1rem',
-          }}
+          style={{ maxWidth: '90rem', margin: '0 auto', height: '4rem', alignItems: 'center', gap: '1rem' }}
         >
-          {/* Logo mark */}
+          {/* Logo */}
           <div className="nav-logo">
             <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
-            <Image
-              src="/logo.jpeg"
-              alt="Moksh Haveli Inn"
-              width={200}
-              height={200}
-              priority
-              style={{
-                height: '2.75rem',       /* 44px desktop */
-                width: 'auto',
-                objectFit: 'contain',
-                display: 'block',
-                /* mix-blend-mode: screen dissolves the cream logo bg on dark surfaces */
-                mixBlendMode: isSolid ? 'normal' : 'screen',
-                transition: 'mix-blend-mode 0s',
-                filter: isSolid
-                  ? 'none'
-                  : 'brightness(1.08) contrast(1.05)', /* slight pop on dark */
-              }}
-            />
+              <Image
+                src="/logo.jpeg"
+                alt="Moksh Haveli Inn"
+                width={200}
+                height={200}
+                priority
+                style={{
+                  height: '2.75rem',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  display: 'block',
+                  mixBlendMode: 'screen',
+                  filter: 'brightness(1.08) contrast(1.05)',
+                  transition: 'filter 0.3s ease',
+                }}
+              />
             </Link>
           </div>
 
@@ -171,22 +153,21 @@ export default function Navbar({ variant = 'transparent' }) {
                 <Link
                   key={href}
                   href={href}
+                  className="nav-link"
                   style={{
                     fontFamily: 'var(--font-satoshi)',
                     fontWeight: 500,
                     fontSize: '0.75rem',
                     textTransform: 'uppercase',
                     letterSpacing: '-0.01em',
-                    color: active ? '#d49653' : textColor,
+                    color: active ? SAFFRON : textColor,
                     textDecoration: 'none',
-                    opacity: active ? 1 : 0.85,
-                    transition: 'color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease',
-                    borderBottom: active ? '1px solid #d49653' : '1px solid transparent',
+                    opacity: active ? 1 : 0.75,
+                    transition: 'color 0.3s ease, opacity 0.25s ease',
+                    borderBottom: active ? `1px solid ${SAFFRON}` : '1px solid transparent',
                     paddingBottom: '0.125rem',
                     whiteSpace: 'nowrap',
                   }}
-                  onMouseEnter={e => { if (!active) e.currentTarget.style.opacity = '1'; }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.opacity = '0.85'; }}
                 >
                   {label}
                 </Link>
@@ -201,10 +182,10 @@ export default function Navbar({ variant = 'transparent' }) {
                 id="nav-book-btn"
                 style={{
                   padding: '0.625rem 1.375rem',
-                  border: `1px solid ${textColor}`,
+                  border: `1px solid ${PARCHMENT}`,
                   borderRadius: '0.1875rem',
                   background: 'transparent',
-                  color: textColor,
+                  color: PARCHMENT,
                   fontFamily: 'var(--font-satoshi)',
                   fontWeight: 500,
                   fontSize: '0.75rem',
@@ -212,15 +193,7 @@ export default function Navbar({ variant = 'transparent' }) {
                   letterSpacing: '-0.01em',
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
-                  transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = textColor;
-                  e.currentTarget.style.color = isSolid ? '#3D2B1F' : '#292622';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = textColor;
+                  transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
                 }}
               >
                 Book Now
@@ -245,7 +218,7 @@ export default function Navbar({ variant = 'transparent' }) {
               alignItems: 'center',
               justifyContent: 'center',
               flexShrink: 0,
-              transition: 'color 0.4s ease',
+              transition: 'color 0.3s ease',
             }}
           >
             {open
@@ -255,20 +228,20 @@ export default function Navbar({ variant = 'transparent' }) {
           </button>
         </div>
 
-        {/* ── Mobile drawer ── */}
+        {/* Mobile drawer — midnight roast */}
         <div
           id="nav-mobile-drawer"
           className="nav-drawer"
           style={{
             display: open ? 'flex' : 'none',
             flexDirection: 'column',
-            backgroundColor: '#3D2B1F',
-            borderTop: '1px solid rgba(216,203,184,0.1)',
+            backgroundColor: MIDNIGHT,
+            borderTop: `1px solid rgba(216,203,184,0.10)`,
             padding: '1.75rem 1.25rem 2rem',
-            gap: '0',
+            gap: 0,
           }}
         >
-          {NAV_LINKS.map(({ label, href }, i) => {
+          {NAV_LINKS.map(({ label, href }) => {
             const active = isActive(href);
             return (
               <Link
@@ -281,10 +254,10 @@ export default function Navbar({ variant = 'transparent' }) {
                   fontSize: '0.9375rem',
                   textTransform: 'uppercase',
                   letterSpacing: '-0.01em',
-                  color: active ? '#d49653' : '#d8cbb8',
+                  color: active ? SAFFRON : PARCHMENT,
                   textDecoration: 'none',
                   padding: '1rem 0',
-                  borderBottom: '1px solid rgba(216,203,184,0.08)',
+                  borderBottom: `1px solid rgba(216,203,184,0.10)`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -292,39 +265,37 @@ export default function Navbar({ variant = 'transparent' }) {
               >
                 {label}
                 {active && (
-                  <span style={{ color: '#d49653', fontSize: '0.75rem' }}>✦</span>
+                  <span style={{ color: SAFFRON, fontSize: '0.75rem' }}>✦</span>
                 )}
               </Link>
             );
           })}
 
           {/* Mobile Book Now */}
-          <Link
-            href="/rooms"
-            onClick={() => setOpen(false)}
-            style={{ textDecoration: 'none', marginTop: '1.5rem' }}
-          >
+          <Link href="/rooms" onClick={() => setOpen(false)} style={{ textDecoration: 'none', marginTop: '1.5rem' }}>
             <button
               style={{
                 width: '100%',
                 padding: '1rem',
-                border: '1px solid #d8cbb8',
+                border: `1px solid ${SAFFRON}`,
                 borderRadius: '0.1875rem',
                 background: 'transparent',
-                color: '#d8cbb8',
+                color: SAFFRON,
                 fontFamily: 'var(--font-satoshi)',
                 fontWeight: 500,
                 fontSize: '0.8125rem',
                 textTransform: 'uppercase',
                 letterSpacing: '-0.01em',
                 cursor: 'pointer',
+                transition: 'background 0.3s ease, color 0.3s ease',
               }}
+              onMouseEnter={e => { e.currentTarget.style.background = SAFFRON; e.currentTarget.style.color = MIDNIGHT; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = SAFFRON; }}
             >
               Book Now
             </button>
           </Link>
 
-          {/* Contact quick-link */}
           <p
             style={{
               fontFamily: 'var(--font-satoshi)',
@@ -332,7 +303,7 @@ export default function Navbar({ variant = 'transparent' }) {
               fontSize: '0.6875rem',
               textTransform: 'uppercase',
               letterSpacing: '-0.01em',
-              color: '#615b53',
+              color: 'var(--color-walnut)',
               textAlign: 'center',
               marginTop: '1.25rem',
             }}

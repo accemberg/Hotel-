@@ -8,6 +8,17 @@ import WhatsAppFloat from '@/components/WhatsAppFloat';
 import SectionHeader from '@/components/SectionHeader';
 import { getSiteConfig } from '@/lib/api';
 
+const C = {
+  parchment:    'var(--color-parchment)',
+  linen:        'var(--color-linen)',
+  warmStone:    'var(--color-warm-stone)',
+  walnut:       'var(--color-walnut)',
+  espresso:     'var(--color-chocolate)',
+  onyxWarm:     'var(--color-onyx-warm)',
+  midnightRoast:'var(--color-midnight-roast)',
+  saffron:      'var(--color-saffron)',
+};
+
 export default function AboutPage() {
   const [siteConfig, setSiteConfig] = useState(null);
   const storyRef = useRef(null);
@@ -21,7 +32,7 @@ export default function AboutPage() {
     if (!siteConfig) return;
     let isMounted = true;
     async function animate() {
-      const { revealHeadline, revealSection } = await import('@/lib/animations/scroll');
+      const { revealSection } = await import('@/lib/animations/scroll');
       if (!isMounted) return;
       if (storyRef.current) revealSection(storyRef.current);
       if (mapRef.current)   revealSection(mapRef.current, { start: 'top 85%' });
@@ -37,14 +48,14 @@ export default function AboutPage() {
       <Navbar variant="solid" />
       <AboutStyles />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
+      <main style={{ flex: 1, paddingTop: '4rem' }}>
 
         {/* Dark header */}
-        <section style={{ backgroundColor: '#292622', padding: '6rem 2.5rem 5rem' }}>
+        <section style={{ backgroundColor: 'var(--color-cream)', padding: '6rem 2.5rem 5rem' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             <span style={{
               fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem',
-              textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81',
+              textTransform: 'uppercase', letterSpacing: '0.06em', color: C.chocolate,
               display: 'block', marginBottom: '1.5rem',
             }}>
               Our Story
@@ -52,85 +63,95 @@ export default function AboutPage() {
             <h1 style={{
               fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
               fontSize: 'clamp(3.125rem, 6vw, 4.3125rem)', lineHeight: 0.9,
-              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#DEB76A',
-              maxWidth: '36rem',
+              letterSpacing: '-0.04em', textTransform: 'uppercase', color: 'var(--color-chocolate)',
+              maxWidth: '36rem', marginBottom: '1rem',
             }}>
               About Moksh Haveli Inn
             </h1>
+            <div style={{ width: '2.5rem', height: '1px', backgroundColor: 'var(--color-gold)' }} />
           </div>
         </section>
 
-        {/* Hairline */}
-        <div style={{ backgroundColor: '#292622' }}>
+        {/* Divider */}
+        <div style={{ backgroundColor: 'var(--color-cream-deep)' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
+            <hr style={{ border: 'none', borderTop: `1px solid ${C.chocolate}` }} />
           </div>
         </div>
 
-        {/* About text — editorial two-column layout */}
+        {/* About text — parchment editorial layout */}
         <section
           ref={storyRef}
           data-section="about"
-          style={{ padding: '7.5rem 2.5rem', maxWidth: '90rem', margin: '0 auto' }}
+          style={{ backgroundColor: 'var(--color-cream)', padding: '7.5rem 2.5rem' }}
         >
-          <div
-            className="about-grid"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '5rem',
-              alignItems: 'start',
-            }}
-          >
-            {/* Left — section heading */}
-            <div>
-              <SectionHeader
-                caption="Heritage · Varanasi"
-                heading="A Place Worth Returning To"
-                size="heading-sm"
-              />
-            </div>
+          <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
+            <div className="about-grid">
+              {/* Left — heading */}
+              <div>
+                <SectionHeader
+                  caption="Heritage · Varanasi"
+                  heading="A Place Worth Returning To"
+                  size="heading-sm"
+                  surface="light"
+                />
+              </div>
 
-            {/* Right — story text */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  style={{
-                    fontFamily: 'var(--font-satoshi)',
-                    fontWeight: 500,
-                    fontSize: '0.9375rem',
-                    lineHeight: 1.75,
-                    letterSpacing: '-0.01em',
-                    color: '#bfb4a3',
-                  }}
-                >
-                  {para}
-                </p>
-              ))}
+              {/* Right — story text */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {paragraphs.length > 0 ? paragraphs.map((para, i) => (
+                  <p key={i} style={{
+                    fontFamily: 'var(--font-satoshi)', fontWeight: 500,
+                    fontSize: '0.9375rem', lineHeight: 1.8,
+                    letterSpacing: '-0.01em', color: C.chocolate,
+                  }}>
+                    {para}
+                  </p>
+                )) : (
+                  /* Fallback copy if CMS is empty */
+                  [
+                    'Moksh Haveli Inn is a heritage boutique guest house nestled in the spiritual heart of Varanasi — steps from the sacred ghats of the Ganges.',
+                    'We blend centuries-old haveli architecture with modern comfort: split AC, private balconies with city views, and attentive warm service that makes every guest feel at home.',
+                    'Whether you are a pilgrim, a traveller, or simply seeking stillness, Moksh Haveli offers a sanctuary where the ancient city meets quiet hospitality.',
+                  ].map((para, i) => (
+                    <p key={i} style={{
+                      fontFamily: 'var(--font-satoshi)', fontWeight: 500,
+                      fontSize: '0.9375rem', lineHeight: 1.8,
+                      letterSpacing: '-0.01em', color: C.chocolate,
+                    }}>
+                      {para}
+                    </p>
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Hairline */}
-        <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-          <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
+        {/* Divider */}
+        <div style={{ backgroundColor: 'var(--color-cream-deep)' }}>
+          <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
+            <hr style={{ border: 'none', borderTop: `1px solid ${C.chocolate}` }} />
+          </div>
         </div>
 
-        {/* Map */}
+        {/* Map — dark */}
         <section
           ref={mapRef}
           data-section="map"
-          style={{ padding: '7.5rem 2.5rem', maxWidth: '90rem', margin: '0 auto' }}
+          style={{ backgroundColor: 'var(--color-cream-deep)', padding: '7.5rem 2.5rem' }}
         >
-          <SectionHeader
-            caption="Find Us"
-            heading="Location"
-            subtext={siteConfig?.address}
-            size="heading-sm"
-          />
-          <div style={{ marginTop: '3rem' }}>
-            <MapEmbed mapEmbedUrl={siteConfig?.mapEmbedUrl} height="32rem" />
+          <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
+            <SectionHeader
+              caption="Find Us"
+              heading="Location"
+              subtext={siteConfig?.address || 'Near Assi Ghat, Varanasi, Uttar Pradesh — 221001'}
+              size="heading-sm"
+              surface="light"
+            />
+            <div style={{ marginTop: '3rem' }}>
+              <MapEmbed mapEmbedUrl={siteConfig?.mapEmbedUrl} height="32rem" />
+            </div>
           </div>
         </section>
 
@@ -145,30 +166,14 @@ export default function AboutPage() {
 function AboutStyles() {
   return (
     <style>{`
-      /* Tablet: stack 2-col about grid */
-      @media (max-width: 56.25rem) {
-        .about-grid {
-          grid-template-columns: 1fr !important;
-          gap: 2.5rem !important;
-        }
-        section[data-section="about"] {
-          padding: 4rem 1.5rem !important;
-        }
-        section[data-section="map"] {
-          padding: 4rem 1.5rem !important;
-        }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: start;
       }
-      /* Mobile */
-      @media (max-width: 30rem) {
-        section[data-section="about"] {
-          padding: 3rem 1.25rem !important;
-        }
-        section[data-section="map"] {
-          padding: 3rem 1.25rem !important;
-        }
-        section[style*="padding: 6rem"] {
-          padding: 4rem 1.25rem 3rem !important;
-        }
+      @media (max-width: 56.25rem) {
+        .about-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
       }
     `}</style>
   );
