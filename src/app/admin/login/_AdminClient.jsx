@@ -5,10 +5,7 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Loader2, Lock } from "lucide-react";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -27,49 +24,57 @@ export default function AdminLogin() {
       // On success, the layout's onAuthStateChanged will redirect us
     } catch (err) {
       console.error(err);
-      setError("Invalid email or password.");
+      setError("Invalid email or password. Please try again.");
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--color-midnight-roast)] p-4 font-sans text-[var(--color-parchment)]">
-      <div className="w-full max-w-md p-8 sm:p-12 bg-[var(--color-onyx-warm)] rounded-xl border border-[var(--color-warm-stone)]/20 shadow-2xl relative z-10">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-light text-[var(--color-saffron-glow)] uppercase tracking-widest mb-3" style={{ fontFamily: "var(--font-tt-ramillas-variable)" }}>
-            Moksh Haveli Inn
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4 font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 relative overflow-hidden">
+      
+      {/* Abstract Background Elements (Optional, for premium feel) */}
+      <div className="absolute top-0 left-0 w-full h-[400px] bg-slate-900 -z-10 [clip-path:polygon(0_0,100%_0,100%_40%,0_100%)]"></div>
+      
+      <div className="w-full max-w-[600px] p-8 sm:p-14 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 relative z-10 flex flex-col items-center">
+        
+        <div className="text-center mb-12 w-full">
+          <h1 className="text-5xl font-extrabold text-[#c99a2c] uppercase tracking-widest mb-4 font-serif leading-tight">
+            HOTEL MOKSH HAVELI INN
           </h1>
-          <p className="text-[var(--color-warm-stone)] tracking-wide text-sm font-medium">ADMINISTRATOR PORTAL</p>
+          <p className="text-slate-500 tracking-widest text-xl font-bold uppercase flex items-center justify-center gap-3">
+            <Lock className="w-6 h-6 text-slate-400" /> Admin Login
+          </p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-950/50 border border-red-900/50 text-red-200 text-sm rounded text-center">
+          <div className="w-full mb-8 px-5 py-4 bg-red-50 border border-red-100 text-red-600 text-lg font-medium rounded-lg text-center animate-in slide-in-from-top-2">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-[var(--color-warm-stone)] uppercase tracking-widest text-xs font-semibold">Email Address</Label>
-            <Input 
+        <form onSubmit={handleLogin} className="w-full space-y-8">
+          <div className="space-y-4 flex flex-col">
+            <label htmlFor="email" className="text-slate-700 text-xl font-bold ml-1">Email Address</label>
+            <input 
               id="email" 
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-[var(--color-midnight-roast)] border-[var(--color-warm-stone)]/30 text-[var(--color-parchment)] focus-visible:ring-[var(--color-saffron-glow)]"
-              style={{ height: "3.5rem", padding: "0 1rem", fontSize: "1rem" }}
+              placeholder="admin@mokshhaveli.com"
+              className="w-full h-20 px-6 text-2xl bg-slate-50 border-2 border-slate-200 text-slate-900 rounded-xl focus:bg-white focus:outline-none focus:border-[#c99a2c] transition-all font-medium placeholder:text-slate-400 placeholder:font-normal"
               required
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-[var(--color-warm-stone)] uppercase tracking-widest text-xs font-semibold">Password</Label>
-            <Input 
+          
+          <div className="space-y-4 flex flex-col">
+            <label htmlFor="password" className="text-slate-700 text-xl font-bold ml-1">Password</label>
+            <input 
               id="password" 
               type="password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-[var(--color-midnight-roast)] border-[var(--color-warm-stone)]/30 text-[var(--color-parchment)] focus-visible:ring-[var(--color-saffron-glow)]"
-              style={{ height: "3.5rem", padding: "0 1rem", fontSize: "1rem" }}
+              placeholder="••••••••"
+              className="w-full h-20 px-6 text-2xl bg-slate-50 border-2 border-slate-200 text-slate-900 rounded-xl focus:bg-white focus:outline-none focus:border-[#c99a2c] transition-all font-medium placeholder:text-slate-400"
               required
             />
           </div>
@@ -77,11 +82,15 @@ export default function AdminLogin() {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full mt-8 flex justify-center items-center py-4 bg-[var(--color-saffron-glow)] text-[var(--color-midnight-roast)] uppercase tracking-widest text-sm font-bold rounded-md hover:bg-[#e3a869] transition-colors disabled:opacity-50"
+            className="w-full h-24 mt-8 flex justify-center items-center gap-3 bg-[#0b1329] text-[#c99a2c] text-3xl rounded-xl font-bold tracking-wider hover:bg-[#1e293b] hover:shadow-xl active:scale-[0.98] transition-all disabled:opacity-70 disabled:pointer-events-none"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? <Loader2 className="w-8 h-8 animate-spin" /> : "Sign In"}
           </button>
         </form>
+        
+        <p className="mt-10 text-sm font-semibold text-slate-400 text-center">
+          Secure, Encrypted Connection.
+        </p>
       </div>
     </div>
   );

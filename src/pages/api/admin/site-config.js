@@ -4,25 +4,22 @@ import { rateLimit } from "../../../lib/rateLimit";
 
 async function handler(req, res) {
   try {
-    const snapshot = await adminDb.collection("siteConfig").limit(1).get();
+    const docRef = adminDb.collection("settings").doc("siteConfig");
+    const docSnap = await docRef.get();
 
     if (req.method === "GET") {
-      if (snapshot.empty) {
+      if (!docSnap.exists) {
         return res.status(404).json({ success: false, error: "Site config not found" });
       }
-      const doc = snapshot.docs[0];
-      return res.status(200).json({ id: doc.id, ...doc.data() });
+      return res.status(200).json({ id: docSnap.id, ...docSnap.data() });
     }
 
     if (req.method === "PATCH") {
-      if (snapshot.empty) {
-        return res.status(404).json({ success: false, error: "Site config not found" });
-      }
       const updates = req.body || {};
       if (Object.keys(updates).length === 0) {
         return res.status(400).json({ success: false, error: "No fields provided to update" });
       }
-      await snapshot.docs[0].ref.update(updates);
+      await docRef.set(updates, { merge: true });
       return res.status(200).json({ success: true });
     }
 
