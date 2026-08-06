@@ -10,87 +10,101 @@ const LINKS = {
   ],
   Visit: [
     { label: 'Contact',    href: '/contact' },
-    { label: 'Book Now',   href: '/book' },
+    { label: 'Book Now',   href: '/rooms' },
     { label: 'Directions', href: '/contact#map' },
   ],
 };
 
+/* Design-system tokens */
+const MIDNIGHT  = 'var(--color-midnight-roast)';
+const PARCHMENT = 'var(--color-parchment)';
+const LINEN     = 'var(--color-linen)';
+const WALNUT    = 'var(--color-walnut)';
+const ESPRESSO  = 'var(--color-espresso)';
+const SAFFRON   = 'var(--color-saffron)';
+const WARM_STONE = 'var(--color-warm-stone)';
+
 /**
  * Footer — Amrit Palace design system
- * All lengths in rem. em for letter-spacing. 1px borders stay.
+ * Dark midnight-roast surface, parchment + walnut text.
  */
 export default function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: '#3D2B1F',
-        borderTop: '1px solid rgba(201,168,76,0.15)',  /* logo-gold hairline */
+        backgroundColor: 'var(--color-footer-bg)',          /* slightly deeper than midnight for footer contrast */
+        borderTop: `1px solid rgba(216,203,184,0.12)`,
         padding: '5rem 2.5rem 2.5rem',
       }}
     >
-      <div style={{ maxWidth: '80rem', margin: '0 auto' }}>  {/* 1280px */}
+      <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
 
         {/* Top grid */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(11.25rem, 1fr))', /* 180px */
-            gap: '3rem',             /* 48px */
-            marginBottom: '4rem',    /* 64px */
+            gridTemplateColumns: 'repeat(auto-fit, minmax(11.25rem, 1fr))',
+            gap: '3rem',
+            marginBottom: '4rem',
           }}
         >
           {/* Brand */}
           <div style={{ gridColumn: 'span 2' }}>
-            {/* Logo — mix-blend-mode:screen dissolves cream bg on dark surface */}
             <Image
               src="/logo.jpeg"
               alt="Moksh Haveli Inn"
               width={200}
               height={200}
               style={{
-                height: '5rem',          /* 80px — larger in footer */
+                height: '5rem',
                 width: 'auto',
                 objectFit: 'contain',
                 display: 'block',
                 mixBlendMode: 'screen',
                 marginBottom: '1.25rem',
+                filter: 'brightness(1.1)',
               }}
             />
             <p
               style={{
                 fontFamily: 'var(--font-satoshi)',
                 fontWeight: 500,
-                fontSize: '0.8125rem',  /* 13px */
-                lineHeight: 1.6,
+                fontSize: '0.8125rem',
+                lineHeight: 1.7,
                 letterSpacing: '-0.01em',
-                color: '#978e81',
-                maxWidth: '17.5rem',    /* 280px */
+                color: WALNUT,
+                maxWidth: '17.5rem',
               }}
             >
               A heritage boutique guest house in the heart of Varanasi — where the sacred meets serenity.
             </p>
 
-            {/* Social */}
+            {/* Social links */}
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.75rem' }}>
-              {['WhatsApp', 'Instagram'].map(label => (
+              {[
+                { label: 'WhatsApp',  href: 'https://wa.me/91XXXXXXXXXX' },
+                { label: 'Instagram', href: 'https://www.instagram.com/' },
+              ].map(({ label, href }) => (
                 <a
                   key={label}
-                  href={label === 'WhatsApp' ? 'https://wa.me/91XXXXXXXXXX' : 'https://www.instagram.com/'}
+                  href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    padding: '0.5rem 1rem',              /* 8px 16px */
-                    border: '1px solid rgba(216,203,184,0.25)',
+                    padding: '0.5rem 1rem',
+                    border: `1px solid rgba(216,203,184,0.20)`,
                     borderRadius: '0.1875rem',
-                    color: '#d8cbb8',
+                    color: LINEN,
                     fontFamily: 'var(--font-satoshi)',
                     fontWeight: 500,
-                    fontSize: '0.6875rem',               /* 11px */
+                    fontSize: '0.6875rem',
                     textTransform: 'uppercase',
                     letterSpacing: '-0.01em',
                     textDecoration: 'none',
-                    transition: 'border-color 0.3s ease',
+                    transition: 'border-color 0.3s ease, color 0.3s ease',
                   }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = SAFFRON; e.currentTarget.style.color = SAFFRON; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(216,203,184,0.20)'; e.currentTarget.style.color = LINEN; }}
                 >
                   {label}
                 </a>
@@ -105,11 +119,11 @@ export default function Footer() {
                 style={{
                   fontFamily: 'var(--font-satoshi)',
                   fontWeight: 500,
-                  fontSize: '0.6875rem',                 /* 11px */
+                  fontSize: '0.6875rem',
                   textTransform: 'uppercase',
-                  letterSpacing: '0.03em',
-                  color: '#978e81',
-                  marginBottom: '1.25rem',               /* 20px */
+                  letterSpacing: '0.06em',
+                  color: SAFFRON,
+                  marginBottom: '1.25rem',
                 }}
               >
                 {group}
@@ -125,10 +139,12 @@ export default function Footer() {
                         fontSize: '0.8125rem',
                         textTransform: 'uppercase',
                         letterSpacing: '-0.01em',
-                        color: '#bfb4a3',
+                        color: WALNUT,
                         textDecoration: 'none',
                         transition: 'color 0.25s ease',
                       }}
+                      onMouseEnter={e => { e.currentTarget.style.color = PARCHMENT; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = WALNUT; }}
                     >
                       {label}
                     </Link>
@@ -146,8 +162,8 @@ export default function Footer() {
                 fontWeight: 500,
                 fontSize: '0.6875rem',
                 textTransform: 'uppercase',
-                letterSpacing: '0.03em',
-                color: '#978e81',
+                letterSpacing: '0.06em',
+                color: SAFFRON,
                 marginBottom: '1.25rem',
               }}
             >
@@ -168,7 +184,7 @@ export default function Footer() {
                     fontWeight: 500,
                     fontSize: '0.8125rem',
                     letterSpacing: '-0.01em',
-                    color: '#bfb4a3',
+                    color: i < 3 ? LINEN : WALNUT,
                   }}
                 >
                   {line}
@@ -179,7 +195,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div style={{ width: '100%', height: '1px', backgroundColor: 'rgba(201,168,76,0.15)', marginBottom: '2rem' }} />
+        <div style={{ width: '100%', height: '1px', backgroundColor: `rgba(216,203,184,0.10)`, marginBottom: '2rem' }} />
 
         {/* Bottom row */}
         <div
@@ -203,7 +219,7 @@ export default function Footer() {
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '-0.01em',
-                color: '#615b53',
+                color: ESPRESSO,
               }}
             >
               {text}

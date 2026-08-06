@@ -7,6 +7,17 @@ import WhatsAppFloat from '@/components/WhatsAppFloat';
 import Lightbox from '@/components/Lightbox';
 import { getGallery, getSiteConfig } from '@/lib/api';
 
+const C = {
+  parchment:    'var(--color-parchment)',
+  linen:        'var(--color-linen)',
+  warmStone:    'var(--color-warm-stone)',
+  walnut:       'var(--color-walnut)',
+  espresso:     'var(--color-chocolate)',
+  onyxWarm:     'var(--color-onyx-warm)',
+  midnightRoast:'var(--color-midnight-roast)',
+  saffron:      'var(--color-saffron)',
+};
+
 const CATEGORIES = ['All', 'Property', 'Rooms', 'Ghats', 'Dining'];
 
 export default function GalleryPage() {
@@ -51,14 +62,14 @@ export default function GalleryPage() {
       <Navbar variant="solid" />
       <GalleryStyles />
 
-      <main style={{ flex: 1, paddingTop: '4.5rem', backgroundColor: '#292622' }}>
+      <main style={{ flex: 1, paddingTop: '4rem', backgroundColor: 'var(--color-cream)' }}>
 
         {/* Dark header */}
-        <section style={{ backgroundColor: '#292622', padding: '6rem 2.5rem 5rem' }}>
+        <section style={{ backgroundColor: 'var(--color-cream)', padding: '6rem 2.5rem 5rem' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             <span style={{
               fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem',
-              textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81',
+              textTransform: 'uppercase', letterSpacing: '0.06em', color: C.chocolate,
               display: 'block', marginBottom: '1.5rem',
             }}>
               Visual Archive
@@ -66,51 +77,56 @@ export default function GalleryPage() {
             <h1 style={{
               fontFamily: 'var(--font-tt-ramillas-variable)', fontWeight: 300,
               fontSize: 'clamp(3.125rem, 6vw, 4.3125rem)', lineHeight: 0.9,
-              letterSpacing: '-0.04em', textTransform: 'uppercase', color: '#DEB76A',
+              letterSpacing: '-0.04em', textTransform: 'uppercase', color: 'var(--color-chocolate)',
+              marginBottom: '1rem',
             }}>
               Gallery
             </h1>
+            <div style={{ width: '2.5rem', height: '1px', backgroundColor: 'var(--color-gold)' }} />
           </div>
         </section>
 
-        {/* Hairline */}
-        <div style={{ backgroundColor: '#292622' }}>
+        {/* Divider */}
+        <div style={{ backgroundColor: 'var(--color-cream-deep)' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
+            <hr style={{ border: 'none', borderTop: `1px solid ${C.chocolate}` }} />
           </div>
         </div>
 
-        {/* Filter tabs */}
-        <div style={{ backgroundColor: '#292622', padding: '2rem 2.5rem 0' }}>
+        {/* Filter tabs — onyx-warm */}
+        <div style={{ backgroundColor: 'var(--color-cream-deep)', padding: '2rem 2.5rem 0' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                id={`gallery-filter-${cat.toLowerCase()}`}
-                onClick={() => setActiveTab(cat)}
-                style={{
-                  padding: '0.375rem 0.875rem',
-                  border: `1px solid ${activeTab === cat ? '#2c2c2c' : '#b6ab9c'}`,
-                  borderRadius: '0.1875rem',
-                  background: activeTab === cat ? '#2c2c2c' : 'transparent',
-                  color: activeTab === cat ? '#d8cbb8' : '#615b53',
-                  fontFamily: 'var(--font-satoshi)',
-                  fontWeight: 500,
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '-0.01em',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                }}
-              >
-                {cat}
-              </button>
-            ))}
+            {CATEGORIES.map(cat => {
+              const isActive = activeTab === cat;
+              return (
+                <button
+                  key={cat}
+                  id={`gallery-filter-${cat.toLowerCase()}`}
+                  onClick={() => setActiveTab(cat)}
+                  style={{
+                    padding: '0.375rem 0.875rem',
+                    border: `1px solid ${isActive ? C.saffron : 'rgba(216,203,184,0.25)'}`,
+                    borderRadius: '0.1875rem',
+                    background: isActive ? C.saffron : 'transparent',
+                    color: isActive ? C.midnightRoast : C.linen,
+                    fontFamily: 'var(--font-satoshi)',
+                    fontWeight: 500,
+                    fontSize: '0.75rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '-0.01em',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Masonry grid — CSS columns */}
-        <section style={{ padding: '3rem 2.5rem 7.5rem' }}>
+        {/* Masonry grid — onyx-warm bg */}
+        <section style={{ backgroundColor: 'var(--color-cream-deep)', padding: '3rem 2.5rem 7.5rem' }}>
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             {filtered.length > 0 ? (
               <div
@@ -123,7 +139,7 @@ export default function GalleryPage() {
                     key={item.id}
                     className="gallery-item"
                     onClick={() => openLightbox(i)}
-                    style={{ cursor: 'zoom-in', breakInside: 'avoid', marginBottom: '1px', position: 'relative', overflow: 'hidden' }}
+                    style={{ cursor: 'zoom-in', breakInside: 'avoid', marginBottom: '1.25rem', position: 'relative', overflow: 'hidden' }}
                   >
                     <img
                       src={item.imageUrl}
@@ -143,14 +159,14 @@ export default function GalleryPage() {
                     <div className="gallery-hover-overlay">
                       <span style={{
                         fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem',
-                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#d8cbb8',
+                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#FFFFFF',
                         display: 'block', marginBottom: '0.25rem',
                       }}>
                         {item.caption}
                       </span>
                       <span style={{
                         fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.6875rem',
-                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81',
+                        textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#FFFFFF',
                       }}>
                         {item.category}
                       </span>
@@ -161,7 +177,7 @@ export default function GalleryPage() {
             ) : (
               <p style={{
                 fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.9375rem',
-                color: '#978e81', textAlign: 'center', padding: '4rem 0',
+                color: C.chocolate, textAlign: 'center', padding: '4rem 0',
               }}>
                 No images in this category.
               </p>
@@ -171,7 +187,6 @@ export default function GalleryPage() {
 
       </main>
 
-      {/* Lightbox */}
       {lightbox.open && (
         <Lightbox
           images={filtered}
@@ -191,25 +206,21 @@ export default function GalleryPage() {
 function GalleryStyles() {
   return (
     <style>{`
-      /* Masonry via CSS columns */
       .gallery-masonry {
         columns: 3;
-        column-gap: 1px;
-        background-color: #b6ab9c;
+        column-gap: 1.25rem;
       }
-
       .gallery-item {
         display: block;
         break-inside: avoid;
         position: relative;
         overflow: hidden;
+        margin-bottom: 1.25rem;
       }
-
-      /* Hover overlay */
       .gallery-hover-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(transparent 45%, rgba(41,38,34,0.75));
+        background: linear-gradient(transparent 45%, rgba(41,38,34,0.85));
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -217,32 +228,11 @@ function GalleryStyles() {
         opacity: 0;
         transition: opacity 0.4s ease;
       }
-      .gallery-item:hover .gallery-hover-overlay {
-        opacity: 1;
-      }
-      .gallery-item:hover .gallery-img {
-        transform: scale(1.04);
-      }
+      .gallery-item:hover .gallery-hover-overlay { opacity: 1; }
+      .gallery-item:hover .gallery-img { transform: scale(1.04); }
 
-      /* Tablet: 2 columns */
-      @media (max-width: 56.25rem) {
-        .gallery-masonry { columns: 2; }
-      }
-
-      /* Mobile: 1 column */
-      @media (max-width: 30rem) {
-        .gallery-masonry { columns: 1; }
-        section[style*="padding: 3rem 2.5rem"] {
-          padding: 2rem 1.25rem 5rem !important;
-        }
-      }
-
-      /* Filter tab row: tighter on mobile */
-      @media (max-width: 30rem) {
-        div[style*="padding: 2rem 2.5rem 0"] {
-          padding: 1.5rem 1.25rem 0 !important;
-        }
-      }
+      @media (max-width: 56.25rem) { .gallery-masonry { columns: 2; } }
+      @media (max-width: 30rem)    { .gallery-masonry { columns: 1; } }
     `}</style>
   );
 }

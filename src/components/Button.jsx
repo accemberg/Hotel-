@@ -14,9 +14,9 @@ export default function Button({ children, variant = 'ghost', size = 'md', class
 
   const variants = {
     ghost:
-      'border-[#2c2c2c] text-[#2c2c2c] bg-transparent hover:bg-[#2c2c2c] hover:text-[#d8cbb8]',
+      'border-[var(--color-white-overlay)] text-[var(--color-white-overlay)] bg-transparent hover:bg-[var(--color-white-overlay)] hover:text-[var(--color-white-overlay)]',
     'ghost-light':
-      'border-[#d8cbb8] text-[#d8cbb8] bg-transparent hover:bg-[#d8cbb8] hover:text-[#2c2c2c]',
+      'border-[var(--color-white-overlay)] text-[var(--color-white-overlay)] bg-transparent hover:bg-[var(--color-white-overlay)] hover:text-[var(--color-white-overlay)]',
   };
 
   // rem values — never px (except the 1px border handled by Tailwind's border util)

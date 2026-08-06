@@ -15,21 +15,8 @@ const firebaseConfig = {
 // Initialize app
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// Safe initialization — works in browser + API routes, skips during build/prerender
-let db = null;
-let auth = null;
+// Initialize services ONLY on the client (browser) to avoid Next.js build errors
+export const db = typeof window !== "undefined" ? getFirestore(app) : null;
+export const auth = typeof window !== "undefined" ? getAuth(app) : null;
 
-try {
-  db = getFirestore(app);
-} catch (e) {
-  // Silently skip during build/prerender
-}
-
-try {
-  auth = getAuth(app);
-} catch (e) {
-  // Silently skip during build/prerender
-}
-
-export { db, auth };
 export default app;

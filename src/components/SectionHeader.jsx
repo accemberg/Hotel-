@@ -11,11 +11,13 @@ export default function SectionHeader({
   surface = 'dark',
   className = '',
 }) {
-  const headingColor = '#DEB76A';
-  const captionColor = '#978e81';
-  const subtextColor = surface === 'dark' ? '#bfb4a3' : '#bfb4a3';
+  const isDark = surface === 'dark';
 
-  // rem sizes + em tracking (scales with font-size — correct behaviour)
+  // Surface-correct color roles from the design system
+  const headingColor = isDark ? 'var(--color-parchment)' : '#000000';
+  const captionColor = isDark ? 'var(--color-walnut)' : '#000000';
+  const subtextColor = isDark ? 'var(--color-linen)' : '#000000';
+
   const sizeMap = {
     'heading-lg': { fontSize: '4.3125rem', lineHeight: 0.9,  letterSpacing: '-0.04em' },
     'heading':    { fontSize: '4.0625rem', lineHeight: 0.85, letterSpacing: '-0.04em' },
@@ -26,15 +28,15 @@ export default function SectionHeader({
   const hStyle = sizeMap[size] || sizeMap['heading'];
 
   return (
-    <div className={`flex flex-col gap-4 ${className}`}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }} className={className}>
       {caption && (
         <span
           style={{
             fontFamily: 'var(--font-satoshi)',
             fontWeight: 500,
-            fontSize: '0.75rem',         /* 12px */
+            fontSize: '0.75rem',
             textTransform: 'uppercase',
-            letterSpacing: '0.04em',
+            letterSpacing: '0.06em',
             color: captionColor,
           }}
         >
@@ -57,11 +59,12 @@ export default function SectionHeader({
           style={{
             fontFamily: 'var(--font-satoshi)',
             fontWeight: 500,
-            fontSize: '0.9375rem',       /* 15px */
-            lineHeight: 1.4,
+            fontSize: '0.9375rem',
+            lineHeight: 1.6,
             letterSpacing: '-0.01em',
             color: subtextColor,
-            maxWidth: '32.5rem',         /* 520px */
+            maxWidth: '32.5rem',
+            marginTop: '0.25rem',
           }}
         >
           {subtext}

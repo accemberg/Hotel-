@@ -13,6 +13,30 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 
+/* ── Design-system tokens (single source of truth) ─────── */
+const C = {
+  parchment:    'var(--color-parchment)',
+  linen:        'var(--color-linen)',
+  warmStone:    'var(--color-warm-stone)',
+  walnut:       'var(--color-walnut)',
+  espresso:     'var(--color-chocolate)',
+  onyxWarm:     'var(--color-onyx-warm)',
+  midnightRoast:'var(--color-midnight-roast)',
+  saffron:      'var(--color-saffron)',
+  chocolate:    'var(--color-chocolate)',
+};
+
+/* OTA brand colours — used only for the tiny 8 px dot accent */
+const OTA_BRAND = {
+  makemytrip: '#e8162d',
+  oyo:        '#EE2D3C',
+  goibibo:    '#00a3e0',
+  agoda:      '#e9192a',
+  tripcom:    '#007aff',
+  bookingcom: '#003580',
+  direct:     C.saffron,
+};
+
 export default function Home() {
   const [rooms,      setRooms]      = useState([]);
   const [gallery,    setGallery]    = useState([]);
@@ -74,7 +98,7 @@ export default function Home() {
             position: 'relative',
             width: '100%',
             minHeight: '100vh',
-            backgroundColor: '#292622',
+            backgroundColor: 'var(--color-cream)',
             display: 'flex',
             alignItems: 'flex-end',
             overflow: 'hidden',
@@ -114,8 +138,8 @@ export default function Home() {
             className="hero-inner"
           >
             {/* Meta labels */}
-            <div style={{ display: 'flex', gap: '2.5rem', marginBottom: '2rem' }}>
-              {['Varanasi, India', 'Heritage Stay', 'Established'].map(l => (
+            <div style={{ display: 'flex', gap: '2.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+              {['Varanasi, India', 'Heritage Stay', 'Est. 1990s'].map(l => (
                 <span
                   key={l}
                   style={{
@@ -123,8 +147,8 @@ export default function Home() {
                     fontWeight: 500,
                     fontSize: '0.75rem',
                     textTransform: 'uppercase',
-                    letterSpacing: '-0.01em',
-                    color: '#978e81',
+                    letterSpacing: '0.04em',
+                    color: '#FFFFFF',
                   }}
                 >
                   {l}
@@ -143,7 +167,7 @@ export default function Home() {
                 lineHeight: 0.85,
                 letterSpacing: '-0.04em',
                 textTransform: 'uppercase',
-                color: '#DEB76A',
+                color: '#FFFFFF',
                 maxWidth: '56.25rem',        /* 900px */
                 marginBottom: '2.5rem',
               }}
@@ -156,9 +180,9 @@ export default function Home() {
                 fontFamily: 'var(--font-satoshi)',
                 fontWeight: 500,
                 fontSize: '0.9375rem',
-                lineHeight: 1.6,
+                lineHeight: 1.7,
                 letterSpacing: '-0.01em',
-                color: '#bfb4a3',
+                color: '#FFFFFF',
                 maxWidth: '26.25rem',        /* 420px */
                 marginBottom: '2.5rem',
               }}
@@ -170,50 +194,49 @@ export default function Home() {
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               <a href="/rooms" style={{ textDecoration: 'none' }}>
                 <button
+                  className="btn-hero-primary"
                   style={{
                     padding: '1rem 2.25rem',
-                    border: '1px solid #d8cbb8',
+                    border: `1px solid var(--color-gold)`,
+                    borderRadius: '0.1875rem',
+                    background: 'var(--color-gold)',
+                    color: 'var(--color-chocolate)',
+                    fontFamily: 'var(--font-satoshi)',
+                    fontWeight: 600,
+                    fontSize: '0.8125rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '-0.01em',
+                    cursor: 'pointer',
+                    transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-gold-hover)'; e.currentTarget.style.borderColor = 'var(--color-gold-hover)'; e.currentTarget.style.color = 'var(--color-cream)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-gold)'; e.currentTarget.style.borderColor = 'var(--color-gold)'; e.currentTarget.style.color = 'var(--color-chocolate)'; }}
+                >
+                  Explore Rooms
+                </button>
+              </a>
+              <a href="/contact" style={{ textDecoration: 'none' }}>
+                <button
+                  style={{
+                    padding: '1rem 2.25rem',
+                    border: `1px solid rgba(255,255,255,0.40)`,
                     borderRadius: '0.1875rem',
                     background: 'transparent',
-                    color: '#d8cbb8',
+                    color: '#FFFFFF',
                     fontFamily: 'var(--font-satoshi)',
                     fontWeight: 500,
                     fontSize: '0.8125rem',
                     textTransform: 'uppercase',
                     letterSpacing: '-0.01em',
                     cursor: 'pointer',
-                    transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                    transition: 'border-color 0.3s ease, color 0.3s ease, background 0.3s ease',
                   }}
-                  onMouseEnter={e => { e.target.style.background = '#d8cbb8'; e.target.style.color = '#2c2c2c'; }}
-                  onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = '#d8cbb8'; }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#FFFFFF'; e.currentTarget.style.color = '#FFFFFF'; e.currentTarget.style.background = 'rgba(255,255,255,0.15)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.40)'; e.currentTarget.style.color = '#FFFFFF'; e.currentTarget.style.background = 'transparent'; }}
                 >
-                  Explore Rooms
+                  Get in Touch
                 </button>
               </a>
-              {otaLinks.filter(o => o.active).map(ota => (
-                <a key={ota.id} href={ota.listingUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                  <button
-                    style={{
-                      padding: '1rem 2.25rem',
-                      border: '1px solid rgba(216,203,184,0.35)',
-                      borderRadius: '0.1875rem',
-                      background: 'transparent',
-                      color: '#978e81',
-                      fontFamily: 'var(--font-satoshi)',
-                      fontWeight: 500,
-                      fontSize: '0.8125rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '-0.01em',
-                      cursor: 'pointer',
-                      transition: 'border-color 0.4s ease, color 0.4s ease',
-                    }}
-                    onMouseEnter={e => { e.target.style.borderColor = 'rgba(216,203,184,0.7)'; e.target.style.color = '#d8cbb8'; }}
-                    onMouseLeave={e => { e.target.style.borderColor = 'rgba(216,203,184,0.35)'; e.target.style.color = '#978e81'; }}
-                  >
-                    {ota.platform}
-                  </button>
-                </a>
-              ))}
             </div>
           </div>
 
@@ -226,24 +249,24 @@ export default function Home() {
               right: '2.5rem',
               zIndex: 2,
               backgroundColor: 'rgba(41,38,34,0.85)',
-              border: '1px solid rgba(216,203,184,0.15)',
+              border: `1px solid rgba(255,255,255,0.20)`,
               borderRadius: '0.1875rem',
               padding: '1rem 1.25rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '0.375rem',
-              backdropFilter: 'blur(0.5rem)',
+              backdropFilter: 'blur(8px)',
             }}
           >
             <div style={{ display: 'flex', gap: '0.1875rem' }}>
               {[...Array(5)].map((_, i) => (
-                <span key={i} style={{ color: '#d49653', fontSize: '0.8125rem' }}>★</span>
+                <span key={i} style={{ color: 'var(--color-gold)', fontSize: '0.8125rem' }}>★</span>
               ))}
             </div>
-            <span style={{ color: '#d8cbb8', fontFamily: 'var(--font-satoshi)', fontWeight: 700, fontSize: '1.25rem', lineHeight: 1, letterSpacing: '-0.025em' }}>
-              4.7<span style={{ fontSize: '0.8125rem', fontWeight: 500, color: '#978e81' }}>/5</span>
+            <span style={{ color: '#FFFFFF', fontFamily: 'var(--font-satoshi)', fontWeight: 700, fontSize: '1.25rem', lineHeight: 1, letterSpacing: '-0.025em' }}>
+              4.7<span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'rgba(255,255,255,0.8)' }}>/5</span>
             </span>
-            <span style={{ color: '#978e81', fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
+            <span style={{ color: '#FFFFFF', fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Excellent
             </span>
           </div>
@@ -255,7 +278,7 @@ export default function Home() {
         {/* ── FEATURED ROOMS ────────────────────────────────────── */}
         <section
           style={{
-            backgroundColor: '#292622',
+            backgroundColor: 'var(--color-cream-deep)',
             padding: '5rem 1.25rem',
             position: 'relative',
             overflow: 'hidden',
@@ -263,6 +286,19 @@ export default function Home() {
           className="rooms-section"
         >
           {/* Jali lattice texture — faint 7% opacity geometric SVG */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: '-10%',
+              left: '-5%',
+              width: '55%',
+              height: '70%',
+              background: `radial-gradient(ellipse at top left, rgba(201,168,76,0.15) 0%, transparent 65%)`,
+              pointerEvents: 'none',
+              zIndex: 0,
+            }}
+          />
           <div
             aria-hidden="true"
             style={{
@@ -281,7 +317,7 @@ export default function Home() {
           <div style={{ maxWidth: '90rem', margin: '0 auto', position: 'relative', zIndex: 1 }}>
             {/* Section header — light on dark */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3.5rem', flexWrap: 'wrap', gap: '1.5rem' }}>
-              <SectionHeader caption="Our Rooms" heading="Stay in Heritage" size="heading" surface="dark" />
+              <SectionHeader caption="Our Rooms" heading="Stay in Heritage" size="heading" surface="light" />
               <a
                 href="/rooms"
                 style={{
@@ -290,7 +326,7 @@ export default function Home() {
                   fontSize: '0.8125rem',
                   textTransform: 'uppercase',
                   letterSpacing: '-0.01em',
-                  color: '#d8cbb8',
+                  color: '#000000',
                   textDecoration: 'underline',
                   textUnderlineOffset: '0.25rem',
                   opacity: 0.6,
@@ -309,8 +345,7 @@ export default function Home() {
                 display: 'grid',
                 gridTemplateColumns: 'clamp(18rem, 61.5%, 1.6fr) 1fr',
                 gridTemplateRows: 'auto auto',
-                gap: '1px',
-                backgroundColor: 'rgba(216,203,184,0.1)',
+                gap: '1.25rem',
               }}
             >
               {rooms.map((room, i) => {
@@ -334,7 +369,7 @@ export default function Home() {
         <section
           ref={amenitiesRef}
           data-section="amenities"
-          style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}
+          style={{ backgroundColor: 'var(--color-cream-deep)', padding: '7.5rem 2.5rem' }}
         >
           <div
             className="amenities-layout"
@@ -354,6 +389,7 @@ export default function Home() {
                 heading="What's Included"
                 subtext="Every room comes with thoughtfully curated amenities — from Split AC to private balconies with city views."
                 size="heading-sm"
+                surface="light"
               />
               <a
                 href="/amenities"
@@ -365,7 +401,7 @@ export default function Home() {
                   fontSize: '0.8125rem',
                   textTransform: 'uppercase',
                   letterSpacing: '-0.01em',
-                  color: '#d8cbb8',
+                  color: '#000000',
                   textDecoration: 'underline',
                   textUnderlineOffset: '0.25rem',
                   opacity: 0.7,
@@ -379,16 +415,16 @@ export default function Home() {
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
                   gap: '1px',
-                  backgroundColor: 'rgba(216,203,184,0.1)',
+                  backgroundColor: 'rgba(0,0,0,0.1)',
                   marginTop: '3rem',
-                  border: '1px solid rgba(216,203,184,0.1)',
+                  border: '1px solid rgba(0,0,0,0.1)',
                 }}
               >
                 {amenities.map(({ id, name, category }) => (
                   <div
                     key={id}
                     style={{
-                      backgroundColor: '#292622',
+                      backgroundColor: 'var(--color-cream-deep)',
                       padding: '1.25rem 1.25rem 1.25rem 1rem',
                       display: 'flex',
                       alignItems: 'flex-start',
@@ -404,7 +440,7 @@ export default function Home() {
                           fontSize: '0.8125rem',
                           textTransform: 'uppercase',
                           letterSpacing: '-0.01em',
-                          color: '#d8cbb8',
+                          color: '#000000',
                           lineHeight: 1.2,
                         }}
                       >
@@ -417,7 +453,7 @@ export default function Home() {
                           fontSize: '0.6875rem',
                           textTransform: 'uppercase',
                           letterSpacing: '-0.01em',
-                          color: '#978e81',
+                          color: 'var(--color-gold)',
                         }}
                       >
                         {category}
@@ -434,7 +470,7 @@ export default function Home() {
                 position: 'relative',
                 aspectRatio: '4/5',
                 overflow: 'hidden',
-                border: '1px solid rgba(216,203,184,0.1)',
+                border: '1px solid rgba(0,0,0,0.1)',
               }}
             >
               <Image
@@ -465,7 +501,7 @@ export default function Home() {
                     fontStyle: 'italic',
                     fontSize: '1.25rem',
                     letterSpacing: '-0.02em',
-                    color: '#DEB76A',
+                    color: '#FFFFFF',
                     lineHeight: 1.2,
                   }}
                 >
@@ -482,11 +518,11 @@ export default function Home() {
         <section
           ref={galleryRef}
           data-section="gallery-preview"
-          style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}
+          style={{ backgroundColor: 'var(--color-cream-deep)', padding: '7.5rem 2.5rem' }}
         >
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', flexWrap: 'wrap', gap: '1.5rem' }}>
-              <SectionHeader caption="Gallery" heading="The Property" size="heading-sm" />
+              <SectionHeader caption="Gallery" heading="The Property" size="heading-sm" surface="light" />
               <a
                 href="/gallery"
                 style={{
@@ -495,7 +531,7 @@ export default function Home() {
                   fontSize: '0.8125rem',
                   textTransform: 'uppercase',
                   letterSpacing: '-0.01em',
-                  color: '#d8cbb8',
+                  color: '#000000',
                   textDecoration: 'underline',
                   textUnderlineOffset: '0.25rem',
                   opacity: 0.7,
@@ -509,8 +545,7 @@ export default function Home() {
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '1px',
-                backgroundColor: 'rgba(216,203,184,0.1)',
+                gap: '1.25rem',
               }}
             >
               {gallery.map(item => (
@@ -538,7 +573,7 @@ export default function Home() {
                       left: 0,
                       right: 0,
                       padding: '1rem',
-                      background: 'linear-gradient(transparent, rgba(41,38,34,0.7))',
+                      background: 'linear-gradient(transparent, rgba(41,38,34,0.7)',
                     }}
                   >
                     <span style={{
@@ -547,7 +582,7 @@ export default function Home() {
                       fontSize: '0.75rem',
                       textTransform: 'uppercase',
                       letterSpacing: '-0.01em',
-                      color: '#d8cbb8',
+                      color: '#FFFFFF',
                     }}>
                       {item.caption}
                     </span>
@@ -564,7 +599,7 @@ export default function Home() {
 
         <section
           data-section="ota"
-          style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}
+          style={{ backgroundColor: 'var(--color-cream-deep)', padding: '7.5rem 2.5rem' }}
         >
           <div style={{ maxWidth: '90rem', margin: '0 auto' }}>
             <SectionHeader
@@ -572,6 +607,7 @@ export default function Home() {
               heading="Book on …"
               subtext="Find us on major booking platforms — or reach out directly for the best rate."
               size="heading-sm"
+              surface="light"
             />
             <div
               className="ota-grid"
@@ -579,68 +615,83 @@ export default function Home() {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(14rem, 1fr))',
                 gap: '1px',
-                backgroundColor: 'rgba(216,203,184,0.1)',
-                border: '1px solid rgba(216,203,184,0.1)',
+                backgroundColor: 'rgba(0,0,0,0.1)',
+                border: '1px solid rgba(0,0,0,0.1)',
                 marginTop: '3rem',
               }}
             >
-              {otaLinks.filter(o => o.active).map(ota => (
-                <div
-                  key={ota.id}
-                  style={{
-                    backgroundColor: '#292622',
-                    padding: '2.5rem 2rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1.5rem',
-                    alignItems: 'flex-start',
-                  }}
-                >
-                  <span style={{
-                    fontFamily: 'var(--font-tt-ramillas-variable)',
-                    fontWeight: 300,
-                    fontSize: '2rem',
-                    lineHeight: 0.9,
-                    letterSpacing: '-0.04em',
-                    textTransform: 'uppercase',
-                    color: '#DEB76A',
-                  }}>
-                    {ota.platform}
-                  </span>
-                  <a
-                    href={ota.listingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    id={`ota-book-${ota.id}`}
+              {otaLinks.filter(o => o.active).map(ota => {
+                const dot = OTA_BRAND[ota.id] || C.saffron;
+                return (
+                  <div
+                    key={ota.id}
                     style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.375rem',
-                      padding: '0.625rem 1.375rem',
-                      border: '1px solid #d8cbb8',
-                      borderRadius: '0.1875rem',
-                      background: 'transparent',
-                      color: '#d8cbb8',
-                      fontFamily: 'var(--font-satoshi)',
-                      fontWeight: 500,
-                      fontSize: '0.75rem',
-                      textTransform: 'uppercase',
-                      letterSpacing: '-0.01em',
-                      textDecoration: 'none',
-                      whiteSpace: 'nowrap',
-                      transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                      backgroundColor: 'var(--color-cream-deep)',
+                      padding: '2.5rem 2rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '1.5rem',
+                      alignItems: 'flex-start',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#d8cbb8'; e.currentTarget.style.color = '#2c2c2c'; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#2c2c2c'; }}
                   >
-                    Book on {ota.platform} →
-                  </a>
-                </div>
-              ))}
+                    {/* Brand dot + logo */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
+                      <span style={{ width: '0.375rem', height: '0.375rem', borderRadius: '50%', backgroundColor: dot, flexShrink: 0, display: 'inline-block' }} />
+                      {ota.logoUrl ? (
+                        <img
+                          src={ota.logoUrl}
+                          alt={`${ota.platform} logo`}
+                          style={{ height: '2rem', width: 'auto', maxWidth: '8.5rem', objectFit: 'contain', display: 'block', borderRadius: '0.1875rem' }}
+                        />
+                      ) : (
+                        <span style={{
+                          fontFamily: 'var(--font-tt-ramillas-variable)',
+                          fontWeight: 300,
+                          fontSize: '2rem',
+                          lineHeight: 0.9,
+                          letterSpacing: '-0.04em',
+                          textTransform: 'uppercase',
+                          color: 'var(--color-gold)',
+                        }}>
+                          {ota.platform}
+                        </span>
+                      )}
+                    </div>
+                    <a
+                      href={ota.listingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      id={`ota-book-${ota.id}`}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.375rem',
+                        padding: '0.625rem 1.375rem',
+                        border: `1px solid var(--color-gold)`,
+                        borderRadius: '0.1875rem',
+                        background: 'transparent',
+                        color: '#000000',
+                        fontFamily: 'var(--font-satoshi)',
+                        fontWeight: 500,
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '-0.01em',
+                        textDecoration: 'none',
+                        whiteSpace: 'nowrap',
+                        transition: 'background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#d8cbb8'; e.currentTarget.style.color = '#2c2c2c'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#d8cbb8'; }}
+                    >
+                      Book on {ota.platform} →
+                    </a>
+                  </div>
+                );
+              })}
               {/* Direct booking card */}
               <div
                 style={{
-                  backgroundColor: '#292622',
+                  backgroundColor: 'var(--color-cream-deep)',
                   padding: '2.5rem 2rem',
                   display: 'flex',
                   flexDirection: 'column',
@@ -648,17 +699,14 @@ export default function Home() {
                   alignItems: 'flex-start',
                 }}
               >
-                <span style={{
-                  fontFamily: 'var(--font-tt-ramillas-variable)',
-                  fontWeight: 300,
-                  fontSize: '2rem',
-                  lineHeight: 0.9,
-                  letterSpacing: '-0.04em',
-                  textTransform: 'uppercase',
-                  color: '#DEB76A',
-                }}>
-                  Direct
-                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
+                  <span style={{ width: '0.375rem', height: '0.375rem', borderRadius: '50%', backgroundColor: C.saffron, flexShrink: 0, display: 'inline-block' }} />
+                  <img
+                    src="/logos/whatsapp.svg"
+                    alt="WhatsApp logo"
+                    style={{ height: '2rem', width: 'auto', maxWidth: '8.5rem', objectFit: 'contain', display: 'block', borderRadius: '0.1875rem' }}
+                  />
+                </div>
                 <a
                   href={siteConfig ? `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(siteConfig.whatsappDefaultMessage || '')}` : '#'}
                   target="_blank"
@@ -669,10 +717,10 @@ export default function Home() {
                     alignItems: 'center',
                     gap: '0.375rem',
                     padding: '0.625rem 1.375rem',
-                    border: '1px solid #d8cbb8',
+                    border: `1px solid var(--color-gold)`,
                     borderRadius: '0.1875rem',
                     background: 'transparent',
-                    color: '#d8cbb8',
+                    color: '#000000',
                     fontFamily: 'var(--font-satoshi)',
                     fontWeight: 500,
                     fontSize: '0.75rem',
@@ -698,7 +746,7 @@ export default function Home() {
         <section
           ref={locationRef}
           data-section="location"
-          style={{ backgroundColor: '#292622', padding: '7.5rem 2.5rem' }}
+          style={{ backgroundColor: 'var(--color-cream-deep)', padding: '7.5rem 2.5rem' }}
         >
           <div
             style={{
@@ -716,7 +764,7 @@ export default function Home() {
               heading="Sacred City, Serene Stay"
               subtext="Steps from the ghats of the Ganges — our heritage property puts you at the spiritual centre of India."
               size="heading"
-              surface="dark"
+              surface="light"
             />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
               {[
@@ -727,10 +775,10 @@ export default function Home() {
                   <button
                     style={{
                       padding: '1rem 2.25rem',
-                      border: `1px solid ${muted ? 'rgba(216,203,184,0.3)' : '#d8cbb8'}`,
+                      border: `1px solid ${muted ? 'rgba(0,0,0,0.3)' : '#000000'}`,
                       borderRadius: '0.1875rem',
                       background: 'transparent',
-                      color: muted ? '#978e81' : '#d8cbb8',
+                      color: '#000000',
                       fontFamily: 'var(--font-satoshi)',
                       fontWeight: 500,
                       fontSize: '0.8125rem',
@@ -846,7 +894,7 @@ function PageStyles() {
 
 function Divider() {
   return (
-    <div style={{ backgroundColor: '#292622' }}>
+    <div style={{ backgroundColor: 'var(--color-cream-deep)' }}>
       <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem' }}>
         <hr style={{ border: 'none', borderTop: '1px solid rgba(216,203,184,0.1)' }} />
       </div>
@@ -876,7 +924,7 @@ function PhotoRoomCard({ room, featured, whatsappNumber }) {
         position: 'relative',
         overflow: 'hidden',
         gridRow: featured ? '1 / 3' : undefined,
-        backgroundColor: '#292622',
+        backgroundColor: 'var(--color-cream-deep)',
         minHeight: featured ? '44rem' : '22rem',
         cursor: 'pointer',
       }}
@@ -922,7 +970,7 @@ function PhotoRoomCard({ room, featured, whatsappNumber }) {
           fontSize: '0.6875rem',
           textTransform: 'uppercase',
           letterSpacing: '-0.01em',
-          color: '#d8cbb8',
+          color: '#FFFFFF',
           backdropFilter: 'blur(4px)',
         }}
       >
@@ -960,7 +1008,7 @@ function PhotoRoomCard({ room, featured, whatsappNumber }) {
             lineHeight: 0.95,
             letterSpacing: '-0.04em',
             textTransform: 'uppercase',
-            color: '#DEB76A',
+            color: '#FFFFFF',
             marginBottom: '1rem',
           }}
         >
@@ -986,17 +1034,17 @@ function PhotoRoomCard({ room, featured, whatsappNumber }) {
             }}
           >
             {size && (
-              <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81' }}>
+              <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#FFFFFF' }}>
                 {size}
               </span>
             )}
             {max && (
-              <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81' }}>
+              <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#FFFFFF' }}>
                 Max {max} guests
               </span>
             )}
             {beds && (
-              <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#978e81' }}>
+              <span style={{ fontFamily: 'var(--font-satoshi)', fontWeight: 500, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '-0.01em', color: '#FFFFFF' }}>
                 {beds}
               </span>
             )}
@@ -1011,7 +1059,7 @@ function PhotoRoomCard({ room, featured, whatsappNumber }) {
               fontSize: '0.8125rem',
               textTransform: 'uppercase',
               letterSpacing: '-0.01em',
-              color: '#d8cbb8',
+              color: '#FFFFFF',
               textDecoration: 'underline',
               textUnderlineOffset: '0.25rem',
               display: 'inline-block',
@@ -1048,5 +1096,3 @@ function HomepageAmenityIcon({ name }) {
   if (n.includes('peep') || n.includes('security'))     return <Eye size={size} strokeWidth={sw} style={s} />;
   return <CheckCircle size={size} strokeWidth={sw} style={s} />;
 }
-
-

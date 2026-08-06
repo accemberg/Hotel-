@@ -7,7 +7,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 /**
  * Lightbox — full-screen image viewer
  *
- * Design system: #292622 overlay, 0px radius, no box-shadow, hairline borders.
+ * Design system: var(--color-white-overlay) overlay, 0px radius, no box-shadow, hairline borders.
  * Lucide icons for prev/next/close (strokeWidth 1.5, size 20).
  *
  * @param {{
@@ -71,7 +71,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
           background: 'none',
           border: '1px solid rgba(216,203,184,0.2)',
           borderRadius: '0.1875rem',
-          color: '#d8cbb8',
+          color: 'var(--color-white-overlay)',
           cursor: 'pointer',
           padding: '0.5rem',
           display: 'flex',
@@ -97,7 +97,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
           fontSize: '0.6875rem',
           textTransform: 'uppercase',
           letterSpacing: '-0.01em',
-          color: '#615b53',
+          color: '#FFFFFF',
           zIndex: 2,
         }}
       >
@@ -145,7 +145,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
               background: 'none',
               border: '1px solid rgba(216,203,184,0.2)',
               borderRadius: '0.1875rem',
-              color: '#d8cbb8',
+              color: 'var(--color-white-overlay)',
               cursor: 'pointer',
               padding: '0.625rem',
               display: 'flex',
@@ -174,7 +174,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
               background: 'none',
               border: '1px solid rgba(216,203,184,0.2)',
               borderRadius: '0.1875rem',
-              color: '#d8cbb8',
+              color: 'var(--color-white-overlay)',
               cursor: 'pointer',
               padding: '0.625rem',
               display: 'flex',
@@ -210,7 +210,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
                 fontStyle: 'italic',
                 fontSize: '1.0625rem',
                 letterSpacing: '-0.02em',
-                color: '#DEB76A',
+                color: '#FFFFFF',
                 lineHeight: 1.3,
                 textAlign: 'center',
               }}
@@ -226,7 +226,7 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
                 fontSize: '0.6875rem',
                 textTransform: 'uppercase',
                 letterSpacing: '-0.01em',
-                color: '#615b53',
+                color: 'rgba(255,255,255,0.8)',
               }}
             >
               {image.category}

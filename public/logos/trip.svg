@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 36" fill="none">
+  <!-- Trip.com blue -->
+  <rect width="90" height="36" rx="6" fill="#007aff"/>
+  <!-- Trip.com wordmark -->
+  <text x="8" y="25" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="15" fill="#ffffff" letter-spacing="-0.2">Trip.com</text>
+</svg>

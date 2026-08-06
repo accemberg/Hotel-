@@ -3,14 +3,48 @@
     "id": "makemytrip",
     "platform": "MakeMyTrip",
     "listingUrl": "https://www.makemytrip.com/hotels/moksh_haveli_inn-details-varanasi.html",
-    "logoUrl": "https://placehold.co/120x40?text=MMT",
+    "logoUrl": "/logos/mmt.svg",
+    "brandColor": "#e8162d",
     "active": true
   },
   {
-    "id": "booking",
+    "id": "oyo",
+    "platform": "OYO",
+    "listingUrl": "https://www.oyorooms.com/search/?location=Varanasi",
+    "logoUrl": "/logos/oyo.svg",
+    "brandColor": "#EE2D3C",
+    "active": true
+  },
+  {
+    "id": "goibibo",
+    "platform": "Goibibo",
+    "listingUrl": "https://www.goibibo.com/hotels/hotels-in-varanasi/",
+    "logoUrl": "/logos/goibibo.svg",
+    "brandColor": "#00a3e0",
+    "active": true
+  },
+  {
+    "id": "agoda",
+    "platform": "Agoda",
+    "listingUrl": "https://www.agoda.com/search?city=Varanasi",
+    "logoUrl": "/logos/agoda.svg",
+    "brandColor": "#e9192a",
+    "active": true
+  },
+  {
+    "id": "tripcom",
+    "platform": "Trip.com",
+    "listingUrl": "https://www.trip.com/hotels/varanasi-hotel/",
+    "logoUrl": "/logos/trip.svg",
+    "brandColor": "#007aff",
+    "active": true
+  },
+  {
+    "id": "bookingcom",
     "platform": "Booking.com",
-    "listingUrl": "#",
-    "logoUrl": "https://placehold.co/120x40?text=Booking",
-    "active": false
+    "listingUrl": "https://www.booking.com/searchresults.html?ss=Varanasi",
+    "logoUrl": "/logos/booking.svg",
+    "brandColor": "#003580",
+    "active": true
   }
 ]

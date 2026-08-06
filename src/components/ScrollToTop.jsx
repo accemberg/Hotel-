@@ -3,11 +3,8 @@
 import { useEffect, useState } from 'react';
 
 /**
- * ScrollToTop — Amrit Palace design system
- *
- * Fixed bottom-right button. Appears after 300px of scroll.
- * Saffron accent, 0.1875rem radius, dark semi-transparent bg.
- * Appears on ALL pages (public + admin).
+ * ScrollToTop — Moksh Haveli Inn
+ * Gold border, white fill, chocolate arrow. Matches the site's luxury tone.
  */
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -15,7 +12,7 @@ export default function ScrollToTop() {
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 300);
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // check on mount
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -33,35 +30,34 @@ export default function ScrollToTop() {
           z-index: 200;
           width: 2.75rem;
           height: 2.75rem;
-          border: 1px solid #DEB76A;
+          border: 1px solid var(--color-gold);
           border-radius: 0.1875rem;
-          background: rgba(41, 38, 34, 0.88);
-          color: #DEB76A;
+          background: #FFFFFF;
+          color: var(--color-chocolate);
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          backdrop-filter: blur(0.5rem);
-          -webkit-backdrop-filter: blur(0.5rem);
           font-family: var(--font-satoshi);
           font-size: 1rem;
           font-weight: 500;
           line-height: 1;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.10);
           transition:
-            background  0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-            color       0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-            border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-            opacity     0.35s ease,
-            transform   0.35s ease;
+            background     0.3s ease,
+            color          0.3s ease,
+            border-color   0.3s ease,
+            opacity        0.3s ease,
+            transform      0.3s ease;
           opacity: ${visible ? 1 : 0};
           pointer-events: ${visible ? 'auto' : 'none'};
           transform: ${visible ? 'translateY(0)' : 'translateY(0.75rem)'};
         }
         .scroll-to-top-btn:hover {
-          background: #DEB76A;
-          color: #292622;
+          background: var(--color-gold);
+          border-color: var(--color-gold);
+          color: #FFFFFF;
         }
-        /* Keep away from WhatsApp float on mobile */
         @media (max-width: 47.9375rem) {
           .scroll-to-top-btn {
             bottom: 7.5rem;
@@ -77,7 +73,6 @@ export default function ScrollToTop() {
         aria-label="Scroll back to top"
         title="Scroll to top"
       >
-        {/* Upward chevron — pure CSS, no icon dependency */}
         <svg
           width="16"
           height="16"
