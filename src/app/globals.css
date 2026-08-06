@@ -3,6 +3,8 @@
 
 @theme {
   /* ── Colors ─────────────────────────────── */
+  --color-cream:          #FFFFFF;   /* site-wide background */
+  --color-cream-deep:     #FFFFFF;   /* white for cards/sections */
   --color-parchment:      #d8cbb8;
   --color-linen:          #bfb4a3;
   --color-warm-stone:     #b6ab9c;
@@ -10,9 +12,17 @@
   --color-espresso:       #615b53;
   --color-onyx-warm:      #2c2c2c;
   --color-midnight-roast: #292622;
-  --color-saffron-glow:   #DEB76A;
+  --color-gold:           #C9A84C;   /* primary gold — buttons & accent text */
+  --color-gold-hover:     #B8952F;   /* deeper gold on hover */
+  --color-saffron:        #C9A84C;   /* alias kept for existing references */
   --color-logo-gold:      #C9A84C;   /* logo MH monogram gold */
   --color-chocolate:      #3D2B1F;   /* logo wordmark brown — deepest dark surface */
+  --color-card-bg:        #5C4A3D;
+  --color-card-border:    #4A3B2C;
+  --color-white-overlay:  #FAFAFA;
+  --color-gray-light:     #E5E7EB;
+  --color-gray-dark:      #4B5563;
+  --color-footer-bg:      #1e1b18;
 
   /* ── Typography families ─────────────────── */
   --font-tt-ramillas-variable: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
@@ -75,8 +85,8 @@ html.lenis body {
 }
 
 body {
-  background-color: var(--color-midnight-roast);
-  color: var(--color-parchment);
+  background-color: var(--color-cream);
+  color: var(--color-chocolate);
   font-family: var(--font-satoshi);
   font-size: var(--text-body);        /* 0.9375rem */
   line-height: 1.4;
@@ -132,32 +142,36 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.875rem 1.75rem;
-  border: 1px solid var(--color-onyx-warm);
+  border: 1px solid var(--color-gold);
   border-radius: var(--radius-interactive);
-  background: transparent;
-  color: var(--color-onyx-warm);
+  background: var(--color-gold);
+  color: var(--color-chocolate);
   font-family: var(--font-satoshi);
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              color      0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+              color      0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   white-space: nowrap;
 }
 .btn-ghost:hover {
-  background: var(--color-onyx-warm);
-  color: var(--color-parchment);
+  background: var(--color-gold-hover);
+  border-color: var(--color-gold-hover);
+  color: var(--color-cream);
 }
 .btn-ghost-light {
-  border-color: var(--color-parchment);
-  color: var(--color-parchment);
+  border-color: var(--color-gold);
+  background: var(--color-gold);
+  color: var(--color-chocolate);
 }
 .btn-ghost-light:hover {
-  background: var(--color-parchment);
-  color: var(--color-onyx-warm);
+  background: var(--color-gold-hover);
+  border-color: var(--color-gold-hover);
+  color: var(--color-cream);
 }
 
 /* ── Room card clip-path entrance ──────────── */
@@ -168,8 +182,15 @@ body {
 
 /* ── Scrollbar ─────────────────────────────── */
 ::-webkit-scrollbar { width: 0.375rem; }
-::-webkit-scrollbar-track { background: var(--color-parchment); }
-::-webkit-scrollbar-thumb { background: var(--color-warm-stone); border-radius: var(--radius-interactive); }
+::-webkit-scrollbar-track { background: var(--color-cream-deep); }
+::-webkit-scrollbar-thumb { background: var(--color-gold); border-radius: var(--radius-interactive); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold-hover); }
+
+/* ── Text selection ───────────────────────────────────── */
+::selection {
+  background: var(--color-saffron);
+  color: var(--color-midnight-roast);
+}
 
 /* ── Cross-browser backdrop-filter ────────── */
 /* Safari requires the -webkit- prefix through Safari 15 */

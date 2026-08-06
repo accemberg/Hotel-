@@ -10,10 +10,20 @@ function getResend() {
   return _resend;
 }
 
+export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
+
+export const resend = new Proxy({}, {
+  get: (target, prop) => {
+    const r = getResend();
+    const val = Reflect.get(r, prop);
+    return typeof val === "function" ? val.bind(r) : val;
+  }
+});
+
 export async function sendMail({ to, subject, html }) {
   try {
-    const resend = getResend();
-    const { data, error } = await resend.emails.send({
+    const resendClient = getResend();
+    const { data, error } = await resendClient.emails.send({
       from: process.env.RESEND_FROM_EMAIL,
       to,
       subject,

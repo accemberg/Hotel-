@@ -12,49 +12,11 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-let _app;
-let _db;
-let _auth;
+// Initialize app
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-function getAppInstance() {
-  if (!_app) {
-    _app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-  }
-  return _app;
-}
+// Initialize services ONLY on the client (browser) to avoid Next.js build errors
+export const db = typeof window !== "undefined" ? getFirestore(app) : null;
+export const auth = typeof window !== "undefined" ? getAuth(app) : null;
 
-// Lazy Firestore Proxy
-export const db = new Proxy({}, {
-  get: (target, prop) => {
-    if (!_db) {
-      _db = getFirestore(getAppInstance());
-    }
-    const val = Reflect.get(_db, prop);
-    return typeof val === "function" ? val.bind(_db) : val;
-  },
-  set: (target, prop, val) => {
-    if (!_db) {
-      _db = getFirestore(getAppInstance());
-    }
-    return Reflect.set(_db, prop, val);
-  }
-});
-
-// Lazy Auth Proxy
-export const auth = new Proxy({}, {
-  get: (target, prop) => {
-    if (!_auth) {
-      _auth = getAuth(getAppInstance());
-    }
-    const val = Reflect.get(_auth, prop);
-    return typeof val === "function" ? val.bind(_auth) : val;
-  },
-  set: (target, prop, val) => {
-    if (!_auth) {
-      _auth = getAuth(getAppInstance());
-    }
-    return Reflect.set(_auth, prop, val);
-  }
-});
-
-export default getAppInstance;
+export default app;

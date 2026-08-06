@@ -6,12 +6,12 @@
 export default function Card({ children, variant = 'bordered', className = '', style = {} }) {
   const base = {
     borderRadius: 0,
-    backgroundColor: '#5C4A3D',
+    backgroundColor: 'var(--color-card-bg)',
     padding: '1.75rem',   /* 28px → 1.75rem */
     boxShadow: 'none',
   };
   const bordered = variant === 'bordered'
-    ? { border: '1px solid #4A3B2C' }  /* 1px hairline — intentional */
+    ? { border: '1px solid var(--color-card-border)' }  /* 1px hairline — intentional */
     : {};
 
   return (
