@@ -1,6 +1,6 @@
 import { db } from "../../lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { resend, FROM_EMAIL } from "../../lib/email/resend";
+import { sendMail } from "../../lib/email/resend";
 import { guestAutoReplyEmail, internalNotificationEmail } from "../../lib/email/templates";
 import { rateLimit } from "../../lib/rateLimit";
 
@@ -42,8 +42,7 @@ async function handler(req, res) {
 
     try {
       const guestEmail = guestAutoReplyEmail({ guestName, roomName });
-      const result = await resend.emails.send({
-        from: FROM_EMAIL,
+      const result = await sendMail({
         to: contact.includes("@") ? contact : undefined,
         subject: guestEmail.subject,
         html: guestEmail.html,
@@ -57,8 +56,7 @@ async function handler(req, res) {
 
     try {
       const internalEmail = internalNotificationEmail({ guestName, contact, message, roomName });
-      const result = await resend.emails.send({
-        from: FROM_EMAIL,
+      const result = await sendMail({
         to: INTERNAL_NOTIFY_EMAIL,
         subject: internalEmail.subject,
         html: internalEmail.html,
